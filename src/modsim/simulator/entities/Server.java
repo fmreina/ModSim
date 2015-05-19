@@ -4,11 +4,14 @@ public class Server {
 
 	private int type;
 	private int tempoServico;
-	private String status;
+	private boolean free;
 	
-	
+	public Server(int type){
+		this.type = type;
+		this.free = true;
+	}
 	public Server(){
-		
+		this.free = true;
 	}
 
 	public int getType() {
@@ -27,12 +30,12 @@ public class Server {
 		this.tempoServico = tempoServico;
 	}
 
-	public String getStatus() {
-		return status;
+	public boolean getStatus() {
+		return free;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus(boolean free) {
+		this.free = free;
 	}
 	
 }
