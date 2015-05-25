@@ -18,4 +18,9 @@ public class EventExit extends Event{
 	public String toString() {
 		return "Saída <ID: "+id+"; Tempo de saída: "+super.tempoEvento+" >";
 	}
+
+	@Override
+	public void func() {
+		//do event
+	}
 }

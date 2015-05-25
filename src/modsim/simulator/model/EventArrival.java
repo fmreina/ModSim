@@ -19,4 +19,10 @@ public class EventArrival extends Event{
 		return "Chegada <ID: "+id+"; Tempo de chegada: "+super.tempoEvento+" >";
 	}
 
+	@Override
+	public void func() {
+	//do event
+		
+	}
+
 }

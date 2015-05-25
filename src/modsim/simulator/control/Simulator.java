@@ -1,15 +1,14 @@
-package modsim.simuator.control;
+package modsim.simulator.control;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import modsim.simuator.vision.MainView;
 import modsim.simulator.entities.Server;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventChange;
-import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.model.TimeFunc;
+import modsim.simulator.vision.MainView;
 
 public class Simulator implements Runnable {
 
@@ -23,27 +22,27 @@ public class Simulator implements Runnable {
 	private static TimeFunc timeTypeEntity;
 	private static TimeFunc timeTypeServer1;
 	private static TimeFunc timeTypeServer2;
-	
-	
+	private static HashMap<Integer, Server> servers;
+
 	public static void init(Simulation sim) {
 		simulation = sim;
-		
+
 		// Variaveis de Controle
 		events = new ArrayList<Event>();
 		tNow = 0;
 		paused = false;
 		running = true;
 		fastForward = false;
-		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime().getText())*60;
-		
-		Server server_1 = new Server(1);
-		Server server_2 = new Server(2);
-		
+		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime()
+				.getText()) * 60;
+		servers = new HashMap<Integer, Server>();
+		servers.put(1, new Server(1));
+		servers.put(2, new Server(2));
 	}
-	
+
 	public void run() {
-		while(this.running){
-			if(this.paused){
+		while (this.running) {
+			if (this.paused) {
 				try {
 					Thread.sleep(15);
 				} catch (InterruptedException e) {
@@ -51,48 +50,41 @@ public class Simulator implements Runnable {
 					this.running = false;
 					continue;
 				}
-			}else {
-				if (!this.fastForward){
-					try{
+			} else {
+				if (!this.fastForward) {
+					try {
 						Thread.sleep(800);
-					}catch(InterruptedException e){
-						this.simulation.getLog().add("Erro ao executar a simulação");
+					} catch (InterruptedException e) {
+						this.simulation.getLog().add(
+								"Erro ao executar a simulação");
 						this.running = false;
 						continue;
 					}
 				}
-				
+
 				this.tNow++;
-				
-				System.out.println("Tempo de execução: "+this.tNow+" segundos");
-				this.simulation.getLog().add("Tempo de execução: "+this.tNow+" segundos");
-				
+
+				String tempoExecucao = "Tempo de execução: " + this.tNow
+						+ " segundos";
+				System.out.println(tempoExecucao);
+				this.simulation.getLog().add(
+						tempoExecucao);
+
 				ArrayList<Event> eventList = getEventOnTime(this.tNow);
-				
-				for(Event event : eventList){
+
+				for (Event event : eventList) {
 					System.out.println(event.toString());
 					this.simulation.getLog().add(event.toString());
-					
-					if(event instanceof EventArrival){
-						// tratar chegada
-						this.events.remove(event);
-					}
-					if(event instanceof EventExit){
-						// tratar saida
-						this.events.remove(event);
-					}
-					if(event instanceof EventChange){
-						// tratar troca
-						this.events.remove(event);
-					}
+					event.func(); //event
+					this.events.remove(event);
 				}
-				
+
 				newEvent();
-				
-				if(this.tNow > this.tempoSimulacao){
+
+				if (this.tNow > this.tempoSimulacao) {
 					this.running = false;
 				}
-				
+
 			}
 		}
 	}
@@ -100,19 +92,19 @@ public class Simulator implements Runnable {
 	private void newEvent() {
 		boolean newEvent_1 = true;
 		boolean newEvent_2 = true;
-		for( Event event : this.events){
-			if(event instanceof EventArrival){
-				if(event.getEntidade().getType() == 1){
+		for (Event event : this.events) {
+			if (event instanceof EventArrival) {
+				if (event.getEntidade().getType() == 1) {
 					newEvent_1 = false;
 				}
-				if(event.getEntidade().getType() == 2){
+				if (event.getEntidade().getType() == 2) {
 					newEvent_2 = false;
 				}
 			}
-			if(newEvent_1){
+			if (newEvent_1) {
 				criateEvent_1();
 			}
-			if(newEvent_2){
+			if (newEvent_2) {
 				criateEvent_2();
 			}
 		}
@@ -128,33 +120,21 @@ public class Simulator implements Runnable {
 
 	private ArrayList<Event> getEventOnTime(int tNow2) {
 		ArrayList<Event> eventsOnTime = new ArrayList<Event>();
-		for(Event event : this.events){
-			if(event.getTempoChegada()== this.tNow){
+		for (Event event : this.events) {
+			if (event.getTempoChegada() == this.tNow) {
 				eventsOnTime.add(event);
 			}
 		}
 		return eventsOnTime;
 	}
-	
-	private int verifyEntitiesOnSystem(){
+
+	private int verifyEntitiesOnSystem() {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
-		
-		for(Event event : this.events){
-			if(event instanceof EventArrival){
-				Integer id = ((EventArrival) event).getId();
-				if(!ids.contains(id)){
-					ids.add(id);
-				}
-			}else if(event instanceof EventExit){
-				Integer id = ((EventExit) event).getId();
-				if(!ids.contains(id)){
-					ids.add(id);
-				}
-			}else if(event instanceof EventChange){
-				Integer id = ((EventChange) event).getId();
-				if(!ids.contains(id)){
-					ids.add(id);
-				}
+
+		for (Event event : this.events) {
+			Integer id = event.getId();
+			if (!ids.contains(id)) {
+				ids.add(id);
 			}
 		}
 		return ids.size();
@@ -199,5 +179,5 @@ public class Simulator implements Runnable {
 	public static TimeFunc getTimeTypeServer2() {
 		return timeTypeServer2;
 	}
-	
+
 }

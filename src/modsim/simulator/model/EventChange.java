@@ -18,4 +18,9 @@ public class EventChange extends Event{
 	public String toString() {
 		return "Troca de Fila <ID: "+id+"; Tempo da troca: "+super.tempoEvento+" >";
 	}
+
+	@Override
+	public void func() {
+		//do event
+	}
 }

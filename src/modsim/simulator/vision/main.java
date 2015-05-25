@@ -1,7 +1,7 @@
-package modsim.simuator.vision;
+package modsim.simulator.vision;
 
-import modsim.simuator.control.EntityGenerator;
-import modsim.simuator.control.Simulator;
+import modsim.simulator.control.EntityGenerator;
+import modsim.simulator.control.Simulator;
 import modsim.simulator.model.Simulation;
 
 public class main {

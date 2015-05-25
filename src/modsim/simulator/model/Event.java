@@ -1,8 +1,9 @@
 package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.IEvent;
 
-public abstract class Event {
+public abstract class Event implements IEvent{
 	
 	protected static int id = 0;
 	protected int tempoEvento;

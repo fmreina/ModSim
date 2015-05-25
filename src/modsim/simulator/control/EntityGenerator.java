@@ -1,9 +1,8 @@
-package modsim.simuator.control;
+package modsim.simulator.control;
 
 import java.util.Random;
 
 import modsim.simulator.entities.Entity;
-import modsim.simulator.utils.MathsUtils;
 
 public class EntityGenerator implements Runnable{
 

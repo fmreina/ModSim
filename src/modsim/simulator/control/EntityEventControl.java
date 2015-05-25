@@ -1,13 +1,13 @@
-package modsim.simuator.control;
+package modsim.simulator.control;
 
 import java.util.ArrayList;
 
-import modsim.simuator.vision.MainView;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.utils.MathsUtils;
+import modsim.simulator.vision.MainView;
 
 public class EntityEventControl {
 
@@ -30,10 +30,8 @@ public class EntityEventControl {
 		int arrivalTime = getArrivalTime(func);
 		int percent1 = Integer.parseInt(MainView.getTextFieldPercEntType_1()
 				.getText());
-		int percent2 = Integer.parseInt(MainView.getTextFieldPercEntType_2()
-				.getText());
 
-		Entity entity = new Entity(percent1 > percent2 ? 1 : 2, arrivalTime);
+		Entity entity = EntitiyFactory.newEntity(percent1, arrivalTime);
 		EventArrival arrival = new EventArrival(arrivalTime, entity);
 
 		return arrival;
@@ -81,9 +79,8 @@ public class EntityEventControl {
 
 		for (Event event : Simulator.getEvents()) {
 			if (event instanceof EventArrival) {
-				EventArrival arrivalEvent = (EventArrival) event;
-				if (arrivalEvent.getId() == eventId) {
-					eventList.add(arrivalEvent);
+				if (event.getId() == eventId) {
+					eventList.add(event);
 				}
 			}
 		}

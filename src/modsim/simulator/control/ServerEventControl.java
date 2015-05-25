@@ -1,4 +1,4 @@
-package modsim.simuator.control;
+package modsim.simulator.control;
 
 public class ServerEventControl {
 
