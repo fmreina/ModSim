@@ -1,46 +1,31 @@
 package modsim.simuator.vision;
 
-import java.awt.EventQueue;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-
-import java.awt.BorderLayout;
-
-import javax.swing.JInternalFrame;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JButton;
-
-import java.awt.Font;
+import java.awt.Checkbox;
 import java.awt.Color;
-
-import javax.swing.border.BevelBorder;
-
 import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JSlider;
-
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.DecimalFormat;
-import javax.swing.JCheckBoxMenuItem;
-import java.awt.Checkbox;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class MainView {
 
@@ -49,32 +34,30 @@ public class MainView {
 	private JPanel panelSimulator;
 
 	private JPanel panelConfiguration;
-	private JTextField textSimName, textFieldSimTime;
+	private static JTextField textSimName, textFieldSimulationTime;
 
 	// Attributes Entity
 	private JPanel panelEntities, panelTEC;
-	private JTextField textFieldPercEntType_1, textFieldPercEntType_2;
-	public static JComboBox comboBoxTimeEntity;
-	public static JTextField textFieldMaxTEC, textFieldMedTEC, textFieldMinTEC;
+	private static JTextField textFieldPercEntType_1, textFieldPercEntType_2,
+							  textFieldMaxTEC, textFieldMedTEC, textFieldMinTEC;
+	private static JComboBox comboBoxTimeEntity;
 
 	// Attributes Server 1
 	private JPanel panelServer_1, panelTS_1, panelTEF_1, panelTEmF_1;
-	public static JComboBox comboBoxTimeServer_1, comboBoxTEF_1,
+	private static JComboBox comboBoxTimeServer_1, comboBoxTEF_1,
 			comboBoxTEmF_1;
-	public static JTextField textFieldMaxTS_1, textFieldMedTS_1,
+	private static JTextField textFieldMaxTS_1, textFieldMedTS_1,
 			textFieldMinTS_1, textFieldMaxTEF_1, textFieldMedTEF_1,
 			textFieldMinTEF_1, textFieldMaxTEmF_1, textFieldMedTEmF_1,
-			textFieldMinTEmF_1;
-	private JTextField textField_1;
+			textFieldMinTEmF_1, textField_1;
 	
 	// Attributes Server 2
-		private JPanel panelServer_2, panelTS_2, panelTEF_2, panelTEmF_2;
-		public static JComboBox comboBoxTimeServer_2, comboBoxTEF_2, comboBoxTEmF_2;
-		public static JTextField textFieldMaxTS_2, textFieldMedTS_2,
-				textFieldMinTS_2, textFieldMaxTEF_2, textFieldMedTEF_2,
-				textFieldMinTEF_2, textFieldMaxTEmF_2, textFieldMedTEmF_2,
-				textFieldMinTEmF_2;
-		private JTextField textField_2;
+	private JPanel panelServer_2, panelTS_2, panelTEF_2, panelTEmF_2;
+	private static JComboBox comboBoxTimeServer_2, comboBoxTEF_2, comboBoxTEmF_2;
+	private static JTextField textFieldMaxTS_2, textFieldMedTS_2,
+			textFieldMinTS_2, textFieldMaxTEF_2, textFieldMedTEF_2,
+			textFieldMinTEF_2, textFieldMaxTEmF_2, textFieldMedTEmF_2,
+			textFieldMinTEmF_2, textField_2;
 
 	// Launch the application.
 	public static void main(String[] args) {
@@ -208,18 +191,18 @@ public class MainView {
 		textSimName.setBounds(51, 21, 124, 20);
 		panelNameTime.add(textSimName);
 
-		JLabel label_1 = new JLabel("Tempo Simulado:");
-		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		label_1.setBounds(221, 24, 87, 14);
-		panelNameTime.add(label_1);
+		JLabel labelSimulationTime = new JLabel("Tempo Simulado:");
+		labelSimulationTime.setHorizontalAlignment(SwingConstants.RIGHT);
+		labelSimulationTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		labelSimulationTime.setBounds(221, 24, 87, 14);
+		panelNameTime.add(labelSimulationTime);
 
-		textFieldSimTime = new JTextField();
-		textFieldSimTime.setText("15");
-		textFieldSimTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldSimTime.setColumns(10);
-		textFieldSimTime.setBounds(318, 21, 70, 20);
-		panelNameTime.add(textFieldSimTime);
+		textFieldSimulationTime = new JTextField();
+		textFieldSimulationTime.setText("15");
+		textFieldSimulationTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		textFieldSimulationTime.setColumns(10);
+		textFieldSimulationTime.setBounds(318, 21, 70, 20);
+		panelNameTime.add(textFieldSimulationTime);
 
 		JLabel label_2 = new JLabel("minutos");
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1177,4 +1160,194 @@ public class MainView {
 			}
 		});
 	}
+
+	public JFrame getFrmSimulador() {
+		return frmSimulador;
+	}
+
+	public JPanel getPanelSimulator() {
+		return panelSimulator;
+	}
+
+	public JPanel getPanelConfiguration() {
+		return panelConfiguration;
+	}
+
+	public static JTextField getTextSimName() {
+		return textSimName;
+	}
+
+	public static JTextField getTextFieldSimulationTime() {
+		return textFieldSimulationTime;
+	}
+
+	public JPanel getPanelEntities() {
+		return panelEntities;
+	}
+
+	public JPanel getPanelTEC() {
+		return panelTEC;
+	}
+
+	public static JTextField getTextFieldPercEntType_1() {
+		return textFieldPercEntType_1;
+	}
+
+	public static JTextField getTextFieldPercEntType_2() {
+		return textFieldPercEntType_2;
+	}
+
+	public static JComboBox getComboBoxTimeEntity() {
+		return comboBoxTimeEntity;
+	}
+
+	public static JTextField getTextFieldMaxTEC() {
+		return textFieldMaxTEC;
+	}
+
+	public static JTextField getTextFieldMedTEC() {
+		return textFieldMedTEC;
+	}
+
+	public static JTextField getTextFieldMinTEC() {
+		return textFieldMinTEC;
+	}
+
+	public JPanel getPanelServer_1() {
+		return panelServer_1;
+	}
+
+	public JPanel getPanelTS_1() {
+		return panelTS_1;
+	}
+
+	public JPanel getPanelTEF_1() {
+		return panelTEF_1;
+	}
+
+	public JPanel getPanelTEmF_1() {
+		return panelTEmF_1;
+	}
+
+	public static JComboBox getComboBoxTimeServer_1() {
+		return comboBoxTimeServer_1;
+	}
+
+	public static JComboBox getComboBoxTEF_1() {
+		return comboBoxTEF_1;
+	}
+
+	public static JComboBox getComboBoxTEmF_1() {
+		return comboBoxTEmF_1;
+	}
+
+	public static JTextField getTextFieldMaxTS_1() {
+		return textFieldMaxTS_1;
+	}
+
+	public static JTextField getTextFieldMedTS_1() {
+		return textFieldMedTS_1;
+	}
+
+	public static JTextField getTextFieldMinTS_1() {
+		return textFieldMinTS_1;
+	}
+
+	public static JTextField getTextFieldMaxTEF_1() {
+		return textFieldMaxTEF_1;
+	}
+
+	public static JTextField getTextFieldMedTEF_1() {
+		return textFieldMedTEF_1;
+	}
+
+	public static JTextField getTextFieldMinTEF_1() {
+		return textFieldMinTEF_1;
+	}
+
+	public static JTextField getTextFieldMaxTEmF_1() {
+		return textFieldMaxTEmF_1;
+	}
+
+	public static JTextField getTextFieldMedTEmF_1() {
+		return textFieldMedTEmF_1;
+	}
+
+	public static JTextField getTextFieldMinTEmF_1() {
+		return textFieldMinTEmF_1;
+	}
+
+	public static JTextField getTextField_1() {
+		return textField_1;
+	}
+
+	public JPanel getPanelServer_2() {
+		return panelServer_2;
+	}
+
+	public JPanel getPanelTS_2() {
+		return panelTS_2;
+	}
+
+	public JPanel getPanelTEF_2() {
+		return panelTEF_2;
+	}
+
+	public JPanel getPanelTEmF_2() {
+		return panelTEmF_2;
+	}
+
+	public static JComboBox getComboBoxTimeServer_2() {
+		return comboBoxTimeServer_2;
+	}
+
+	public static JComboBox getComboBoxTEF_2() {
+		return comboBoxTEF_2;
+	}
+
+	public static JComboBox getComboBoxTEmF_2() {
+		return comboBoxTEmF_2;
+	}
+
+	public static JTextField getTextFieldMaxTS_2() {
+		return textFieldMaxTS_2;
+	}
+
+	public static JTextField getTextFieldMedTS_2() {
+		return textFieldMedTS_2;
+	}
+
+	public static JTextField getTextFieldMinTS_2() {
+		return textFieldMinTS_2;
+	}
+
+	public static JTextField getTextFieldMaxTEF_2() {
+		return textFieldMaxTEF_2;
+	}
+
+	public static JTextField getTextFieldMedTEF_2() {
+		return textFieldMedTEF_2;
+	}
+
+	public static JTextField getTextFieldMinTEF_2() {
+		return textFieldMinTEF_2;
+	}
+
+	public static JTextField getTextFieldMaxTEmF_2() {
+		return textFieldMaxTEmF_2;
+	}
+
+	public static JTextField getTextFieldMedTEmF_2() {
+		return textFieldMedTEmF_2;
+	}
+
+	public static JTextField getTextFieldMinTEmF_2() {
+		return textFieldMinTEmF_2;
+	}
+
+	public static JTextField getTextField_2() {
+		return textField_2;
+	}
+	
+	
 }

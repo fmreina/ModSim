@@ -2,13 +2,13 @@ package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
 
-public abstract class EventAbstract {
+public abstract class Event {
 	
 	protected static int id = 0;
 	protected int tempoEvento;
 	private Entity entidade;
 	
-	public EventAbstract(int tempoChegada, Entity entidade){
+	public Event(int tempoChegada, Entity entidade){
 		this.entidade = entidade;
 		this.tempoEvento = tempoChegada;
 	}

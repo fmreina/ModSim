@@ -2,7 +2,7 @@ package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
 
-public class EventArrival extends EventAbstract{
+public class EventArrival extends Event{
 	
 	private int id;
 	
