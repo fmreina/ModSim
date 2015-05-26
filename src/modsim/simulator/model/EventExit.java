@@ -1,6 +1,7 @@
 package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.Server;
 
 public class EventExit extends Event{
 
@@ -18,14 +19,13 @@ public class EventExit extends Event{
 	public String toString() {
 		return "Saída <ID: "+id+"; Tempo de saída: "+super.tempoEvento+" >";
 	}
-
-	@Override
-	public void func() {
-		//do event
+	
+	public int compareTo(Event o) {
+		return 0;
 	}
 
-	public int compareTo(Event o) {
-		// TODO Auto-generated method stub
-		return 0;
+	@Override
+	public void func(Server server) {
+		server.releaseServer();
 	}
 }

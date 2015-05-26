@@ -62,4 +62,8 @@ public class Entity {
 	public int getTempoEmFila() {
 		return tempoInicioAtendimento - tempoChegada;
 	}
+	
+	public int getTempoNoServidor(){
+		return tempoInicioAtendimento + tempoSaida;
+	}
 }

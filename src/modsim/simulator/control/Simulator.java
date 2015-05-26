@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modsim.simulator.entities.Server;
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
 import modsim.simulator.model.Simulation;
@@ -24,11 +25,10 @@ public class Simulator implements Runnable {
 	private static TimeFunc timeTypeEntity;
 	private static TimeFunc timeTypeServer1;
 	private static TimeFunc timeTypeServer2;
-	private static HashMap<Integer, Server> servers;
+	private static HashMap<TipoServidor, Server> servers;
 
 	public static void init(Simulation sim) {
 		simulation = sim;
-
 		// Variaveis de Controle
 		events = new ArrayList<Event>();
 		tNow = 0;
@@ -37,9 +37,9 @@ public class Simulator implements Runnable {
 		fastForward = MainView.getCheckboxFastFoward().getState();
 		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime()
 				.getText()) * 60;
-		servers = new HashMap<Integer, Server>();
-		servers.put(1, new Server(1));
-		servers.put(2, new Server(2));
+		servers = new HashMap<TipoServidor, Server>();
+		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1));
+		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2));
 	}
 
 	public void run() {
@@ -77,7 +77,7 @@ public class Simulator implements Runnable {
 					//System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
-					event.func(); //event
+					event.func(servers.get(event.getServerType()));
 					this.events.remove(event);
 				}
 

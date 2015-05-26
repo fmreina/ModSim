@@ -2,23 +2,19 @@ package modsim.simulator.entities;
 
 public class Server {
 
-	private int type;
+	private TipoServidor type;
 	private int tempoServico;
-	private boolean free;
+	private Entity entity;
 	
-	public Server(int type){
+	public Server(TipoServidor type){
 		this.type = type;
-		this.free = true;
-	}
-	public Server(){
-		this.free = true;
 	}
 
-	public int getType() {
+	public TipoServidor getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(TipoServidor type) {
 		this.type = type;
 	}
 
@@ -30,12 +26,17 @@ public class Server {
 		this.tempoServico = tempoServico;
 	}
 
-	public boolean getStatus() {
-		return free;
+	public boolean isFree() {
+		return entity != null;
 	}
 
-	public void setStatus(boolean free) {
-		this.free = free;
+	public void ocuppyServer(Entity entity) {
+		this.entity = entity;
+	}
+	
+	public void releaseServer(){
+		this.tempoServico = tempoServico + entity.getTempoNoServidor();
+		this.entity = null;
 	}
 	
 }

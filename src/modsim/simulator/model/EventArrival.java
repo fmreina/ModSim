@@ -1,6 +1,7 @@
 package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.Server;
 
 public class EventArrival extends Event{
 	
@@ -19,15 +20,14 @@ public class EventArrival extends Event{
 		return "Chegada <ID: "+id+"; Tempo de chegada: "+super.tempoEvento+" >";
 	}
 
-	@Override
-	public void func() {
-	//do event
-		
-	}
-
 	public int compareTo(Event o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void func(Server server) {
+		server.ocuppyServer(this.entidade);
 	}
 
 }

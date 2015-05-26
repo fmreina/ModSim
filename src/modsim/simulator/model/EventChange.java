@@ -1,6 +1,7 @@
 package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.Server;
 
 public class EventChange extends Event{
 
@@ -19,13 +20,12 @@ public class EventChange extends Event{
 		return "Troca de Fila <ID: "+id+"; Tempo da troca: "+super.tempoEvento+" >";
 	}
 
-	@Override
-	public void func() {
-		//do event
-	}
-
 	public int compareTo(Event o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void func(Server server) {
 	}
 }
