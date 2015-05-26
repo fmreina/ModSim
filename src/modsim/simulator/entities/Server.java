@@ -1,13 +1,20 @@
 package modsim.simulator.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
 
 	private TipoServidor type;
 	private int tempoServico;
 	private Entity entity;
+	private boolean broken;
+	private List<Entity> fila;
 	
 	public Server(TipoServidor type){
 		this.type = type;
+		this.broken = false;
+		this.fila = new ArrayList<Entity>();
 	}
 
 	public TipoServidor getType() {
@@ -39,4 +46,15 @@ public class Server {
 		this.entity = null;
 	}
 	
+	public boolean isBroken() {
+		return broken;
+	}
+	
+	public void setBroken(boolean broken) {
+		this.broken = broken;
+	}
+	
+	public List<Entity> getFila() {
+		return fila;
+	}
 }

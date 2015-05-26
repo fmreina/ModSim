@@ -9,6 +9,8 @@ import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
+import modsim.simulator.model.EventChange;
+import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.vision.MainView;
@@ -26,6 +28,7 @@ public class Simulator implements Runnable {
 	private static TimeFunc timeTypeServer1;
 	private static TimeFunc timeTypeServer2;
 	private static HashMap<TipoServidor, Server> servers;
+
 
 	public static void init(Simulation sim) {
 		simulation = sim;
@@ -68,13 +71,13 @@ public class Simulator implements Runnable {
 				this.tNow++;
 
 				MainView.print("Tempo de execução: " + this.tNow + " segundos");
-				//System.out.println("Tempo de execução: " + this.tNow + " segundos");
+				System.out.println("Tempo de execução: " + this.tNow + " segundos");
 				this.simulation.getLog().add("Tempo de execução: " + this.tNow + " segundos");
 				
-				ArrayList<Event> eventList = getEventOnTime(this.tNow);
-
+				ArrayList<Event> eventList = getEventOnTime(this.tNow);				
+				
 				for (Event event : eventList) {
-					//System.out.println(event.toString());
+					System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
 					event.func(servers.get(event.getServerType()));
@@ -92,27 +95,12 @@ public class Simulator implements Runnable {
 	}
 
 	private void newEvent() {
-		boolean newEvent_1 = true;
-		boolean newEvent_2 = true;
-		for (Event event : this.events) {
-			if (event instanceof EventArrival) {
-				if (event.getEntidade().getType() == 1) {
-					newEvent_1 = false;
-				}
-				if (event.getEntidade().getType() == 2) {
-					newEvent_2 = false;
-				}
-			}
-			
-		}
-		if (newEvent_1) {
-			criateEvent_Arrival();
-		}
+		criateEvent_Arrival();
 	}
 
 	private void criateEvent_Arrival() {
 		TimeFunc func = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());
-		List<Event> newEvents = EntityEventControl.newArrivalEvent(tNow, func);
+		List<Event> newEvents = EventControl.newArrivalEvent(tNow, func);
 		events.addAll(newEvents);
 		Collections.sort(events);
 	}
@@ -120,7 +108,7 @@ public class Simulator implements Runnable {
 	private ArrayList<Event> getEventOnTime(int tNow2) {
 		ArrayList<Event> eventsOnTime = new ArrayList<Event>();
 		for (Event event : this.events) {
-			if (event.getTempoChegada() == this.tNow) {
+			if (event.getTempoExecucao() == this.tNow) {
 				eventsOnTime.add(event);
 			}
 		}
@@ -179,4 +167,7 @@ public class Simulator implements Runnable {
 		return timeTypeServer2;
 	}
 
+	public static HashMap<Integer, Server> getServers() {
+		return servers;
+	}
 }
