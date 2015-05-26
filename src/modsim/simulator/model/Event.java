@@ -14,11 +14,11 @@ public abstract class Event implements IEvent, Comparable<Event>{
 		this.tempoEvento = tempoChegada;
 	}
 
-	public int getTempoChegada() {
+	public int getTempoExecucao() {
 		return tempoEvento;
 	}
 
-	public void setTempoChegada(int tempoChegada) {
+	public void setTempoExecucao(int tempoChegada) {
 		this.tempoEvento = tempoChegada;
 	}
 

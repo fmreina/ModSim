@@ -182,10 +182,9 @@ public class MainView {
 		buttonPausar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Simulator.paused = !Simulator.paused;
-				if(Simulator.running && Simulator.paused){
+				if (Simulator.running && Simulator.paused) {
 					buttonPausar.setText("Continuar");
-				}
-				else{
+				} else {
 					buttonPausar.setText("Pausar Simulação");
 				}
 			}
@@ -194,18 +193,19 @@ public class MainView {
 		buttonIniciar = new JButton("Iniciar Simulação");
 		buttonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Simulation simulation = new Simulation(textSimName.getText(), id++);
+
+				Simulation simulation = new Simulation(textSimName.getText(),
+						id++);
 				simulations.add(simulation);
 				textPaneLastSim.updateUI();
-				
+
 				Simulator.init(simulation);
 				simulator = new Thread(new Simulator());
 				textPaneLog.setText(null);
 				simulator.start();
 				buttonPausar.setEnabled(true);
 				buttonIniciar.setEnabled(true);
-				
+
 			}
 		});
 		buttonIniciar.setBounds(10, 11, 125, 43);
@@ -284,15 +284,15 @@ public class MainView {
 		panelLog.setBounds(660, 165, 395, 372);
 		frmSimulador.getContentPane().add(panelLog);
 		panelLog.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane((Component) null);
 		scrollPane.setBounds(10, 11, 375, 350);
 		panelLog.add(scrollPane);
-		
-				textPaneLog = new JTextArea();
-				textPaneLog.setEditable(false);
-				scrollPane.setViewportView(textPaneLog);
-				textPaneLog.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
+		textPaneLog = new JTextArea();
+		textPaneLog.setEditable(false);
+		scrollPane.setViewportView(textPaneLog);
+		textPaneLog.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 		JButton btnAnalizarSelecao = new JButton("Analizar Sele\u00E7\u00E3o");
 		btnAnalizarSelecao.setForeground(Color.BLUE);
@@ -374,6 +374,7 @@ public class MainView {
 		comboBoxTimeServer_1.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTimeServer_1.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTS_1 = new JLabel("Valor:");
 		lblValueTS_1.setBounds(20, 47, 28, 14);
@@ -482,6 +483,7 @@ public class MainView {
 		comboBoxTEmF_1.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTEmF_1.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTEmF_1 = new JLabel("Valor:");
 		lblValueTEmF_1.setBounds(20, 47, 28, 14);
@@ -545,6 +547,7 @@ public class MainView {
 		comboBoxTEF_1.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTEF_1.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTEF_1 = new JLabel("Valor:");
 		lblValueTEF_1.setBounds(20, 47, 28, 14);
@@ -728,6 +731,7 @@ public class MainView {
 		comboBoxTimeServer_2.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTimeServer_2.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTS_1 = new JLabel("Valor:");
 		lblValueTS_1.setBounds(20, 47, 28, 14);
@@ -836,6 +840,7 @@ public class MainView {
 		comboBoxTEmF_2.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTEmF_2.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTEmF_1 = new JLabel("Valor:");
 		lblValueTEmF_1.setBounds(20, 47, 28, 14);
@@ -899,6 +904,7 @@ public class MainView {
 		comboBoxTEF_2.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTEF_2.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTEF_1 = new JLabel("Valor:");
 		lblValueTEF_1.setBounds(20, 47, 28, 14);
@@ -1081,6 +1087,7 @@ public class MainView {
 		comboBoxTimeEntity.setModel(new DefaultComboBoxModel(
 				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
 						"Exponencial" }));
+		comboBoxTimeEntity.setSelectedItem("Exponencial");
 
 		final JLabel lblValueTEC = new JLabel("Valor:");
 		lblValueTEC.setBounds(20, 47, 28, 14);
@@ -1145,38 +1152,45 @@ public class MainView {
 		textFieldPercEntType_1.setColumns(10);
 		textFieldPercEntType_1.setBounds(52, 21, 23, 20);
 		panelProbabilityEntity.add(textFieldPercEntType_1);
-		textFieldPercEntType_1.getDocument().addDocumentListener(new DocumentListener() {
-			
-			public void removeUpdate(DocumentEvent e) {
-				int p;
-				if(textFieldPercEntType_1.getText().equals("")){
-					p = 100;
-				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
-					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
-					textFieldPercEntType_2.setText(""+p);
-				}
-			}
-			
-			public void insertUpdate(DocumentEvent e) {
-				int p;
-				if(textFieldPercEntType_1.getText().equals("")){
-					p = 100;
-				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
-					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
-					textFieldPercEntType_2.setText(""+p);
-				}
-			}
-			
-			public void changedUpdate(DocumentEvent e) {
-				int p;
-				if(textFieldPercEntType_1.getText().equals("")){
-					p = 100;
-				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
-					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
-					textFieldPercEntType_2.setText(""+p);
-				}				
-			}
-		});
+		textFieldPercEntType_1.getDocument().addDocumentListener(
+				new DocumentListener() {
+
+					public void removeUpdate(DocumentEvent e) {
+						int p;
+						if (textFieldPercEntType_1.getText().equals("")) {
+							p = 100;
+						} else if (Integer.parseInt(textFieldPercEntType_1
+								.getText()) < 100) {
+							p = 100 - Integer.parseInt(textFieldPercEntType_1
+									.getText());
+							textFieldPercEntType_2.setText("" + p);
+						}
+					}
+
+					public void insertUpdate(DocumentEvent e) {
+						int p;
+						if (textFieldPercEntType_1.getText().equals("")) {
+							p = 100;
+						} else if (Integer.parseInt(textFieldPercEntType_1
+								.getText()) < 100) {
+							p = 100 - Integer.parseInt(textFieldPercEntType_1
+									.getText());
+							textFieldPercEntType_2.setText("" + p);
+						}
+					}
+
+					public void changedUpdate(DocumentEvent e) {
+						int p;
+						if (textFieldPercEntType_1.getText().equals("")) {
+							p = 100;
+						} else if (Integer.parseInt(textFieldPercEntType_1
+								.getText()) < 100) {
+							p = 100 - Integer.parseInt(textFieldPercEntType_1
+									.getText());
+							textFieldPercEntType_2.setText("" + p);
+						}
+					}
+				});
 
 		JLabel labelPencent_1 = new JLabel("%");
 		labelPencent_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1197,7 +1211,6 @@ public class MainView {
 		textFieldPercEntType_2.setColumns(10);
 		textFieldPercEntType_2.setBounds(141, 21, 23, 20);
 		panelProbabilityEntity.add(textFieldPercEntType_2);
-		
 
 		JLabel labelPercent_2 = new JLabel("%");
 		labelPercent_2.setHorizontalAlignment(SwingConstants.RIGHT);

@@ -1,8 +1,7 @@
 package modsim.simulator.vision;
 
-import modsim.simulator.control.EntityGenerator;
-import modsim.simulator.control.Simulator;
-import modsim.simulator.model.Simulation;
+import java.util.ArrayList;
+import java.util.List;
 
 public class main {
 
