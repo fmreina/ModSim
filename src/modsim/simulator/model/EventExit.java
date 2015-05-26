@@ -23,4 +23,9 @@ public class EventExit extends Event{
 	public void func() {
 		//do event
 	}
+
+	public int compareTo(Event o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -26,8 +26,9 @@ public class EntityEventControl {
 		return events;
 	}
 
-	private static EventArrival newArrival(int timeNow, TimeFunc func) {
+	public static EventArrival newArrival(int timeNow, TimeFunc func) {
 		int arrivalTime = getArrivalTime(func);
+		
 		int percent1 = Integer.parseInt(MainView.getTextFieldPercEntType_1()
 				.getText());
 
@@ -45,16 +46,16 @@ public class EntityEventControl {
 		int time = 0;
 
 		switch (func) {
-		case CONSTANT:
+		case CONSTANTE:
 			time = getConstTime();
 			break;
 		case NORMAL:
 			time = getNormTime();
 			break;
-		case EXPONENTIAL:
+		case EXPONENCIAL:
 			time = getExpoTime();
 			break;
-		case UNIFORM:
+		case UNIFORME:
 			time = getUnifTime();
 			break;
 		case TRIANGULAR:

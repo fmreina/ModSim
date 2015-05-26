@@ -2,11 +2,11 @@ package modsim.simulator.model;
 
 public enum TimeFunc {
 
-	CONSTANT,
+	CONSTANTE,
 	NORMAL,
 	TRIANGULAR,
-	UNIFORM,
-	EXPONENTIAL;
+	UNIFORME,
+	EXPONENCIAL;
 	
 	public static TimeFunc getType(String type){
 		TimeFunc timeType = null;

@@ -7,39 +7,58 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import modsim.simulator.control.Simulator;
+import modsim.simulator.model.Simulation;
 
 public class MainView {
+
+	private static int id;
+	public static ArrayList<Simulation> simulations = new ArrayList<Simulation>();
+	private Thread simulator;
 
 	private JFrame frmSimulador;
 
 	private JPanel panelSimulator;
 
+	private static JButton buttonPausar, buttonIniciar;
+	private static JSlider slider;
+	private static Checkbox checkboxFastFoward;
+
 	private JPanel panelConfiguration;
 	private static JTextField textSimName, textFieldSimulationTime;
+	private static JTextArea textPaneLog;
+	private static JList textPaneLastSim;
 
 	// Attributes Entity
 	private JPanel panelEntities, panelTEC;
 	private static JTextField textFieldPercEntType_1, textFieldPercEntType_2,
-							  textFieldMaxTEC, textFieldMedTEC, textFieldMinTEC;
+			textFieldMaxTEC, textFieldMedTEC, textFieldMinTEC;
 	private static JComboBox comboBoxTimeEntity;
 
 	// Attributes Server 1
@@ -50,10 +69,11 @@ public class MainView {
 			textFieldMinTS_1, textFieldMaxTEF_1, textFieldMedTEF_1,
 			textFieldMinTEF_1, textFieldMaxTEmF_1, textFieldMedTEmF_1,
 			textFieldMinTEmF_1, textField_1;
-	
+
 	// Attributes Server 2
 	private JPanel panelServer_2, panelTS_2, panelTEF_2, panelTEmF_2;
-	private static JComboBox comboBoxTimeServer_2, comboBoxTEF_2, comboBoxTEmF_2;
+	private static JComboBox comboBoxTimeServer_2, comboBoxTEF_2,
+			comboBoxTEmF_2;
 	private static JTextField textFieldMaxTS_2, textFieldMedTS_2,
 			textFieldMinTS_2, textFieldMaxTEF_2, textFieldMedTEF_2,
 			textFieldMinTEF_2, textFieldMaxTEmF_2, textFieldMedTEmF_2,
@@ -97,7 +117,7 @@ public class MainView {
 		renderEntityPanel();
 
 		renderServer1Panel();
-		
+
 		renderServer2Panel();
 
 		renderLogPanel();
@@ -153,16 +173,39 @@ public class MainView {
 		panelButtons.setBounds(465, 22, 145, 120);
 		panelControl.add(panelButtons);
 
-		JButton buttonPausar = new JButton("Pausar Simula\u00E7\u00E3o!");
+		buttonPausar = new JButton("Pausar Simulação");
 		buttonPausar.setForeground(Color.RED);
 		buttonPausar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		buttonPausar.setEnabled(false);
 		buttonPausar.setBounds(10, 65, 125, 43);
 		panelButtons.add(buttonPausar);
+		buttonPausar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Simulator.paused = !Simulator.paused;
+				if(Simulator.running && Simulator.paused){
+					buttonPausar.setText("Continuar");
+				}
+				else{
+					buttonPausar.setText("Pausar Simulação");
+				}
+			}
+		});
 
-		JButton buttonIniciar = new JButton("Iniciar Simul\u00E7\u00E3o");
+		buttonIniciar = new JButton("Iniciar Simulação");
 		buttonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Simulation simulation = new Simulation(textSimName.getText(), id++);
+				simulations.add(simulation);
+				textPaneLastSim.updateUI();
+				
+				Simulator.init(simulation);
+				simulator = new Thread(new Simulator());
+				textPaneLog.setText(null);
+				simulator.start();
+				buttonPausar.setEnabled(true);
+				buttonIniciar.setEnabled(true);
+				
 			}
 		});
 		buttonIniciar.setBounds(10, 11, 125, 43);
@@ -216,18 +259,19 @@ public class MainView {
 		label_3.setBounds(10, 52, 193, 14);
 		panelNameTime.add(label_3);
 
-		JSlider slider = new JSlider();
+		slider = new JSlider();
 		slider.setSnapToTicks(true);
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		slider.setMinimum(20);
 		slider.setMaximum(1020);
 		slider.setMajorTickSpacing(100);
+		slider.setValue(520);
 		slider.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		slider.setBounds(10, 70, 425, 45);
 		panelNameTime.add(slider);
 
-		Checkbox checkboxFastFoward = new Checkbox("Fast Foward >>");
+		checkboxFastFoward = new Checkbox("Fast Foward >>");
 		checkboxFastFoward.setBounds(318, 47, 104, 22);
 		panelNameTime.add(checkboxFastFoward);
 	}
@@ -240,26 +284,28 @@ public class MainView {
 		panelLog.setBounds(660, 165, 395, 372);
 		frmSimulador.getContentPane().add(panelLog);
 		panelLog.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane((Component) null);
+		scrollPane.setBounds(10, 11, 375, 350);
+		panelLog.add(scrollPane);
+		
+				textPaneLog = new JTextArea();
+				textPaneLog.setEditable(false);
+				scrollPane.setViewportView(textPaneLog);
+				textPaneLog.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
-		JScrollPane logScrollPane = new JScrollPane((Component) null);
-		logScrollPane.setBounds(10, 11, 375, 350);
-		panelLog.add(logScrollPane);
-		
-		JTextPane textPaneLog = new JTextPane();
-		logScrollPane.setViewportView(textPaneLog);
-		
 		JButton btnAnalizarSelecao = new JButton("Analizar Sele\u00E7\u00E3o");
 		btnAnalizarSelecao.setForeground(Color.BLUE);
 		btnAnalizarSelecao.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAnalizarSelecao.setBounds(660, 131, 125, 23);
 		frmSimulador.getContentPane().add(btnAnalizarSelecao);
-		
+
 		JButton btnExcluirSelecao = new JButton("Excluir Sele\u00E7\u00E3o");
 		btnExcluirSelecao.setForeground(Color.BLUE);
 		btnExcluirSelecao.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnExcluirSelecao.setBounds(930, 131, 125, 23);
 		frmSimulador.getContentPane().add(btnExcluirSelecao);
-		
+
 		JButton btnGerarEstatisticas = new JButton("Gerar Estat\u00EDsticas");
 		btnGerarEstatisticas.setForeground(Color.BLUE);
 		btnGerarEstatisticas.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -271,19 +317,29 @@ public class MainView {
 		JPanel panelLastSim = new JPanel();
 		panelLastSim.setBorder(new TitledBorder(new BevelBorder(
 				BevelBorder.LOWERED, null, null, null, null), "",
-				TitledBorder.LEADING,
-
-				TitledBorder.TOP, null, null));
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelLastSim.setBounds(660, 11, 395, 109);
 		frmSimulador.getContentPane().add(panelLastSim);
 		panelLastSim.setLayout(null);
 
-		JScrollPane lastSimScrollPane = new JScrollPane((Component) null);
-		lastSimScrollPane.setBounds(10, 11, 375, 87);
-		panelLastSim.add(lastSimScrollPane);
-		
-		JTextPane textPaneLastSim = new JTextPane();
-		lastSimScrollPane.setViewportView(textPaneLastSim);
+		JScrollPane scrollPane = new JScrollPane((Component) null);
+		scrollPane.setBounds(10, 11, 373, 85);
+		panelLastSim.add(scrollPane);
+
+		textPaneLastSim = new JList();
+		scrollPane.setViewportView(textPaneLastSim);
+		textPaneLastSim.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		textPaneLastSim.setModel(new javax.swing.AbstractListModel() {
+			private static final long serialVersionUID = 1L;
+
+			public int getSize() {
+				return simulations.size();
+			}
+
+			public Object getElementAt(int i) {
+				return simulations.get(i).toString();
+			}
+		});
 	}
 
 	private void renderServer1Panel() {
@@ -325,10 +381,10 @@ public class MainView {
 		lblValueTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblValueTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		JLabel lblMinutesTS_1 = new JLabel("min.");
+		JLabel lblMinutesTS_1 = new JLabel("seg.");
 		lblMinutesTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMinutesTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTS_1.setBounds(155, 47, 20, 14);
+		lblMinutesTS_1.setBounds(147, 47, 28, 14);
 		panelTS_1.add(lblMinutesTS_1);
 
 		final JLabel lblValuesTS_1 = new JLabel("Valores:");
@@ -639,7 +695,7 @@ public class MainView {
 			}
 		});
 	}
-	
+
 	private void renderServer2Panel() {
 
 		panelServer_2 = new JPanel();
@@ -679,10 +735,10 @@ public class MainView {
 		lblValueTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblValueTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		JLabel lblMinutesTS_1 = new JLabel("min.");
+		JLabel lblMinutesTS_1 = new JLabel("seg.");
 		lblMinutesTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMinutesTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTS_1.setBounds(155, 47, 20, 14);
+		lblMinutesTS_1.setBounds(147, 47, 28, 14);
 		panelTS_2.add(lblMinutesTS_1);
 
 		final JLabel lblValuesTS_1 = new JLabel("Valores:");
@@ -1032,10 +1088,10 @@ public class MainView {
 		lblValueTEC.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblValueTEC.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		JLabel lblMinutesTEC = new JLabel("min.");
+		JLabel lblMinutesTEC = new JLabel("seg.");
 		lblMinutesTEC.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMinutesTEC.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTEC.setBounds(155, 47, 20, 14);
+		lblMinutesTEC.setBounds(147, 47, 28, 14);
 		panelTEC.add(lblMinutesTEC);
 
 		final JLabel lblValuesTEC = new JLabel("Valores:");
@@ -1089,6 +1145,38 @@ public class MainView {
 		textFieldPercEntType_1.setColumns(10);
 		textFieldPercEntType_1.setBounds(52, 21, 23, 20);
 		panelProbabilityEntity.add(textFieldPercEntType_1);
+		textFieldPercEntType_1.getDocument().addDocumentListener(new DocumentListener() {
+			
+			public void removeUpdate(DocumentEvent e) {
+				int p;
+				if(textFieldPercEntType_1.getText().equals("")){
+					p = 100;
+				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
+					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
+					textFieldPercEntType_2.setText(""+p);
+				}
+			}
+			
+			public void insertUpdate(DocumentEvent e) {
+				int p;
+				if(textFieldPercEntType_1.getText().equals("")){
+					p = 100;
+				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
+					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
+					textFieldPercEntType_2.setText(""+p);
+				}
+			}
+			
+			public void changedUpdate(DocumentEvent e) {
+				int p;
+				if(textFieldPercEntType_1.getText().equals("")){
+					p = 100;
+				}else if(Integer.parseInt(textFieldPercEntType_1.getText())<100){
+					p = 100 - Integer.parseInt(textFieldPercEntType_1.getText());
+					textFieldPercEntType_2.setText(""+p);
+				}				
+			}
+		});
 
 		JLabel labelPencent_1 = new JLabel("%");
 		labelPencent_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1103,11 +1191,13 @@ public class MainView {
 		panelProbabilityEntity.add(labelType_2);
 
 		textFieldPercEntType_2 = new JTextField();
+		textFieldPercEntType_2.setEditable(false);
 		textFieldPercEntType_2.setText("50");
 		textFieldPercEntType_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		textFieldPercEntType_2.setColumns(10);
 		textFieldPercEntType_2.setBounds(141, 21, 23, 20);
 		panelProbabilityEntity.add(textFieldPercEntType_2);
+		
 
 		JLabel labelPercent_2 = new JLabel("%");
 		labelPercent_2.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1348,6 +1438,25 @@ public class MainView {
 	public static JTextField getTextField_2() {
 		return textField_2;
 	}
-	
-	
+
+	public static JTextArea getTextPaneLog() {
+		return textPaneLog;
+	}
+
+	public static JList getTextPaneLastSim() {
+		return textPaneLastSim;
+	}
+
+	public static void print(String msg) {
+		textPaneLog.append(msg + "\n");
+	}
+
+	public static JSlider getSlider() {
+		return slider;
+	}
+
+	public static Checkbox getCheckboxFastFoward() {
+		return checkboxFastFoward;
+	}
+
 }

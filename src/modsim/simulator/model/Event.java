@@ -3,7 +3,7 @@ package modsim.simulator.model;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.IEvent;
 
-public abstract class Event implements IEvent{
+public abstract class Event implements IEvent, Comparable<Event>{
 	
 	protected static int id = 0;
 	protected int tempoEvento;
@@ -28,5 +28,9 @@ public abstract class Event implements IEvent{
 
 	public void setEntidade(Entity entidade) {
 		this.entidade = entidade;
+	}
+
+	public void func() {
+		
 	}
 }

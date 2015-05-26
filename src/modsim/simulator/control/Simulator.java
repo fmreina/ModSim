@@ -1,7 +1,9 @@
 package modsim.simulator.control;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import modsim.simulator.entities.Server;
 import modsim.simulator.model.Event;
@@ -32,7 +34,7 @@ public class Simulator implements Runnable {
 		tNow = 0;
 		paused = false;
 		running = true;
-		fastForward = false;
+		fastForward = MainView.getCheckboxFastFoward().getState();
 		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime()
 				.getText()) * 60;
 		servers = new HashMap<Integer, Server>();
@@ -51,9 +53,10 @@ public class Simulator implements Runnable {
 					continue;
 				}
 			} else {
+				
 				if (!this.fastForward) {
 					try {
-						Thread.sleep(800);
+						Thread.sleep(MainView.getSlider().getValue());
 					} catch (InterruptedException e) {
 						this.simulation.getLog().add(
 								"Erro ao executar a simulação");
@@ -61,19 +64,18 @@ public class Simulator implements Runnable {
 						continue;
 					}
 				}
-
+				fastForward = MainView.getCheckboxFastFoward().getState();
 				this.tNow++;
 
-				String tempoExecucao = "Tempo de execução: " + this.tNow
-						+ " segundos";
-				System.out.println(tempoExecucao);
-				this.simulation.getLog().add(
-						tempoExecucao);
-
+				MainView.print("Tempo de execução: " + this.tNow + " segundos");
+				//System.out.println("Tempo de execução: " + this.tNow + " segundos");
+				this.simulation.getLog().add("Tempo de execução: " + this.tNow + " segundos");
+				
 				ArrayList<Event> eventList = getEventOnTime(this.tNow);
 
 				for (Event event : eventList) {
-					System.out.println(event.toString());
+					//System.out.println(event.toString());
+					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
 					event.func(); //event
 					this.events.remove(event);
@@ -101,21 +103,18 @@ public class Simulator implements Runnable {
 					newEvent_2 = false;
 				}
 			}
-			if (newEvent_1) {
-				criateEvent_1();
-			}
-			if (newEvent_2) {
-				criateEvent_2();
-			}
+			
+		}
+		if (newEvent_1) {
+			criateEvent_Arrival();
 		}
 	}
 
-	private void criateEvent_1() {
-		// criar evento
-	}
-
-	private void criateEvent_2() {
-		// criar evento
+	private void criateEvent_Arrival() {
+		TimeFunc func = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());
+		List<Event> newEvents = EntityEventControl.newArrivalEvent(tNow, func);
+		events.addAll(newEvents);
+		Collections.sort(events);
 	}
 
 	private ArrayList<Event> getEventOnTime(int tNow2) {

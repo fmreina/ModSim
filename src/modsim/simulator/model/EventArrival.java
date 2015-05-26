@@ -25,4 +25,9 @@ public class EventArrival extends Event{
 		
 	}
 
+	public int compareTo(Event o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

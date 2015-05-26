@@ -10,19 +10,19 @@ public class main {
 //		Thread entytiGenerator = new Thread();
 		
 //		entytiGenerator.run();
-		
-		System.out.println(">>");
-		
-		Simulator sim = new Simulator();
-		EntityGenerator entGen = new EntityGenerator();
-		
-		sim.init(new Simulation("Test", 1));
-		entGen.init();
-		
-		sim.run();
-		entGen.run();
-		
-		System.out.println("<<");
+//		
+//		System.out.println(">>");
+//		
+//		Simulator sim = new Simulator();
+//		EntityGenerator entGen = new EntityGenerator();
+//		
+//		sim.init(new Simulation("Test", 1));
+//		entGen.init();
+//		
+//		sim.run();
+//		entGen.run();
+//		
+//		System.out.println("<<");
 	}
 	
 }
