@@ -3,13 +3,13 @@ package modsim.simulator.entities;
 public class Entity {
 
 	private int id;
-	private int type;
+	private TipoServidor type;
 	private int tempoChegada;
 	private int tempoSaida;
 	private int tempoInicioAtendimento;
 	private int tempoEmFila;
 	
-	public Entity(int type, int tempoChegada){
+	public Entity(TipoServidor type, int tempoChegada){
 		this.type = type;
 		this.tempoChegada = tempoChegada;
 		/*this.tempoInicioAtendimento = tempoChegada;
@@ -27,11 +27,11 @@ public class Entity {
 		this.id = id;
 	}
 
-	public int getType() {
+	public TipoServidor getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(TipoServidor type) {
 		this.type = type;
 	}
 

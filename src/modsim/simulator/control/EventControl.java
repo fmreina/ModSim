@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
 import modsim.simulator.model.TimeFunc;
@@ -69,12 +70,12 @@ public class EventControl {
 		return time > 0 ? time : 1;
 	}
 
-	public static ArrayList<Event> handleArrivalEvent(Event event, int entityType) {
+	public static ArrayList<Event> handleArrivalEvent(Event event) {
 		Event e;
-		if(entityType == 1){
+		if(event.getEntityServerType().equals(TipoServidor.TIPO_1)){
 			if(server1.isFree()){
 				if(server1.getFila().isEmpty()){
-					server1.setFree(false); // tomada do servidor
+					server1.ocuppyServer(entity); // tomada do servidor
 					e = newExit(event.getEntidade()); // gera saida
 				}else{
 					server1.getFila().add(event.getEntidade());
@@ -90,7 +91,7 @@ public class EventControl {
 			}
 		}else{
 			if(server2.isFree()){
-				server2.setFree(false);
+				server2.ocuppyServer(entity);
 				newExit(event.getEntidade());
 			}else{
 				if(server2.isBroken()){
