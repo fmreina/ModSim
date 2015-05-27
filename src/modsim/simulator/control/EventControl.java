@@ -3,10 +3,13 @@ package modsim.simulator.control;
 import java.util.ArrayList;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.IEvent;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
+import modsim.simulator.model.EventChange;
+import modsim.simulator.model.EventExit;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.utils.MathsUtils;
 import modsim.simulator.vision.MainView;
@@ -70,7 +73,7 @@ public class EventControl {
 		return time > 0 ? time : 1;
 	}
 
-	public static ArrayList<Event> handleArrivalEvent(Event event) {
+	public static ArrayList<Event> handleEvent(EventArrival event) {
 		Event e;
 		if(event.getEntityServerType().equals(TipoServidor.TIPO_1)){
 			if(server1.isFree()){
@@ -102,6 +105,14 @@ public class EventControl {
 				}
 			}
 		}
+		return null;
+	}
+	
+	public static ArrayList<Event> handleEvent(EventExit event) {
+		return null;
+	}
+	
+	public static ArrayList<Event> handleEvent(EventChange event) {
 		return null;
 	}
 
@@ -146,5 +157,17 @@ public class EventControl {
 
 	private static int getTriaTime() {
 		return MathsUtils.triangular(ef1, ef2, ef3);
+	}
+
+	public static void handleEvent(Event event) {
+		if(event instanceof EventArrival){
+			handleEvent((EventArrival)event);
+		}
+		if(event instanceof EventExit){
+			handleEvent((EventExit)event);
+		}
+		if(event instanceof EventChange){
+			handleEvent((EventChange)event);
+		}
 	}
 }

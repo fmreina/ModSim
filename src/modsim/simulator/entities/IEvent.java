@@ -6,4 +6,6 @@ public interface IEvent {
 	
 	public int getId();
 
+	public int getTempoExecucao();
+
 }

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import modsim.simulator.entities.IEvent;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
@@ -80,8 +81,7 @@ public class Simulator implements Runnable {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
-					EventControl.handleArrivalEvent(event);
-					event.func(servers.get(event.getEntityServerType()));
+					EventControl.handleEvent(event);
 					this.events.remove(event);
 				}
 
@@ -107,7 +107,7 @@ public class Simulator implements Runnable {
 	}
 
 	private ArrayList<Event> getEventOnTime(int tNow2) {
-		ArrayList<Event> eventsOnTime = new ArrayList<Event>();
+		ArrayList<Event> eventsOnTime = new ArrayList<>();
 		for (Event event : this.events) {
 			if (event.getTempoExecucao() == this.tNow) {
 				eventsOnTime.add(event);
