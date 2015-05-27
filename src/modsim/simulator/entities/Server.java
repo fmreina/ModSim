@@ -3,18 +3,30 @@ package modsim.simulator.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server {
+import modsim.simulator.model.TimeFunc;
 
+public class Server {
+	
+	private TimeFunc serviceFunc;
 	private TipoServidor type;
 	private int tempoServico;
 	private Entity entity;
 	private boolean broken;
 	private List<Entity> fila;
 	
-	public Server(TipoServidor type){
+	public Server(TipoServidor type, TimeFunc func){
 		this.type = type;
 		this.broken = false;
 		this.fila = new ArrayList<Entity>();
+		this.serviceFunc = func;
+	}
+	
+	public TimeFunc getServiceFunc() {
+		return serviceFunc;
+	}
+
+	public void setServiceFunc(TimeFunc serviceFunc) {
+		this.serviceFunc = serviceFunc;
 	}
 
 	public TipoServidor getType() {
@@ -34,15 +46,17 @@ public class Server {
 	}
 
 	public boolean isFree() {
-		return entity != null;
+		return entity == null;
 	}
 
-	public void ocuppyServer(Entity entity) {
+	public void ocuppyServer(Entity entity, int tNow) {
 		this.entity = entity;
+		entity.setTempoInicioAtendimento(tNow);
 	}
 	
-	public void releaseServer(){
+	public void releaseServer(int tNow){
 		this.tempoServico = tempoServico + entity.getTempoNoServidor();
+		entity.setTempoSaida(tNow);
 		this.entity = null;
 	}
 	

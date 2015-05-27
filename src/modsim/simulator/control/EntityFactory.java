@@ -5,7 +5,7 @@ import java.util.Random;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.TipoServidor;
 
-public class EntitiyFactory {
+public class EntityFactory {
 	
 	public static Entity newEntity(int arrivalTime, int typeOneProbability){
 		Random random = new Random();

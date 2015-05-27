@@ -7,23 +7,23 @@ import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
+import modsim.simulator.model.EventChange;
+import modsim.simulator.model.EventExit;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.utils.MathsUtils;
 import modsim.simulator.vision.MainView;
 
 public class EventControl {
 
-	private static Entity entity;
 	private static int ef1; // entity field time 1
 	private static int ef2; // entity field time 2
 	private static int ef3; // entity field time 3
-	private static Server server1;
-	private static Server server2;
+	public static TimeFunc arriveFunc;
 
-	public static ArrayList<Event> newArrivalEvent(int timeNow, TimeFunc func) {
+	public static ArrayList<Event> newArrivalEvent(int timeNow) {
 		ArrayList<Event> events = new ArrayList<Event>();
 
-		EventArrival arrival = newArrival(timeNow, func);
+		EventArrival arrival = newArrival(timeNow, arriveFunc);
 
 		events.add(arrival);
 
@@ -31,22 +31,19 @@ public class EventControl {
 	}
 
 	public static EventArrival newArrival(int timeNow, TimeFunc func) {
-		int arrivalTime = getArrivalTime(func) + timeNow;
-		
+		setParamsToArrivalTime();
+		int arrivalTime = getTime(func) + timeNow;
+
 		int percent1 = Integer.parseInt(MainView.getTextFieldPercEntType_1()
 				.getText());
 
-		Entity entity = EntitiyFactory.newEntity(percent1, arrivalTime);
+		Entity entity = EntityFactory.newEntity(percent1, arrivalTime);
 		EventArrival arrival = new EventArrival(arrivalTime, entity);
 
 		return arrival;
 	}
 
-	public static int getArrivalTime(TimeFunc func) {
-		ef1 = Integer.parseInt(MainView.getTextFieldMinTEC().getText());
-		ef2 = Integer.parseInt(MainView.getTextFieldMedTEC().getText());
-		ef3 = Integer.parseInt(MainView.getTextFieldMaxTEC().getText());
-
+	public static int getTime(TimeFunc func) {
 		int time = 0;
 
 		switch (func) {
@@ -70,62 +67,91 @@ public class EventControl {
 		return time > 0 ? time : 1;
 	}
 
-	public static ArrayList<Event> handleArrivalEvent(Event event) {
-		Event e;
-		if(event.getEntityServerType().equals(TipoServidor.TIPO_1)){
-			if(server1.isFree()){
-				if(server1.getFila().isEmpty()){
-					server1.ocuppyServer(entity); // tomada do servidor
-					e = newExit(event.getEntidade()); // gera saida
-				}else{
-					server1.getFila().add(event.getEntidade());
-					e = newExit(server1.getFila().get(0));					
-					server1.getFila().remove(0);
+	private static void setParamsToArrivalTime() {
+		ef1 = Integer.parseInt(MainView.getTextFieldMinTEC().getText());
+		ef2 = Integer.parseInt(MainView.getTextFieldMedTEC().getText());
+		ef3 = Integer.parseInt(MainView.getTextFieldMaxTEC().getText());
+	}
+
+	private static void setParamsToExitTime(TipoServidor tipo) {
+		if (tipo.equals(TipoServidor.TIPO_1)) {
+			ef1 = Integer.parseInt(MainView.getTextFieldMinTS_1().getText());
+			ef2 = Integer.parseInt(MainView.getTextFieldMedTS_1().getText());
+			ef3 = Integer.parseInt(MainView.getTextFieldMaxTS_1().getText());
+		} else {
+			ef1 = Integer.parseInt(MainView.getTextFieldMinTS_2().getText());
+			ef2 = Integer.parseInt(MainView.getTextFieldMedTS_2().getText());
+			ef3 = Integer.parseInt(MainView.getTextFieldMaxTS_2().getText());
+		}
+	}
+
+	public static Event handleEvent(EventArrival event, int timeNow) {
+		Event e = null;
+		TipoServidor entityServerType = event.getEntityServerType();
+		Server server = Simulator.getServers().get(entityServerType);
+		Entity entidade = event.getEntidade();
+		if (entityServerType.equals(TipoServidor.TIPO_1)) {
+			if (server.isFree()) {
+				if (server.getFila().isEmpty()) {
+					server.ocuppyServer(entidade, timeNow); // tomada do servidor
+					e = newExit(entidade, timeNow,
+							server.getServiceFunc(), entidade.getId()); // gera saida
+				} else {
+					server.getFila().add(entidade);
+					// e = newExit(server1.getFila().get(0));
+					server.getFila().remove(0);
 				}
-			}else{
-				if(server1.isBroken()){
-					newChange();//go to server 2
-				}else{
-					server1.getFila().add(event.getEntidade());
+			} else {
+				if (server.isBroken()) {
+					newChange();// go to server 2
+				} else {
+					server.getFila().add(entidade);
 				}
 			}
-		}else{
-			if(server2.isFree()){
-				server2.ocuppyServer(entity);
-				newExit(event.getEntidade());
-			}else{
-				if(server2.isBroken()){
-					//go to server 1
+		} else {
+			if (server.isFree()) {
+				server.ocuppyServer(entidade, timeNow);
+				newExit(entidade, timeNow, server.getServiceFunc(), entidade.getId());
+			} else {
+				if (server.isBroken()) {
+					// go to server 1
 					newChange();
-				}else{
-					server2.getFila().add(event.getEntidade());
+				} else {
+					server.getFila().add(entidade);
 				}
 			}
 		}
+		return e;
+	}
+
+	private static Event newExit(Entity entity, int timeNow, TimeFunc func, int id) {
+		setParamsToExitTime(entity.getType());
+		int exitTime = getTime(func) + timeNow;
+
+		EventExit exit = new EventExit(exitTime, entity, id);
+
+		return exit;
+	}
+
+	public static Event handleEvent(EventExit event, int timeNow) {
+		Event e = null;
+		TipoServidor entityServerType = event.getEntityServerType();
+		Server server = Simulator.getServers().get(entityServerType);
+		server.releaseServer(timeNow);
+		if (!server.getFila().isEmpty()) {
+			Entity entidade = event.getEntidade();
+			server.ocuppyServer(entidade, timeNow); // tomada do servidor
+			e = newExit(entidade, timeNow, server.getServiceFunc(), entidade.getId()); // gera saida
+		}
+		return e;
+	}
+
+	public static Event handleEvent(EventChange event) {
 		return null;
 	}
 
 	private static void newChange() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	private static Event newExit(Entity event) {
-		
-		return null;
-	}
-
-	public void removeEventById(int eventId) {
-		ArrayList<Event> eventList = new ArrayList<Event>();
-
-		for (Event event : Simulator.getEvents()) {
-			if (event instanceof EventArrival) {
-				if (event.getId() == eventId) {
-					eventList.add(event);
-				}
-			}
-		}
-		Simulator.getEvents().removeAll(eventList);
 	}
 
 	private static int getConstTime() {
@@ -146,5 +172,15 @@ public class EventControl {
 
 	private static int getTriaTime() {
 		return MathsUtils.triangular(ef1, ef2, ef3);
+	}
+
+	public static Event handleEvent(Event event, int tNow) {
+		if (event instanceof EventArrival) {
+			return handleEvent((EventArrival) event, tNow);
+		}
+		if (event instanceof EventExit) {
+			return handleEvent((EventExit) event, tNow);
+		}
+		return handleEvent((EventChange) event);
 	}
 }

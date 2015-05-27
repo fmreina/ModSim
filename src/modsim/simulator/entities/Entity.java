@@ -1,8 +1,10 @@
 package modsim.simulator.entities;
 
+import modsim.simulator.utils.SequenceGenerator;
+
 public class Entity {
 
-	private int id;
+	private int id = SequenceGenerator.next();
 	private TipoServidor type;
 	private int tempoChegada;
 	private int tempoSaida;
@@ -21,10 +23,6 @@ public class Entity {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public TipoServidor getType() {
