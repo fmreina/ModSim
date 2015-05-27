@@ -74,7 +74,7 @@ public class EventControl {
 		if(entityType == 1){
 			if(server1.isFree()){
 				if(server1.getFila().isEmpty()){
-					server1.setFree(false); // tomada do servidor
+					//server1.setFree(false); // tomada do servidor
 					e = newExit(event.getEntidade()); // gera saida
 				}else{
 					server1.getFila().add(event.getEntidade());
@@ -90,7 +90,7 @@ public class EventControl {
 			}
 		}else{
 			if(server2.isFree()){
-				server2.setFree(false);
+				//server2.setFree(false);
 				newExit(event.getEntidade());
 			}else{
 				if(server2.isBroken()){

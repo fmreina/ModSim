@@ -2,6 +2,7 @@ package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.IEvent;
+import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 
 public abstract class Event implements IEvent, Comparable<Event>{
@@ -34,5 +35,10 @@ public abstract class Event implements IEvent, Comparable<Event>{
 
 	public TipoServidor getServerType() {
 		return this.tipoServidor;
+	}
+
+	public void func(Server server) {
+		// TODO Auto-generated method stub
+		
 	}
 }
