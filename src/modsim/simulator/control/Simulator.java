@@ -121,7 +121,7 @@ public class Simulator implements Runnable {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 
 		for (Event event : this.events) {
-			Integer id = event.getId();
+			Integer id = event.getEntidade().getId();
 			if (!ids.contains(id)) {
 				ids.add(id);
 			}

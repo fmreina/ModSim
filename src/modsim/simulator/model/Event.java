@@ -3,10 +3,10 @@ package modsim.simulator.model;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.IEvent;
 import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.utils.SequenceGenerator;
 
 public abstract class Event implements IEvent, Comparable<Event>{
 	
-	protected static int id = 0;
 	protected int tempoEvento;
 	protected Entity entidade;
 	

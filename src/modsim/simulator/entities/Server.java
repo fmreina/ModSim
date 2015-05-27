@@ -49,12 +49,14 @@ public class Server {
 		return entity == null;
 	}
 
-	public void ocuppyServer(Entity entity) {
+	public void ocuppyServer(Entity entity, int tNow) {
 		this.entity = entity;
+		entity.setTempoInicioAtendimento(tNow);
 	}
 	
-	public void releaseServer(){
+	public void releaseServer(int tNow){
 		this.tempoServico = tempoServico + entity.getTempoNoServidor();
+		entity.setTempoSaida(tNow);
 		this.entity = null;
 	}
 	

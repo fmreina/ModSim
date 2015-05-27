@@ -89,14 +89,15 @@ public class EventControl {
 		Event e = null;
 		TipoServidor entityServerType = event.getEntityServerType();
 		Server server = Simulator.getServers().get(entityServerType);
+		Entity entidade = event.getEntidade();
 		if (entityServerType.equals(TipoServidor.TIPO_1)) {
 			if (server.isFree()) {
 				if (server.getFila().isEmpty()) {
-					server.ocuppyServer(event.getEntidade()); // tomada do servidor
-					e = newExit(event.getEntidade(), timeNow,
-							server.getServiceFunc()); // gera saida
+					server.ocuppyServer(entidade, timeNow); // tomada do servidor
+					e = newExit(entidade, timeNow,
+							server.getServiceFunc(), entidade.getId()); // gera saida
 				} else {
-					server.getFila().add(event.getEntidade());
+					server.getFila().add(entidade);
 					// e = newExit(server1.getFila().get(0));
 					server.getFila().remove(0);
 				}
@@ -104,30 +105,30 @@ public class EventControl {
 				if (server.isBroken()) {
 					newChange();// go to server 2
 				} else {
-					server.getFila().add(event.getEntidade());
+					server.getFila().add(entidade);
 				}
 			}
 		} else {
 			if (server.isFree()) {
-				server.ocuppyServer(event.getEntidade());
-				newExit(event.getEntidade(), timeNow, server.getServiceFunc());
+				server.ocuppyServer(entidade, timeNow);
+				newExit(entidade, timeNow, server.getServiceFunc(), entidade.getId());
 			} else {
 				if (server.isBroken()) {
 					// go to server 1
 					newChange();
 				} else {
-					server.getFila().add(event.getEntidade());
+					server.getFila().add(entidade);
 				}
 			}
 		}
 		return e;
 	}
 
-	private static Event newExit(Entity entity, int timeNow, TimeFunc func) {
+	private static Event newExit(Entity entity, int timeNow, TimeFunc func, int id) {
 		setParamsToExitTime(entity.getType());
 		int exitTime = getTime(func) + timeNow;
 
-		EventExit exit = new EventExit(exitTime, entity);
+		EventExit exit = new EventExit(exitTime, entity, id);
 
 		return exit;
 	}
@@ -136,10 +137,11 @@ public class EventControl {
 		Event e = null;
 		TipoServidor entityServerType = event.getEntityServerType();
 		Server server = Simulator.getServers().get(entityServerType);
-		server.releaseServer();
+		server.releaseServer(timeNow);
 		if (!server.getFila().isEmpty()) {
-			server.ocuppyServer(event.getEntidade()); // tomada do servidor
-			e = newExit(event.getEntidade(), timeNow, server.getServiceFunc()); // gera saida
+			Entity entidade = event.getEntidade();
+			server.ocuppyServer(entidade, timeNow); // tomada do servidor
+			e = newExit(entidade, timeNow, server.getServiceFunc(), entidade.getId()); // gera saida
 		}
 		return e;
 	}
@@ -150,19 +152,6 @@ public class EventControl {
 
 	private static void newChange() {
 
-	}
-
-	public void removeEventById(int eventId) {
-		ArrayList<Event> eventList = new ArrayList<Event>();
-
-		for (Event event : Simulator.getEvents()) {
-			if (event instanceof EventArrival) {
-				if (event.getId() == eventId) {
-					eventList.add(event);
-				}
-			}
-		}
-		Simulator.getEvents().removeAll(eventList);
 	}
 
 	private static int getConstTime() {

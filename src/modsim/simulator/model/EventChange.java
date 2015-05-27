@@ -25,7 +25,4 @@ public class EventChange extends Event{
 		return 0;
 	}
 
-	@Override
-	public void func(Server server) {
-	}
 }
