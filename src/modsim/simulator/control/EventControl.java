@@ -73,16 +73,16 @@ public class EventControl {
 		return time > 0 ? time : 1;
 	}
 
-	public static ArrayList<Event> handleEvent(EventArrival event) {
+	public static ArrayList<Event> handleArrivalEvent(Event event, int timeNow, TimeFunc func) {
 		Event e;
 		if(event.getEntityServerType().equals(TipoServidor.TIPO_1)){
 			if(server1.isFree()){
 				if(server1.getFila().isEmpty()){
 					server1.ocuppyServer(entity); // tomada do servidor
-					e = newExit(event.getEntidade()); // gera saida
+					e = newExit(event.getEntidade(), timeNow, func); // gera saida
 				}else{
 					server1.getFila().add(event.getEntidade());
-					e = newExit(server1.getFila().get(0));					
+//					e = newExit(server1.getFila().get(0));					
 					server1.getFila().remove(0);
 				}
 			}else{
@@ -95,7 +95,7 @@ public class EventControl {
 		}else{
 			if(server2.isFree()){
 				server2.ocuppyServer(entity);
-				newExit(event.getEntidade());
+				newExit(event.getEntidade(), timeNow, func);
 			}else{
 				if(server2.isBroken()){
 					//go to server 1
@@ -106,6 +106,18 @@ public class EventControl {
 			}
 		}
 		return null;
+	}
+
+	private static Event newExit(Entity event, int timeNow, TimeFunc func) {
+		int arrivalTime = getArrivalTime(func) + timeNow;
+		
+		int percent1 = Integer.parseInt(MainView.getTextFieldPercEntType_1()
+				.getText());
+
+		Entity entity = EntitiyFactory.newEntity(percent1, arrivalTime);
+		EventArrival arrival = new EventArrival(arrivalTime, entity);
+
+		return arrival;
 	}
 	
 	public static ArrayList<Event> handleEvent(EventExit event) {
