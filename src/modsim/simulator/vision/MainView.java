@@ -1205,6 +1205,8 @@ public class MainView {
 		panelProbabilityEntity.add(labelType_2);
 
 		textFieldPercEntType_2 = new JTextField();
+		textFieldPercEntType_2.setForeground(Color.BLACK);
+		textFieldPercEntType_2.setBackground(Color.WHITE);
 		textFieldPercEntType_2.setEditable(false);
 		textFieldPercEntType_2.setText("50");
 		textFieldPercEntType_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
