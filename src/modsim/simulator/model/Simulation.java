@@ -45,6 +45,14 @@ public class Simulation implements Serializable {
 		this.log = log;
 	}
 	
+	public Statistics getStats() {
+		return stats;
+	}
+
+	public void setStats(Statistics stats) {
+		this.stats = stats;
+	}
+
 	@Override
 	public String toString() {
 		return "Simulação: "+name+"; ID: "+this.id+";";

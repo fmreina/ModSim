@@ -7,11 +7,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -52,8 +52,8 @@ public class MainView {
 
 	private JPanel panelConfiguration;
 	private static JTextField textSimName, textFieldSimulationTime;
-	private static JTextArea textPaneLog;
-	private static JList textPaneLastSim;
+	private static JTextArea textAreaLog;
+	private static JList listLastSim;
 
 	// Attributes Entity
 	private JPanel panelEntities, panelTEC;
@@ -197,11 +197,11 @@ public class MainView {
 				Simulation simulation = new Simulation(textSimName.getText(),
 						id++);
 				simulations.add(simulation);
-				textPaneLastSim.updateUI();
+				listLastSim.updateUI(); //TODO
 
 				Simulator.init(simulation);
 				simulator = new Thread(new Simulator());
-				textPaneLog.setText(null);
+				textAreaLog.setText(null);
 				simulator.start();
 				buttonPausar.setEnabled(true);
 				buttonIniciar.setEnabled(true);
@@ -289,28 +289,84 @@ public class MainView {
 		scrollPane.setBounds(10, 11, 375, 350);
 		panelLog.add(scrollPane);
 
-		textPaneLog = new JTextArea();
-		textPaneLog.setEditable(false);
-		scrollPane.setViewportView(textPaneLog);
-		textPaneLog.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textAreaLog = new JTextArea();
+		textAreaLog.setEditable(false);
+		scrollPane.setViewportView(textAreaLog);
+		textAreaLog.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
-		JButton btnAnalizarSelecao = new JButton("Analizar Sele\u00E7\u00E3o");
-		btnAnalizarSelecao.setForeground(Color.BLUE);
-		btnAnalizarSelecao.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnAnalizarSelecao.setBounds(660, 131, 125, 23);
-		frmSimulador.getContentPane().add(btnAnalizarSelecao);
+		JButton btnAnalisarSelecao = new JButton("Analisar Sele\u00E7\u00E3o");
+		btnAnalisarSelecao.setForeground(Color.BLUE);
+		btnAnalisarSelecao.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAnalisarSelecao.setBounds(660, 131, 125, 23);
+		frmSimulador.getContentPane().add(btnAnalisarSelecao);
+		btnAnalisarSelecao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = listLastSim.getSelectedIndex();
+				if (index == -1)
+					JOptionPane.showMessageDialog(null, "Nenhuma Simulação foi Selecionada!", "Erro!", 1);
+				else {
+					Simulation simulation = (Simulation) simulations.get(index);
+
+					String str = "";
+					for (String string : simulation.getLog()) {
+						str += string + "\n";
+					}
+					textAreaLog.setText(str);
+				}
+			}
+		});
 
 		JButton btnExcluirSelecao = new JButton("Excluir Sele\u00E7\u00E3o");
 		btnExcluirSelecao.setForeground(Color.BLUE);
 		btnExcluirSelecao.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnExcluirSelecao.setBounds(930, 131, 125, 23);
 		frmSimulador.getContentPane().add(btnExcluirSelecao);
+		btnExcluirSelecao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = listLastSim.getSelectedIndex();
+				if (index == -1)
+					JOptionPane.showMessageDialog(null, "Nenhuma Simulação foi Selecionada!", "Erro!", 1);
+				else {
+					int i = JOptionPane.showConfirmDialog(null, "Excluir as simulações selecionadas?");
+					if (i == 0) {
+						List names = MainView.listLastSim.getSelectedValuesList();
+
+						for (int k = 0; k < names.size(); k++) {
+							for (int j = 0; j < MainView.simulations.size(); j++) {
+								if (MainView.simulations.get(j).toString().equals(names.get(k))) {
+									MainView.simulations.remove(MainView.simulations.indexOf(simulations.get(j)));
+									break;
+								}
+							}
+						}
+						MainView.listLastSim.clearSelection();
+						MainView.listLastSim.updateUI();
+						textAreaLog.setText("");
+					}
+				}
+			}
+		});
 
 		JButton btnGerarEstatisticas = new JButton("Gerar Estat\u00EDsticas");
 		btnGerarEstatisticas.setForeground(Color.BLUE);
 		btnGerarEstatisticas.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnGerarEstatisticas.setBounds(795, 131, 125, 23);
 		frmSimulador.getContentPane().add(btnGerarEstatisticas);
+		btnGerarEstatisticas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int index = listLastSim.getSelectedIndex();
+				if (index == -1)
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"Nenhuma Simula\u00E7\u00E3o est\u00E1 Selecionada!",
+									"Erro!", 1);
+				else {
+					Simulation simulation = (Simulation) simulations.get(index);
+					textAreaLog.setText(simulation.getStats().toString());
+				}
+			}
+		});
 	}
 
 	private void rederLastSimulationPanel() {
@@ -326,10 +382,10 @@ public class MainView {
 		scrollPane.setBounds(10, 11, 373, 85);
 		panelLastSim.add(scrollPane);
 
-		textPaneLastSim = new JList();
-		scrollPane.setViewportView(textPaneLastSim);
-		textPaneLastSim.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		textPaneLastSim.setModel(new javax.swing.AbstractListModel() {
+		listLastSim = new JList();
+		scrollPane.setViewportView(listLastSim);
+		listLastSim.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		listLastSim.setModel(new javax.swing.AbstractListModel() {
 			private static final long serialVersionUID = 1L;
 
 			public int getSize() {
@@ -1455,15 +1511,15 @@ public class MainView {
 	}
 
 	public static JTextArea getTextPaneLog() {
-		return textPaneLog;
+		return textAreaLog;
 	}
 
 	public static JList getTextPaneLastSim() {
-		return textPaneLastSim;
+		return listLastSim;
 	}
 
 	public static void print(String msg) {
-		textPaneLog.append(msg + "\n");
+		textAreaLog.append(msg + "\n");
 	}
 
 	public static JSlider getSlider() {
