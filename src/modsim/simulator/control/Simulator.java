@@ -80,7 +80,8 @@ public class Simulator implements Runnable {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
-					event.func(servers.get(event.getServerType()));
+					EventControl.handleArrivalEvent(event);
+					event.func(servers.get(event.getEntityServerType()));
 					this.events.remove(event);
 				}
 
@@ -167,7 +168,7 @@ public class Simulator implements Runnable {
 		return timeTypeServer2;
 	}
 
-	public static HashMap<Integer, Server> getServers() {
+	public static HashMap<TipoServidor, Server> getServers() {
 		return servers;
 	}
 }

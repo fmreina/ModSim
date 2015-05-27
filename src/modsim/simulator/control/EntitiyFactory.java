@@ -3,6 +3,7 @@ package modsim.simulator.control;
 import java.util.Random;
 
 import modsim.simulator.entities.Entity;
+import modsim.simulator.entities.TipoServidor;
 
 public class EntitiyFactory {
 	
@@ -10,9 +11,9 @@ public class EntitiyFactory {
 		Random random = new Random();
 		int nextInt = random.nextInt(100);
 		if(nextInt > typeOneProbability){
-			return new Entity(2, arrivalTime);
+			return new Entity(TipoServidor.TIPO_1, arrivalTime);
 		}
-		return new Entity(1, arrivalTime);
+		return new Entity(TipoServidor.TIPO_1, arrivalTime);
 	}
 
 }

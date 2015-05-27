@@ -10,7 +10,6 @@ public abstract class Event implements IEvent, Comparable<Event>{
 	protected static int id = 0;
 	protected int tempoEvento;
 	protected Entity entidade;
-	protected TipoServidor tipoServidor;
 	
 	public Event(int tempoChegada, Entity entidade){
 		this.entidade = entidade;
@@ -33,8 +32,8 @@ public abstract class Event implements IEvent, Comparable<Event>{
 		this.entidade = entidade;
 	}
 
-	public TipoServidor getServerType() {
-		return this.tipoServidor;
+	public TipoServidor getEntityServerType() {
+		return this.entidade.getType();
 	}
 
 	public void func(Server server) {
