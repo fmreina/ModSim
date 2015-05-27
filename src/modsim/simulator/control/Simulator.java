@@ -5,13 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import modsim.simulator.entities.IEvent;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
-import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventChange;
-import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.vision.MainView;
@@ -85,7 +81,10 @@ public class Simulator implements Runnable {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
-					EventControl.handleArrivalEvent(event, tNow);
+					Event handleArrivalEvent = EventControl.handleEvent(event, tNow);
+					if(handleArrivalEvent != null){
+						events.add(handleArrivalEvent);
+					}
 					this.events.remove(event);
 				}
 

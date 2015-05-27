@@ -7,9 +7,9 @@ public class EventExit extends Event{
 
 	private int id;
 	
-	public EventExit(int tempoSaida, Entity entidade, int id) {
+	public EventExit(int tempoSaida, Entity entidade) {
 		super(tempoSaida, entidade);
-		this.id = id;
+		this.id = super.id ++;
 	}
 	
 	public int getId() {

@@ -8,14 +8,6 @@ import modsim.simulator.model.TimeFunc;
 public class Server {
 	
 	private TimeFunc serviceFunc;
-	public TimeFunc getServiceFunc() {
-		return serviceFunc;
-	}
-
-	public void setServiceFunc(TimeFunc serviceFunc) {
-		this.serviceFunc = serviceFunc;
-	}
-
 	private TipoServidor type;
 	private int tempoServico;
 	private Entity entity;
@@ -26,6 +18,14 @@ public class Server {
 		this.type = type;
 		this.broken = false;
 		this.fila = new ArrayList<Entity>();
+	}
+	
+	public TimeFunc getServiceFunc() {
+		return serviceFunc;
+	}
+
+	public void setServiceFunc(TimeFunc serviceFunc) {
+		this.serviceFunc = serviceFunc;
 	}
 
 	public TipoServidor getType() {
