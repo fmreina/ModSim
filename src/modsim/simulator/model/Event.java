@@ -2,36 +2,23 @@ package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.IEvent;
-import modsim.simulator.entities.TipoServidor;
-import modsim.simulator.utils.SequenceGenerator;
 
 public abstract class Event implements IEvent, Comparable<Event>{
 	
 	protected int tempoEvento;
 	protected Entity entidade;
 	
-	public Event(int tempoChegada, Entity entidade){
+	public Event(int tempoEvento, Entity entidade){
 		this.entidade = entidade;
-		this.tempoEvento = tempoChegada;
+		this.tempoEvento = tempoEvento;
 	}
 
 	public int getTempoExecucao() {
 		return tempoEvento;
 	}
 
-	public void setTempoExecucao(int tempoChegada) {
-		this.tempoEvento = tempoChegada;
-	}
-
 	public Entity getEntidade() {
 		return entidade;
 	}
 
-	public void setEntidade(Entity entidade) {
-		this.entidade = entidade;
-	}
-
-	public TipoServidor getEntityServerType() {
-		return this.entidade.getType();
-	}
 }

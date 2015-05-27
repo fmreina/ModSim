@@ -3,7 +3,7 @@ package modsim.simulator.entities;
 import modsim.simulator.utils.SequenceGenerator;
 
 public class Entity {
-
+	
 	private int id = SequenceGenerator.next();
 	private TipoServidor type;
 	private int tempoChegada;
@@ -14,13 +14,8 @@ public class Entity {
 	public Entity(TipoServidor type, int tempoChegada){
 		this.type = type;
 		this.tempoChegada = tempoChegada;
-		/*this.tempoInicioAtendimento = tempoChegada;
-		this.tempoEmFila = 0;
-		this.tempoSaida = tempoChegada;*/
 	}
 	
-	public Entity(){}
-
 	public int getId() {
 		return id;
 	}
@@ -63,5 +58,13 @@ public class Entity {
 	
 	public int getTempoNoServidor(){
 		return tempoInicioAtendimento + tempoSaida;
+	}
+	
+	public void updateTempoEmFila(){
+		this.tempoEmFila = tempoInicioAtendimento - tempoChegada; 
+	}
+	
+	public int getTempoFila(){
+		return this.tempoEmFila;
 	}
 }

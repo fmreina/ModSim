@@ -1,7 +1,8 @@
 package modsim.simulator.model;
 
+import modsim.simulator.control.HandleArrival;
+import modsim.simulator.control.Handler;
 import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.Server;
 
 public class EventArrival extends Event{
 	
@@ -14,7 +15,11 @@ public class EventArrival extends Event{
 	}
 
 	public int compareTo(Event o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return tempoEvento;
+	}
+
+	@Override
+	public Handler getHandler() {
+		return new HandleArrival();
 	}
 }

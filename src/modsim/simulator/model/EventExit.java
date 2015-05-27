@@ -1,7 +1,8 @@
 package modsim.simulator.model;
 
+import modsim.simulator.control.HandleExit;
+import modsim.simulator.control.Handler;
 import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.Server;
 
 public class EventExit extends Event{
 
@@ -14,6 +15,11 @@ public class EventExit extends Event{
 	}
 	
 	public int compareTo(Event o) {
-		return 0;
+		return this.tempoEvento;
+	}
+
+	@Override
+	public Handler getHandler() {
+		return new HandleExit();
 	}
 }
