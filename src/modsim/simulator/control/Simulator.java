@@ -10,6 +10,7 @@ import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.model.TimeFunc;
+import modsim.simulator.utils.Statistics;
 import modsim.simulator.vision.MainView;
 
 public class Simulator implements Runnable {
@@ -25,6 +26,7 @@ public class Simulator implements Runnable {
 	private static TimeFunc timeTypeServer1;
 	private static TimeFunc timeTypeServer2;
 	private static HashMap<TipoServidor, Server> servers;
+	public static Statistics stats;
 
 
 	public static void init(Simulation sim) {
@@ -108,7 +110,7 @@ public class Simulator implements Runnable {
 	}
 
 	private ArrayList<Event> getEventOnTime(int tNow2) {
-		ArrayList<Event> eventsOnTime = new ArrayList<>();
+		ArrayList<Event> eventsOnTime = new ArrayList<Event>();
 		for (Event event : this.events) {
 			if (event.getTempoExecucao() == this.tNow) {
 				eventsOnTime.add(event);
