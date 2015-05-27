@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.sun.javafx.css.CalculatedValue;
+
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
@@ -14,6 +16,7 @@ import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.model.TimeFunc;
 import modsim.simulator.utils.Statistics;
+import modsim.simulator.utils.StatisticsCalculator;
 import modsim.simulator.vision.MainView;
 
 public class Simulator implements Runnable {
@@ -106,8 +109,70 @@ public class Simulator implements Runnable {
 					this.running = false;
 					System.out.println(stats.toString());
 				}
+
+				// Statistics
+				int[] countIds = getNumIdsOnSyst();
+				l1.add(countIds[0]);
+				l2.add(countIds[1]);
+				simulation.getStats().addListNbOfEntities1(countIds[0]);
+				simulation.getStats().addListNbOfEntities2(countIds[1]);
 			}
 		}
+		MainView.getButtonIniciar().setEnabled(true);
+		MainView.getButtonPausar().setEnabled(false);
+		StatisticsCalculator.calculateStatistics(stats);
+		System.out.println(stats.toString());
+	}
+private ArrayList<Integer> l1 = new ArrayList<Integer>();
+private ArrayList<Integer> l2 = new ArrayList<Integer>();
+
+	private int[] getNumIdsOnSyst() {
+		ArrayList<Integer> ids1 = new ArrayList<Integer>();
+		ArrayList<Integer> ids2 = new ArrayList<Integer>();
+
+		for (Event e : events) {
+			if (e instanceof EventArrival) {
+				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventArrival) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventArrival) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
+				}
+			}else if (e instanceof EventExit) {
+				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventExit) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventExit) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
+				}
+			}
+			// TODO: contar número de trocas
+			else if (e instanceof EventChange) {
+				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventChange) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventChange) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
+				}
+			}
+		}
+
+		int[] countIds = new int[2];
+		countIds[0] = ids1.size();
+		countIds[1] = ids2.size();
+		return countIds;
 	}
 
 	private void newEvent() {

@@ -204,7 +204,7 @@ public class MainView {
 				textAreaLog.setText(null);
 				simulator.start();
 				buttonPausar.setEnabled(true);
-				buttonIniciar.setEnabled(true);
+				buttonIniciar.setEnabled(false);
 
 			}
 		});
@@ -1320,6 +1320,14 @@ public class MainView {
 				}
 			}
 		});
+	}
+
+	public static JButton getButtonPausar() {
+		return buttonPausar;
+	}
+
+	public static JButton getButtonIniciar() {
+		return buttonIniciar;
 	}
 
 	public JFrame getFrmSimulador() {

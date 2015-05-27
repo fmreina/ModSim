@@ -135,6 +135,13 @@ public class EventControl {
 		int exitTime = getTime(func) + timeNow;
 
 		EventExit exit = new EventExit(exitTime, entity, id);
+		
+		if(entity.getType() == TipoServidor.TIPO_1){
+			Simulator.getStats().getListServer1Ocupation().add(exitTime);
+		}
+		if(entity.getType() == TipoServidor.TIPO_2){
+			Simulator.getStats().getListServer2Ocupation().add(exitTime);
+		}
 
 		return exit;
 	}
@@ -182,12 +189,12 @@ public class EventControl {
 
 	public static Event handleEvent(Event event, int tNow) {
 		if (event instanceof EventArrival) {
-			/*if(event.getEntidade().getType() == TipoServidor.TIPO_1){
-				Simulator.getStats().incrNbEntities1();
-			}
-			if(event.getEntidade().getType() == TipoServidor.TIPO_2){
-				Simulator.getStats().incrNbEntities2();
-			}*/
+//			if(event.getEntidade().getType() == TipoServidor.TIPO_1){
+//				Simulator.getStats().incrNbEntities1();
+//			}
+//			if(event.getEntidade().getType() == TipoServidor.TIPO_2){
+//				Simulator.getStats().incrNbEntities2();
+//			}
 			return handleEvent((EventArrival) event, tNow);
 		}
 		if (event instanceof EventExit) {
