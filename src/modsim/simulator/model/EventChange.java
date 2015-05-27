@@ -17,7 +17,7 @@ public class EventChange extends Event{
 	}
 	
 	public String toString() {
-		return "Troca de Fila <ID: "+id+"; Tempo da troca: "+super.tempoEvento+" >";
+		return "Troca de Fila <ID: "+id+"; Tipo: "+entidade.getType().toString()+"; Tempo da troca: "+super.tempoEvento+" >";
 	}
 
 	public int compareTo(Event o) {

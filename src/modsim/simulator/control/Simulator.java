@@ -104,65 +104,10 @@ public class Simulator implements Runnable {
 
 				if (this.tNow > this.tempoSimulacao) {
 					this.running = false;
-				}
-
-				// Statistics
-				int[] countIds = getNumIdsOnSyst();
-				simulation.getStats().addListNbOfEntities1(countIds[0]);
-				simulation.getStats().addListNbOfEntities2(countIds[1]);
-				
-//				simulation.getStats().addListServer1Ocupation(EventControl.));
-			}
-		}
-	}
-
-	private int[] getNumIdsOnSyst() {
-		ArrayList<Integer> ids1 = new ArrayList<Integer>();
-		ArrayList<Integer> ids2 = new ArrayList<Integer>();
-
-		for (Event e : events) {
-			if (e instanceof EventArrival) {
-				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventArrival) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventArrival) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
-				}
-			}else if (e instanceof EventExit) {
-				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventExit) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventExit) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
+					System.out.println(stats.toString());
 				}
 			}
-			// TODO: contar número de trocas
-			/*else if (e instanceof EventChange) {
-				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventChange) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventChange) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
-				}
-			}*/
 		}
-
-		int[] countIds = new int[2];
-		countIds[0] = ids1.size();
-		countIds[1] = ids2.size();
-		return countIds;
 	}
 
 	private void newEvent() {
@@ -240,4 +185,9 @@ public class Simulator implements Runnable {
 	public static HashMap<TipoServidor, Server> getServers() {
 		return servers;
 	}
+
+	public static Statistics getStats() {
+		return stats;
+	}
+	
 }

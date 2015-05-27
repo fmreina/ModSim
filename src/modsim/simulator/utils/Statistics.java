@@ -8,9 +8,11 @@ public class Statistics implements Serializable{
 	private static final long serialVersionUID = 5585029768484572952L;
 	
 	//Required
+	private int nbEntities1 = 0;
 	private int nbEntities1InLine = 0;
 	private int nbEntities1Completed = 0;
 	private int nbEntities1OnSystem = 0;
+	private int nbEntities2 = 0;
 	private int nbEntities2InLine = 0;
 	private int nbEntities2Completed = 0;
 	private int nbEntities2OnSystem = 0;
@@ -61,18 +63,22 @@ public class Statistics implements Serializable{
 	@Override
 	public String toString() {
 		String stats = ">---------------- Estatísticas de Simulação ----------------<\n";
-		
+
 		stats += "\n";
 		stats += " Contagem de Entidades ao Fim da Simulação:\n";
 		stats += "    - Tipo 1:\n";
+		stats += "        Total:  "+nbEntities1+" entidades\n";
 		stats += "        Em fila:     "+nbEntities1InLine+" entidades\n";
 		stats += "        Finalizadas: "+nbEntities1Completed+" entidades\n";
-		stats += "        No Sistema:  "+nbEntities1OnSystem+" entidades\n";
+		stats += "        No Sistema:  "+(nbEntities1 - nbEntities1Completed)+" entidades\n";
 		stats += "\n";
 		stats += "    - Tipo 2:\n";
+		stats += "        Total:  "+nbEntities2+" entidades\n";
 		stats += "        Em fila:     "+nbEntities2InLine+" entidades\n";
 		stats += "        Finalizadas: "+nbEntities2Completed+" entidades\n";
-		stats += "        No Sistema:  "+nbEntities2OnSystem+" entidades\n";
+		stats += "        No Sistema:  "+(nbEntities2 - nbEntities2Completed)+" entidades\n";
+		stats += "\n";
+		stats += "    Total de Entidades: "+(nbEntities1+nbEntities2)+" entidades\n";
 		stats += "\n";
 		
 		stats += " Número de Entidades no Sistema:\n";
@@ -132,6 +138,14 @@ public class Statistics implements Serializable{
 		return stats;
 	}
 
+	public int getNbEntities1() {
+		return nbEntities1;
+	}
+
+	public void incrNbEntities1() {
+		this.nbEntities1 ++;
+	}
+	
 	public int getNbEntities1InLine() {
 		return nbEntities1InLine;
 	}
@@ -157,7 +171,8 @@ public class Statistics implements Serializable{
 	}
 	
 	public int getNbEntities1OnSystem() {
-		return nbEntities1OnSystem;
+//		return nbEntities1OnSystem;
+		return nbEntities1;
 	}
 
 	public void setNbEntities1OnSystem(int nbEntities1OnSystem) {
@@ -166,6 +181,14 @@ public class Statistics implements Serializable{
 
 	public void incrNbEntities1OnSystem() {
 		this.nbEntities1OnSystem++;
+	}
+	
+	public int getNbEntities2() {
+		return nbEntities2;
+	}
+
+	public void incrNbEntities2() {
+		this.nbEntities2 ++;
 	}
 	
 	public int getNbEntities2InLine() {
@@ -193,7 +216,8 @@ public class Statistics implements Serializable{
 	}
 	
 	public int getNbEntities2OnSystem() {
-		return nbEntities2OnSystem;
+//		return nbEntities2OnSystem;
+		return nbEntities2;
 	}
 
 	public void setNbEntities2OnSystem(int nbEntities2OnSystem) {

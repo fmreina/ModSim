@@ -10,7 +10,7 @@ public class EventExit extends Event{
 	}
 
 	public String toString() {
-		return "Saída <ID: "+entidade.getId()+"; Tempo de saída: "+super.tempoEvento+" >";
+		return "Saída <ID: "+entidade.getId()+"; Tipo: "+entidade.getType().toString()+"; Tempo de saída: "+super.tempoEvento+" >";
 	}
 	
 	public int compareTo(Event o) {
