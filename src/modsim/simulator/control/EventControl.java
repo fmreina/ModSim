@@ -20,13 +20,12 @@ public class EventControl {
 	private static int ef1; // entity field time 1
 	private static int ef2; // entity field time 2
 	private static int ef3; // entity field time 3
-	private static Server server1;
-	private static Server server2;
+	public static TimeFunc arriveFunc;
 
-	public static ArrayList<Event> newArrivalEvent(int timeNow, TimeFunc func) {
+	public static ArrayList<Event> newArrivalEvent(int timeNow) {
 		ArrayList<Event> events = new ArrayList<Event>();
 
-		EventArrival arrival = newArrival(timeNow, func);
+		EventArrival arrival = newArrival(timeNow, arriveFunc);
 
 		events.add(arrival);
 
@@ -73,13 +72,14 @@ public class EventControl {
 		return time > 0 ? time : 1;
 	}
 
-	public static ArrayList<Event> handleArrivalEvent(Event event, int timeNow, TimeFunc func) {
+	public static ArrayList<Event> handleArrivalEvent(Event event, int timeNow) {
 		Event e;
 		if(event.getEntityServerType().equals(TipoServidor.TIPO_1)){
+			Server server1 = Simulator.getServers().get(TipoServidor.TIPO_1);
 			if(server1.isFree()){
 				if(server1.getFila().isEmpty()){
 					server1.ocuppyServer(entity); // tomada do servidor
-					e = newExit(event.getEntidade(), timeNow, func); // gera saida
+					e = newExit(event.getEntidade(), timeNow, server1.getServiceFunc()); // gera saida
 				}else{
 					server1.getFila().add(event.getEntidade());
 //					e = newExit(server1.getFila().get(0));					
@@ -93,9 +93,10 @@ public class EventControl {
 				}
 			}
 		}else{
+			Server server2 = Simulator.getServers().get(TipoServidor.TIPO_2);
 			if(server2.isFree()){
 				server2.ocuppyServer(entity);
-				newExit(event.getEntidade(), timeNow, func);
+				newExit(event.getEntidade(), timeNow, server2.getServiceFunc());
 			}else{
 				if(server2.isBroken()){
 					//go to server 1
@@ -129,13 +130,7 @@ public class EventControl {
 	}
 
 	private static void newChange() {
-		// TODO Auto-generated method stub
 		
-	}
-
-	private static Event newExit(Entity event) {
-		
-		return null;
 	}
 
 	public void removeEventById(int eventId) {

@@ -42,8 +42,12 @@ public class Simulator implements Runnable {
 		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime()
 				.getText()) * 60;
 		servers = new HashMap<TipoServidor, Server>();
-		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1));
-		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2));
+		TimeFunc serviceFunc1 = TimeFunc.getType(MainView.getComboBoxTimeServer_1().getSelectedItem().toString());
+		TimeFunc serviceFunc2 = TimeFunc.getType(MainView.getComboBoxTimeServer_2().getSelectedItem().toString());
+		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1, serviceFunc1));
+		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2, serviceFunc2));
+		EventControl.arriveFunc = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());
+		
 	}
 
 	public void run() {
@@ -81,7 +85,7 @@ public class Simulator implements Runnable {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
 					this.simulation.getLog().add(event.toString());
-					EventControl.handleEvent(event);
+					EventControl.handleArrivalEvent(event, tNow);
 					this.events.remove(event);
 				}
 
@@ -100,8 +104,7 @@ public class Simulator implements Runnable {
 	}
 
 	private void criateEvent_Arrival() {
-		TimeFunc func = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());
-		List<Event> newEvents = EventControl.newArrivalEvent(tNow, func);
+		List<Event> newEvents = EventControl.newArrivalEvent(tNow);
 		events.addAll(newEvents);
 		Collections.sort(events);
 	}
