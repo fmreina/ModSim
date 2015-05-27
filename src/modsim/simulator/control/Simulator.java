@@ -42,8 +42,7 @@ public class Simulator implements Runnable {
 		TimeFunc serviceFunc2 = TimeFunc.getType(MainView.getComboBoxTimeServer_2().getSelectedItem().toString());
 		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1, serviceFunc1));
 		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2, serviceFunc2));
-		EventControl.arriveFunc = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());
-		
+		EventControl.arriveFunc = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());		
 	}
 
 	public void run() {

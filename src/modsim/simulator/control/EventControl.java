@@ -15,7 +15,6 @@ import modsim.simulator.vision.MainView;
 
 public class EventControl {
 
-	private static Entity entity;
 	private static int ef1; // entity field time 1
 	private static int ef2; // entity field time 2
 	private static int ef3; // entity field time 3
@@ -93,7 +92,7 @@ public class EventControl {
 		if (entityServerType.equals(TipoServidor.TIPO_1)) {
 			if (server.isFree()) {
 				if (server.getFila().isEmpty()) {
-					server.ocuppyServer(entity); // tomada do servidor
+					server.ocuppyServer(event.getEntidade()); // tomada do servidor
 					e = newExit(event.getEntidade(), timeNow,
 							server.getServiceFunc()); // gera saida
 				} else {
@@ -110,7 +109,7 @@ public class EventControl {
 			}
 		} else {
 			if (server.isFree()) {
-				server.ocuppyServer(entity);
+				server.ocuppyServer(event.getEntidade());
 				newExit(event.getEntidade(), timeNow, server.getServiceFunc());
 			} else {
 				if (server.isBroken()) {
@@ -139,7 +138,7 @@ public class EventControl {
 		Server server = Simulator.getServers().get(entityServerType);
 		server.releaseServer();
 		if (!server.getFila().isEmpty()) {
-			server.ocuppyServer(entity); // tomada do servidor
+			server.ocuppyServer(event.getEntidade()); // tomada do servidor
 			e = newExit(event.getEntidade(), timeNow, server.getServiceFunc()); // gera saida
 		}
 		return e;

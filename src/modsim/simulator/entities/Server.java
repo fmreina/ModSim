@@ -18,6 +18,7 @@ public class Server {
 		this.type = type;
 		this.broken = false;
 		this.fila = new ArrayList<Entity>();
+		this.serviceFunc = func;
 	}
 	
 	public TimeFunc getServiceFunc() {
@@ -45,7 +46,7 @@ public class Server {
 	}
 
 	public boolean isFree() {
-		return entity != null;
+		return entity == null;
 	}
 
 	public void ocuppyServer(Entity entity) {
