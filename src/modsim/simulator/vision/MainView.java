@@ -197,7 +197,7 @@ public class MainView {
 				Simulation simulation = new Simulation(textSimName.getText(),
 						id++);
 				simulations.add(simulation);
-				listLastSim.updateUI(); //TODO
+				listLastSim.updateUI();
 
 				Simulator.init(simulation);
 				simulator = new Thread(new Simulator());
