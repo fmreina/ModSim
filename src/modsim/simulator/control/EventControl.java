@@ -16,13 +16,7 @@ public class EventControl {
 	public static int ef2; // entity field time 2
 	public static int ef3; // entity field time 3
 	public static TimeFunction arriveFunc;
-		if(entity.getType() == TipoServidor.TIPO_1){
-			Simulator.getStats().incrNbEntities1();
-		}
-		if(entity.getType() == TipoServidor.TIPO_2){
-			Simulator.getStats().incrNbEntities2();
-		}
-
+	
 	private static void setParamsToArrivalTime() {
 		ef1 = Integer.parseInt(MainView.getTextFieldMinTEC().getText());
 		ef2 = Integer.parseInt(MainView.getTextFieldMedTEC().getText());
@@ -82,17 +76,4 @@ public class EventControl {
 		int time = func.getTime();
 		return time > 0 ? time : 1;
 	}
-
-//			if(event.getEntidade().getType() == TipoServidor.TIPO_1){
-//				Simulator.getStats().incrNbEntities1();
-//			}
-//			if(event.getEntidade().getType() == TipoServidor.TIPO_2){
-//				Simulator.getStats().incrNbEntities2();
-//			}
-			if(event.getEntidade().getType() == TipoServidor.TIPO_1){
-				Simulator.getStats().incrNbEntities1Completed();
-			}
-			if(event.getEntidade().getType() == TipoServidor.TIPO_2){
-				Simulator.getStats().incrNbEntities2Completed();
-			}
 }

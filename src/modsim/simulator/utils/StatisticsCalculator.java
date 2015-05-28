@@ -2,8 +2,6 @@ package modsim.simulator.utils;
 
 import java.util.ArrayList;
 
-import jdk.internal.dynalink.beans.StaticClass;
-
 public class StatisticsCalculator {
 
 	public static double calculateAverageOcupation(ArrayList<Integer> stats) {

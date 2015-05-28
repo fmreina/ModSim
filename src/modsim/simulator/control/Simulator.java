@@ -5,17 +5,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.sun.javafx.css.CalculatedValue;
-
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventChange;
 import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
-import modsim.simulator.utils.timefunction.TimeFunc;
+import modsim.simulator.utils.Statistics;
 import modsim.simulator.utils.StatisticsCalculator;
+import modsim.simulator.utils.timefunction.TimeFunc;
+import modsim.simulator.utils.timefunction.TimeFunction;
 import modsim.simulator.vision.MainView;
 
 public class Simulator implements Runnable {
@@ -42,11 +41,16 @@ public class Simulator implements Runnable {
 		tempoSimulacao = Integer.parseInt(MainView.getTextFieldSimulationTime()
 				.getText()) * 60;
 		servers = new HashMap<TipoServidor, Server>();
-		TimeFunction serviceFunc1 = TimeFunc.getType(MainView.getComboBoxTimeServer_1().getSelectedItem().toString());
-		TimeFunction serviceFunc2 = TimeFunc.getType(MainView.getComboBoxTimeServer_2().getSelectedItem().toString());
-		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1, serviceFunc1));
-		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2, serviceFunc2));
-		EventControl.arriveFunc = TimeFunc.getType(MainView.getComboBoxTimeEntity().getSelectedItem().toString());	
+		TimeFunction serviceFunc1 = TimeFunc.getType(MainView
+				.getComboBoxTimeServer_1().getSelectedItem().toString());
+		TimeFunction serviceFunc2 = TimeFunc.getType(MainView
+				.getComboBoxTimeServer_2().getSelectedItem().toString());
+		servers.put(TipoServidor.TIPO_1, new Server(TipoServidor.TIPO_1,
+				serviceFunc1));
+		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2,
+				serviceFunc2));
+		EventControl.arriveFunc = TimeFunc.getType(MainView
+				.getComboBoxTimeEntity().getSelectedItem().toString());
 		newEvent();
 	}
 
@@ -66,8 +70,7 @@ public class Simulator implements Runnable {
 					try {
 						Thread.sleep(MainView.getSlider().getValue());
 					} catch (InterruptedException e) {
-						simulation.getLog().add(
-								"Erro ao executar a simulação");
+						simulation.getLog().add("Erro ao executar a simulação");
 						running = false;
 						continue;
 					}
@@ -75,31 +78,36 @@ public class Simulator implements Runnable {
 				fastForward = MainView.getCheckboxFastFoward().getState();
 
 				MainView.print("Tempo de execução: " + tNow + " segundos");
-				System.out.println("Tempo de execução: " + this.tNow + " segundos");
+				System.out.println("Tempo de execução: " + this.tNow
 						+ " segundos");
 				this.simulation.getLog().add(
-				this.simulation.getLog().add("Tempo de execução: " + this.tNow + " segundos");
+						"Tempo de execução: " + this.tNow + " segundos");
 
-				ArrayList<Event> eventList = getEventOnTime(tNow);				
+				ArrayList<Event> eventList = getEventOnTime(tNow);
 
 				for (Event event : eventList) {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
-					this.simulation.getLog().add(event.toString());
-					Event handleArrivalEvent = EventControl.handleEvent(event,
-							tNow);
-					if (handleArrivalEvent != null) {
-						events.add(handleArrivalEvent);
+					simulation.getLog().add(event.toString());
+					Event newEvent = null;
+					try {
+						newEvent = event.getHandler()
+								.handleEvent(event, tNow);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-					this.events.remove(event);
+					if (newEvent != null) {
+						events.add(newEvent);
+					}
+					events.remove(event);
 				}
 
-				newEvent();
-
-				if (this.tNow > this.tempoSimulacao) {
-					this.running = false;
+				if (tNow > tempoSimulacao) {
+					running = false;
 					System.out.println(stats.toString());
 				}
+
+				tNow++;
 
 				// Statistics
 				int[] countIds = getNumIdsOnSyst();
@@ -114,8 +122,9 @@ public class Simulator implements Runnable {
 		StatisticsCalculator.calculateStatistics(stats);
 		System.out.println(stats.toString());
 	}
-private ArrayList<Integer> l1 = new ArrayList<Integer>();
-private ArrayList<Integer> l2 = new ArrayList<Integer>();
+
+	private ArrayList<Integer> l1 = new ArrayList<Integer>();
+	private ArrayList<Integer> l2 = new ArrayList<Integer>();
 
 	private int[] getNumIdsOnSyst() {
 		ArrayList<Integer> ids1 = new ArrayList<Integer>();
@@ -133,7 +142,7 @@ private ArrayList<Integer> l2 = new ArrayList<Integer>();
 					if (!ids2.contains(id))
 						ids2.add(id);
 				}
-			}else if (e instanceof EventExit) {
+			} else if (e instanceof EventExit) {
 				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_1) {
 					Integer id = ((EventExit) e).getEntidade().getId();
 					if (!ids1.contains(id))
@@ -146,18 +155,15 @@ private ArrayList<Integer> l2 = new ArrayList<Integer>();
 				}
 			}
 			// TODO: contar número de trocas
-			else if (e instanceof EventChange) {
-				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventChange) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventChange) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
-				}
-			}
+			/*
+			 * else if (e instanceof EventChange) { if (((EventChange)
+			 * e).getEntidade().getType() == TipoServidor.TIPO_1) { Integer id =
+			 * ((EventChange) e).getEntidade().getId(); if (!ids1.contains(id))
+			 * ids1.add(id); } if (((EventChange) e).getEntidade().getType() ==
+			 * TipoServidor.TIPO_2) { Integer id = ((EventChange)
+			 * e).getEntidade().getId(); if (!ids2.contains(id)) ids2.add(id); }
+			 * }
+			 */
 		}
 
 		int[] countIds = new int[2];
@@ -221,5 +227,5 @@ private ArrayList<Integer> l2 = new ArrayList<Integer>();
 	public static Statistics getStats() {
 		return stats;
 	}
-	
+
 }

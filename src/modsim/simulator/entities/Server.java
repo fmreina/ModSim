@@ -3,6 +3,7 @@ package modsim.simulator.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.misc.Queue;
 import modsim.simulator.utils.timefunction.TimeFunction;
 
 public class Server {
@@ -12,12 +13,12 @@ public class Server {
 	private int tempoServico;
 	private Entity entity;
 	private boolean broken;
-	private List<Entity> fila;
+	private Queue<Entity> fila;
 	
 	public Server(TipoServidor type, TimeFunction func){
 		this.type = type;
 		this.broken = false;
-		this.fila = new ArrayList<Entity>();
+		this.fila = new Queue<Entity>();
 		this.serviceFunc = func;
 	}
 	
@@ -69,7 +70,7 @@ public class Server {
 		this.broken = broken;
 	}
 	
-	public List<Entity> getFila() {
+	public Queue<Entity> getFila() {
 		return fila;
 	}
 }
