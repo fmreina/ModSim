@@ -5,12 +5,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.sun.javafx.css.CalculatedValue;
+
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
+import modsim.simulator.model.EventArrival;
+import modsim.simulator.model.EventChange;
+import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.utils.timefunction.TimeFunc;
-import modsim.simulator.utils.timefunction.TimeFunction;
+import modsim.simulator.utils.StatisticsCalculator;
 import modsim.simulator.vision.MainView;
 
 public class Simulator implements Runnable {
@@ -23,10 +28,11 @@ public class Simulator implements Runnable {
 	public static boolean running;
 	public static boolean fastForward;
 	private static HashMap<TipoServidor, Server> servers;
-
+	public static Statistics stats;
 
 	public static void init(Simulation sim) {
 		simulation = sim;
+		stats = sim.getStats();
 		// Variaveis de Controle
 		events = new ArrayList<Event>();
 		tNow = 0;
@@ -55,7 +61,7 @@ public class Simulator implements Runnable {
 					continue;
 				}
 			} else {
-				
+
 				if (!fastForward) {
 					try {
 						Thread.sleep(MainView.getSlider().getValue());
@@ -69,27 +75,95 @@ public class Simulator implements Runnable {
 				fastForward = MainView.getCheckboxFastFoward().getState();
 
 				MainView.print("Tempo de execução: " + tNow + " segundos");
-				System.out.println("Tempo de execução: " + tNow + " segundos");
-				simulation.getLog().add("Tempo de execução: " + tNow + " segundos");
-				
+				System.out.println("Tempo de execução: " + this.tNow + " segundos");
+						+ " segundos");
+				this.simulation.getLog().add(
+				this.simulation.getLog().add("Tempo de execução: " + this.tNow + " segundos");
+
 				ArrayList<Event> eventList = getEventOnTime(tNow);				
-				
+
 				for (Event event : eventList) {
 					System.out.println(event.toString());
 					MainView.print(event.toString());
-					simulation.getLog().add(event.toString());
-					Event newEvent = event.getHandler().handleEvent(event, tNow);
-					if(newEvent != null){
-						events.add(newEvent);
+					this.simulation.getLog().add(event.toString());
+					Event handleArrivalEvent = EventControl.handleEvent(event,
+							tNow);
+					if (handleArrivalEvent != null) {
+						events.add(handleArrivalEvent);
 					}
-					events.remove(event);
+					this.events.remove(event);
 				}
-				tNow++;
-				if (tNow > tempoSimulacao) {
-					running = false;
+
+				newEvent();
+
+				if (this.tNow > this.tempoSimulacao) {
+					this.running = false;
+					System.out.println(stats.toString());
+				}
+
+				// Statistics
+				int[] countIds = getNumIdsOnSyst();
+				l1.add(countIds[0]);
+				l2.add(countIds[1]);
+				simulation.getStats().addListNbOfEntities1(countIds[0]);
+				simulation.getStats().addListNbOfEntities2(countIds[1]);
+			}
+		}
+		MainView.getButtonIniciar().setEnabled(true);
+		MainView.getButtonPausar().setEnabled(false);
+		StatisticsCalculator.calculateStatistics(stats);
+		System.out.println(stats.toString());
+	}
+private ArrayList<Integer> l1 = new ArrayList<Integer>();
+private ArrayList<Integer> l2 = new ArrayList<Integer>();
+
+	private int[] getNumIdsOnSyst() {
+		ArrayList<Integer> ids1 = new ArrayList<Integer>();
+		ArrayList<Integer> ids2 = new ArrayList<Integer>();
+
+		for (Event e : events) {
+			if (e instanceof EventArrival) {
+				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventArrival) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventArrival) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
+				}
+			}else if (e instanceof EventExit) {
+				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventExit) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventExit) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
+				}
+			}
+			// TODO: contar número de trocas
+			else if (e instanceof EventChange) {
+				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EventChange) e).getEntidade().getId();
+					if (!ids1.contains(id))
+						ids1.add(id);
+				}
+				if (((EventChange) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EventChange) e).getEntidade().getId();
+					if (!ids2.contains(id))
+						ids2.add(id);
 				}
 			}
 		}
+
+		int[] countIds = new int[2];
+		countIds[0] = ids1.size();
+		countIds[1] = ids2.size();
+		return countIds;
 	}
 
 	public static void newEvent() {
@@ -103,7 +177,7 @@ public class Simulator implements Runnable {
 	}
 
 	private ArrayList<Event> getEventOnTime(int tNow2) {
-		ArrayList<Event> eventsOnTime = new ArrayList<>();
+		ArrayList<Event> eventsOnTime = new ArrayList<Event>();
 		for (Event event : events) {
 			if (event.getTempoExecucao() == tNow) {
 				eventsOnTime.add(event);
@@ -143,4 +217,9 @@ public class Simulator implements Runnable {
 	public static HashMap<TipoServidor, Server> getServers() {
 		return servers;
 	}
+
+	public static Statistics getStats() {
+		return stats;
+	}
+	
 }

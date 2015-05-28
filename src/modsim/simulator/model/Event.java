@@ -2,6 +2,7 @@ package modsim.simulator.model;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.IEvent;
+import modsim.simulator.entities.Server;
 
 public abstract class Event implements IEvent, Comparable<Event>{
 	

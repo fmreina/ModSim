@@ -11,7 +11,7 @@ public class EventArrival extends Event{
 	}
 
 	public String toString() {
-		return "Chegada <ID: "+entidade.getId()+"; Tempo de chegada: "+super.tempoEvento+" >";
+		return "Chegada <ID: "+entidade.getId()+"; Tipo: "+entidade.getType().toString()+"; Tempo de chegada: "+super.tempoEvento+" >";
 	}
 
 	public int compareTo(Event o) {
