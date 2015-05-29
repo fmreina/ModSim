@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
-import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventExit;
+import modsim.simulator.model.EntityEvent;
+import modsim.simulator.model.EntityEvent;
 import modsim.simulator.utils.timefunction.TimeFunction;
 import modsim.simulator.vision.MainView;
 
@@ -37,12 +37,12 @@ public class EventControl {
 	
 	public static ArrayList<Event> newArrivalEvent(int timeNow) {
 		ArrayList<Event> events = new ArrayList<Event>();
-		EventArrival arrival = newArrival(timeNow, arriveFunc);
+		EntityEvent arrival = newArrival(timeNow, arriveFunc);
 		events.add(arrival);
 		return events;
 	}
 	
-	public static EventArrival newArrival(int timeNow, TimeFunction func) {
+	public static EntityEvent newArrival(int timeNow, TimeFunction func) {
 		setParamsToArrivalTime();
 		int arrivalTime = getTime(func) + timeNow;
 
@@ -50,17 +50,16 @@ public class EventControl {
 				.getText());
 
 		Entity entity = EntityFactory.newEntity(percent1, arrivalTime);
-		EventArrival arrival = new EventArrival(arrivalTime, entity);
+		EntityEvent arrival = new EntityEvent(arrivalTime, entity);
 
 		return arrival;
 	}
 	
-	static Event newExit(Entity entity, int timeNow, TimeFunction func,
-			int id) {
+	static Event newExit(Entity entity, int timeNow, TimeFunction func) {
 		setParamsToExitTime(entity.getType());
 		int exitTime = getTime(func) + timeNow;
 
-		EventExit exit = new EventExit(exitTime, entity, id);
+		EntityEvent exit = new EntityEvent(exitTime, entity);
 		
 		if(entity.getType() == TipoServidor.TIPO_1){
 			Simulator.getStats().getListServer1Ocupation().add(exitTime);

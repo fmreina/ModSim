@@ -1,11 +1,11 @@
 package modsim.simulator.entities;
 
-import modsim.simulator.control.Handler;
+import modsim.simulator.control.HandlerEntity;
 
 public interface IEvent {
 
 	public int getTempoExecucao();
 
-	public Handler getHandler();
+	public HandlerEntity getHandler();
 
 }

@@ -3,12 +3,13 @@ package modsim.simulator.control;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.model.EntityEvent;
 import modsim.simulator.model.Event;
 
-public class HandleArrival implements Handler {
+public class HandleArrival implements HandlerEntity {
 
 	@Override
-	public Event handleEvent(Event event, int time) {
+	public Event handleEvent(EntityEvent event, int time) {
 		Simulator.newEvent();
 		if(event.getEntidade().getType() == TipoServidor.TIPO_1){
 			Simulator.getStats().incrNbEntities1Completed();
@@ -19,7 +20,7 @@ public class HandleArrival implements Handler {
 		return handleEvent(event, time, false);
 	}
 
-	public static Event handleEvent(Event event, int timeNow,
+	public static Event handleEvent(EntityEvent event, int timeNow,
 			boolean firstIsBroken) {
 		Entity entidade = event.getEntidade();
 		Server server = Simulator.getServers().get(entidade.getType());
@@ -30,7 +31,7 @@ public class HandleArrival implements Handler {
 			} else {
 				server.ocuppyServer(entidade, timeNow); // tomada do servidor
 				return EventControl.newExit(entidade, timeNow,
-						server.getServiceFunc(), entidade.getId()); // gera
+						server.getServiceFunc()); // gera
 																	// saida
 			}
 		}

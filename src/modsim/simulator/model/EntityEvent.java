@@ -1,13 +1,16 @@
 package modsim.simulator.model;
 
 import modsim.simulator.control.HandleExit;
-import modsim.simulator.control.Handler;
+import modsim.simulator.control.HandlerEntity;
 import modsim.simulator.entities.Entity;
 
-public class EventExit extends Event{
+public class EntityEvent extends Event{
+	
+	private Entity entidade;
 
-	public EventExit(int tempoSaida, Entity entidade, int id) {
-		super(tempoSaida, entidade);
+	public EntityEvent(int tempoSaida, Entity entidade) {
+		super(tempoSaida);
+		this.entidade = entidade;
 	}
 
 	public String toString() {
@@ -19,7 +22,11 @@ public class EventExit extends Event{
 	}
 
 	@Override
-	public Handler getHandler() {
+	public HandlerEntity getHandler() {
 		return new HandleExit();
+	}
+	
+	public Entity getEntidade(){
+		return entidade;
 	}
 }

@@ -7,9 +7,8 @@ import java.util.List;
 
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.model.EntityEvent;
 import modsim.simulator.model.Event;
-import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventExit;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.utils.Statistics;
 import modsim.simulator.utils.StatisticsCalculator;
@@ -131,25 +130,25 @@ public class Simulator implements Runnable {
 		ArrayList<Integer> ids2 = new ArrayList<Integer>();
 
 		for (Event e : events) {
-			if (e instanceof EventArrival) {
-				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventArrival) e).getEntidade().getId();
+			if (e instanceof EntityEvent) {
+				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EntityEvent) e).getEntidade().getId();
 					if (!ids1.contains(id))
 						ids1.add(id);
 				}
-				if (((EventArrival) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventArrival) e).getEntidade().getId();
+				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EntityEvent) e).getEntidade().getId();
 					if (!ids2.contains(id))
 						ids2.add(id);
 				}
-			} else if (e instanceof EventExit) {
-				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EventExit) e).getEntidade().getId();
+			} else if (e instanceof EntityEvent) {
+				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_1) {
+					Integer id = ((EntityEvent) e).getEntidade().getId();
 					if (!ids1.contains(id))
 						ids1.add(id);
 				}
-				if (((EventExit) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EventExit) e).getEntidade().getId();
+				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_2) {
+					Integer id = ((EntityEvent) e).getEntidade().getId();
 					if (!ids2.contains(id))
 						ids2.add(id);
 				}
