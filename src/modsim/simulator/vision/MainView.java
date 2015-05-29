@@ -63,21 +63,19 @@ public class MainView {
 
 	// Attributes Server 1
 	private JPanel panelServer_1, panelTS_1, panelTEF, panelTF;
-	private static JComboBox comboBoxTimeServer_1, comboBoxTEF,
-			comboBoxTF;
+	private static JComboBox comboBoxTimeServer_1;
 	private static JTextField textFieldMaxTS_1, textFieldMedTS_1,
 			textFieldMinTS_1;
 	// Attributes Server 2
 	private JPanel panelServer_2, panelTS_2, panelTEF_2, panelTEmF_2;
-	private static JComboBox comboBoxTimeServer_2, comboBoxTEF_2,
-			comboBoxTEmF_2;
+	private static JComboBox comboBoxTimeServer_2;
 	private static JTextField textFieldMaxTS_2, textFieldMedTS_2,
 			textFieldMinTS_2;
-	
-	//Attributes Tempo falha
+
+	// Attributes Tempo falha
 	private static JTextField textFieldMaxTEF, textFieldMedTEF,
-		textFieldMinTEF, textFieldMaxTF, textFieldMedTF,
-		textFieldMinTF;
+			textFieldMinTEF, textFieldMaxTF, textFieldMedTF, textFieldMinTF;
+	private static JComboBox comboBoxTEF, comboBoxTF;
 
 	// Launch the application.
 	public static void main(String[] args) {
@@ -119,7 +117,7 @@ public class MainView {
 		renderServer1Panel();
 
 		renderServer2Panel();
-		
+
 		renderTempoEntreFalhas();
 
 		renderLogPanel();
@@ -305,7 +303,8 @@ public class MainView {
 			public void actionPerformed(ActionEvent e) {
 				int index = listLastSim.getSelectedIndex();
 				if (index == -1)
-					JOptionPane.showMessageDialog(null, "Nenhuma Simulação foi Selecionada!", "Erro!", 1);
+					JOptionPane.showMessageDialog(null,
+							"Nenhuma Simulação foi Selecionada!", "Erro!", 1);
 				else {
 					Simulation simulation = (Simulation) simulations.get(index);
 
@@ -327,16 +326,21 @@ public class MainView {
 			public void actionPerformed(ActionEvent e) {
 				int index = listLastSim.getSelectedIndex();
 				if (index == -1)
-					JOptionPane.showMessageDialog(null, "Nenhuma Simulação foi Selecionada!", "Erro!", 1);
+					JOptionPane.showMessageDialog(null,
+							"Nenhuma Simulação foi Selecionada!", "Erro!", 1);
 				else {
-					int i = JOptionPane.showConfirmDialog(null, "Excluir as simulações selecionadas?");
+					int i = JOptionPane.showConfirmDialog(null,
+							"Excluir as simulações selecionadas?");
 					if (i == 0) {
-						List names = MainView.listLastSim.getSelectedValuesList();
+						List names = MainView.listLastSim
+								.getSelectedValuesList();
 
 						for (int k = 0; k < names.size(); k++) {
 							for (int j = 0; j < MainView.simulations.size(); j++) {
-								if (MainView.simulations.get(j).toString().equals(names.get(k))) {
-									MainView.simulations.remove(MainView.simulations.indexOf(simulations.get(j)));
+								if (MainView.simulations.get(j).toString()
+										.equals(names.get(k))) {
+									MainView.simulations.remove(MainView.simulations
+											.indexOf(simulations.get(j)));
 									break;
 								}
 							}
@@ -640,8 +644,8 @@ public class MainView {
 			}
 		});
 	}
-	
-	private void renderTempoEntreFalhas(){
+
+	private void renderTempoEntreFalhas() {
 		// Tempo de falhas
 		panelTF = new JPanel();
 		panelTF.setBounds(300, 140, 183, 73);
@@ -708,7 +712,7 @@ public class MainView {
 
 		// Tempo entre falhas
 		panelTEF = new JPanel();
-		panelTEF.setBounds(300, 220, 183, 73); 
+		panelTEF.setBounds(300, 220, 183, 73);
 		panelConfiguration.add(panelTEF);
 		panelTEF.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Tempo Entre Falhas",
@@ -822,8 +826,7 @@ public class MainView {
 
 		comboBoxTF.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				if (comboBoxTF.getSelectedItem().toString()
-						.equals("Constante")) {
+				if (comboBoxTF.getSelectedItem().toString().equals("Constante")) {
 					textFieldMaxTF.setVisible(false);
 					textFieldMedTF.setVisible(false);
 					lblValueTEmF_1.setVisible(true);
@@ -1151,11 +1154,11 @@ public class MainView {
 		return comboBoxTimeServer_1;
 	}
 
-	public static JComboBox getComboBoxTEF_1() {
+	public static JComboBox getComboBoxTEF() {
 		return comboBoxTEF;
 	}
 
-	public static JComboBox getComboBoxTEmF_1() {
+	public static JComboBox getComboBoxTF() {
 		return comboBoxTF;
 	}
 
@@ -1171,30 +1174,30 @@ public class MainView {
 		return textFieldMinTS_1;
 	}
 
-	public static JTextField getTextFieldMaxTEF_1() {
+	public static JTextField getTextFieldMaxTEF() {
 		return textFieldMaxTEF;
 	}
 
-	public static JTextField getTextFieldMedTEF_1() {
+	public static JTextField getTextFieldMedTEF() {
 		return textFieldMedTEF;
 	}
 
-	public static JTextField getTextFieldMinTEF_1() {
+	public static JTextField getTextFieldMinTEF() {
 		return textFieldMinTEF;
 	}
 
-	public static JTextField getTextFieldMaxTEmF_1() {
+	public static JTextField getTextFieldMaxTF() {
 		return textFieldMaxTF;
 	}
 
-	public static JTextField getTextFieldMedTEmF_1() {
+	public static JTextField getTextFieldMedTF() {
 		return textFieldMedTF;
 	}
 
-	public static JTextField getTextFieldMinTEmF_1() {
+	public static JTextField getTextFieldMinTF() {
 		return textFieldMinTF;
 	}
-	
+
 	public JPanel getPanelServer_2() {
 		return panelServer_2;
 	}
@@ -1213,14 +1216,6 @@ public class MainView {
 
 	public static JComboBox getComboBoxTimeServer_2() {
 		return comboBoxTimeServer_2;
-	}
-
-	public static JComboBox getComboBoxTEF_2() {
-		return comboBoxTEF_2;
-	}
-
-	public static JComboBox getComboBoxTEmF_2() {
-		return comboBoxTEmF_2;
 	}
 
 	public static JTextField getTextFieldMaxTS_2() {

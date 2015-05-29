@@ -1,9 +1,12 @@
 package modsim.simulator.model;
 
-import modsim.simulator.entities.IEvent;
+import com.sun.beans.TypeResolver;
 
-public abstract class Event implements IEvent, Comparable<Event>{
+import modsim.simulator.control.Handler;
+
+public abstract class Event<ITEM> implements IEvent, Comparable<Event<ITEM>>{
 	
+	protected ITEM item;
 	protected int tempoEvento;
 		
 	public Event(int tempoEvento){
@@ -13,4 +16,7 @@ public abstract class Event implements IEvent, Comparable<Event>{
 	public int getTempoExecucao() {
 		return tempoEvento;
 	}
+	
+	public abstract ITEM getItem();
+
 }

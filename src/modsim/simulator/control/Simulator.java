@@ -3,11 +3,13 @@ package modsim.simulator.control;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
-import modsim.simulator.model.EntityEvent;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.Simulation;
 import modsim.simulator.utils.Statistics;
@@ -16,7 +18,7 @@ import modsim.simulator.utils.timefunction.TimeFunc;
 import modsim.simulator.utils.timefunction.TimeFunction;
 import modsim.simulator.vision.MainView;
 
-public class Simulator implements Runnable {
+public class Simulator<V> implements Runnable {
 
 	private static int tNow;
 	private static int tempoSimulacao;
@@ -48,9 +50,10 @@ public class Simulator implements Runnable {
 				serviceFunc1));
 		servers.put(TipoServidor.TIPO_2, new Server(TipoServidor.TIPO_2,
 				serviceFunc2));
-		EventControl.arriveFunc = TimeFunc.getType(MainView
+		EventFactory.arriveFunc = TimeFunc.getType(MainView
 				.getComboBoxTimeEntity().getSelectedItem().toString());
-		newEvent();
+		createEventArrival();
+		createEventFailureStart();
 	}
 
 	public void run() {
@@ -90,8 +93,7 @@ public class Simulator implements Runnable {
 					simulation.getLog().add(event.toString());
 					Event newEvent = null;
 					try {
-						newEvent = event.getHandler()
-								.handleEvent(event, tNow);
+						newEvent = event.getHandler().handleEvent(event, tNow);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -126,57 +128,42 @@ public class Simulator implements Runnable {
 	private ArrayList<Integer> l2 = new ArrayList<Integer>();
 
 	private int[] getNumIdsOnSyst() {
-		ArrayList<Integer> ids1 = new ArrayList<Integer>();
-		ArrayList<Integer> ids2 = new ArrayList<Integer>();
+		HashMap<TipoServidor, Set<Integer>> ids = new HashMap<TipoServidor, Set<Integer>>();
+		ids.put(TipoServidor.TIPO_1, new HashSet<Integer>());
+		ids.put(TipoServidor.TIPO_2, new HashSet<Integer>());
 
 		for (Event e : events) {
-			if (e instanceof EntityEvent) {
-				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EntityEvent) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EntityEvent) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
-				}
-			} else if (e instanceof EntityEvent) {
-				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_1) {
-					Integer id = ((EntityEvent) e).getEntidade().getId();
-					if (!ids1.contains(id))
-						ids1.add(id);
-				}
-				if (((EntityEvent) e).getEntidade().getType() == TipoServidor.TIPO_2) {
-					Integer id = ((EntityEvent) e).getEntidade().getId();
-					if (!ids2.contains(id))
-						ids2.add(id);
-				}
-			}
-			// TODO: contar número de trocas
-			/*
-			 * else if (e instanceof EventChange) { if (((EventChange)
-			 * e).getEntidade().getType() == TipoServidor.TIPO_1) { Integer id =
-			 * ((EventChange) e).getEntidade().getId(); if (!ids1.contains(id))
-			 * ids1.add(id); } if (((EventChange) e).getEntidade().getType() ==
-			 * TipoServidor.TIPO_2) { Integer id = ((EventChange)
-			 * e).getEntidade().getId(); if (!ids2.contains(id)) ids2.add(id); }
-			 * }
-			 */
+			Integer id = e.getId();
+			ids.get(e.getType()).add(id);
 		}
+		// TODO: contar número de trocas
+		/*
+		 * else if (e instanceof EventChange) { if (((EventChange)
+		 * e).getEntidade().getType() == TipoServidor.TIPO_1) { Integer id =
+		 * ((EventChange) e).getEntidade().getId(); if (!ids1.contains(id))
+		 * ids1.add(id); } if (((EventChange) e).getEntidade().getType() ==
+		 * TipoServidor.TIPO_2) { Integer id = ((EventChange)
+		 * e).getEntidade().getId(); if (!ids2.contains(id)) ids2.add(id); } }
+		 */
 
 		int[] countIds = new int[2];
-		countIds[0] = ids1.size();
-		countIds[1] = ids2.size();
+		countIds[0] = ids.get(TipoServidor.TIPO_1).size();
+		countIds[1] = ids.get(TipoServidor.TIPO_2).size();
 		return countIds;
 	}
 
-	public static void newEvent() {
-		criateEvent_Arrival();
+	public static void createEventArrival() {
+		List<Event<Entity>> newEvents = EventFactory.newArrivalEvent(tNow);
+		events.addAll(newEvents);
+		Collections.sort(events);
 	}
 
-	private static void criateEvent_Arrival() {
-		List<Event> newEvents = EventControl.newArrivalEvent(tNow);
+	public static void createEventFailureStart() {
+		List<Event<Server>> newEvents = new ArrayList<Event<Server>>();
+		newEvents.add(EventFactory.newFailureStart(
+				servers.get(TipoServidor.TIPO_1), tNow));
+		newEvents.add(EventFactory.newFailureStart(
+				servers.get(TipoServidor.TIPO_2), tNow));
 		events.addAll(newEvents);
 		Collections.sort(events);
 	}

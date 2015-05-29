@@ -14,6 +14,8 @@ public class Server {
 	private Entity entity;
 	private boolean broken;
 	private Queue<Entity> fila;
+	private int inicioFalha;
+	private int tempoFalha;
 	
 	public Server(TipoServidor type, TimeFunction func){
 		this.type = type;
@@ -47,7 +49,7 @@ public class Server {
 	}
 
 	public boolean isFree() {
-		return entity == null && !isBroken();
+		return entity == null;
 	}
 
 	public void ocuppyServer(Entity entity, int tNow) {
@@ -72,5 +74,25 @@ public class Server {
 	
 	public Queue<Entity> getFila() {
 		return fila;
+	}
+	
+	public Entity getOcupante(){
+		return entity;
+	}
+	
+	public int getInicioFalha() {
+		return inicioFalha;
+	}
+
+	public void setInicioFalha(int inicioFalha) {
+		this.inicioFalha = inicioFalha;
+	}
+
+	public int getTempoFalha() {
+		return tempoFalha;
+	}
+
+	public void updateTempoFalha(int fimFalha) {
+		this.tempoFalha = tempoFalha + (fimFalha - inicioFalha);
 	}
 }
