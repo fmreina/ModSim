@@ -151,7 +151,7 @@ public class MainView {
 		panelConfiguration.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Configurações",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelConfiguration.setBounds(10, 169, 626, 346);
+		panelConfiguration.setBounds(10, 175, 427, 340);
 		panelSimulator.add(panelConfiguration);
 		panelConfiguration.setLayout(null);
 	}
@@ -407,7 +407,7 @@ public class MainView {
 	private void renderServer1Panel() {
 
 		panelServer_1 = new JPanel();
-		panelServer_1.setBounds(214, 22, 202, 110);
+		panelServer_1.setBounds(214, 24, 202, 184);
 		panelConfiguration.add(panelServer_1);
 		panelServer_1.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Servidor 1",
@@ -477,6 +477,115 @@ public class MainView {
 		textFieldMinTS_1.setColumns(10);
 		textFieldMinTS_1.setBounds(56, 44, 28, 20);
 		panelTS_1.add(textFieldMinTS_1);
+		
+				// Tempo de Serviço
+				panelTS_2 = new JPanel();
+				panelTS_2.setBounds(10, 102, 183, 73);
+				panelServer_1.add(panelTS_2);
+				panelTS_2.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "Tempo de Serviço",
+						TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
+								Font.PLAIN, 11), null));
+				panelTS_2.setLayout(null);
+				
+						JLabel lblFuncTS_1_1 = new JLabel("Função");
+						lblFuncTS_1_1.setBounds(10, 22, 39, 14);
+						panelTS_2.add(lblFuncTS_1_1);
+						lblFuncTS_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblFuncTS_1_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+						
+								comboBoxTimeServer_2 = new JComboBox();
+								comboBoxTimeServer_2.setBounds(56, 19, 117, 20);
+								panelTS_2.add(comboBoxTimeServer_2);
+								comboBoxTimeServer_2.setModel(new DefaultComboBoxModel(
+										new String[] { "Constante", "Normal", "Triangular", "Uniforme",
+												"Exponencial" }));
+								comboBoxTimeServer_2.setSelectedItem("Exponencial");
+								
+										final JLabel lblValueTS_1_1 = new JLabel("Valor:");
+										lblValueTS_1_1.setBounds(20, 47, 28, 14);
+										panelTS_2.add(lblValueTS_1_1);
+										lblValueTS_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+										lblValueTS_1_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+										
+												JLabel lblMinutesTS_1_1 = new JLabel("seg.");
+												lblMinutesTS_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+												lblMinutesTS_1_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+												lblMinutesTS_1_1.setBounds(147, 47, 28, 14);
+												panelTS_2.add(lblMinutesTS_1_1);
+												
+														final JLabel lblValuesTS_1_1 = new JLabel("Valores:");
+														lblValuesTS_1_1.setBounds(10, 47, 39, 14);
+														panelTS_2.add(lblValuesTS_1_1);
+														lblValuesTS_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+														lblValuesTS_1_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+														
+																textFieldMaxTS_2 = new JTextField();
+																textFieldMaxTS_2.setText("7");
+																textFieldMaxTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																textFieldMaxTS_2.setColumns(10);
+																textFieldMaxTS_2.setBounds(120, 44, 28, 20);
+																panelTS_2.add(textFieldMaxTS_2);
+																
+																		textFieldMedTS_2 = new JTextField();
+																		textFieldMedTS_2.setText("5");
+																		textFieldMedTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																		textFieldMedTS_2.setColumns(10);
+																		textFieldMedTS_2.setBounds(88, 44, 28, 20);
+																		panelTS_2.add(textFieldMedTS_2);
+																		textFieldMedTS_2.setVisible(false);
+																		
+																				textFieldMinTS_2 = new JTextField();
+																				textFieldMinTS_2.setText("3");
+																				textFieldMinTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																				textFieldMinTS_2.setColumns(10);
+																				textFieldMinTS_2.setBounds(56, 44, 28, 20);
+																				panelTS_2.add(textFieldMinTS_2);
+																				
+																						textFieldMinTS_2.setVisible(true);
+																						lblValuesTS_1_1.setVisible(false);
+																						textFieldMaxTS_2.setVisible(false);
+																						textFieldMedTS_2.setVisible(false);
+																						
+																								comboBoxTimeServer_2.addItemListener(new ItemListener() {
+																									public void itemStateChanged(ItemEvent arg0) {
+																										if (comboBoxTimeServer_2.getSelectedItem().toString()
+																												.equals("Constante")) {
+																											textFieldMaxTS_2.setVisible(false);
+																											textFieldMedTS_2.setVisible(false);
+																											lblValueTS_1_1.setVisible(true);
+																											lblValuesTS_1_1.setVisible(false);
+																						
+																										} else if (comboBoxTimeServer_2.getSelectedItem().toString()
+																												.equals("Normal")) {
+																											textFieldMaxTS_2.setVisible(false);
+																											textFieldMedTS_2.setVisible(true);
+																											lblValueTS_1_1.setVisible(false);
+																											lblValuesTS_1_1.setVisible(true);
+																						
+																										} else if (comboBoxTimeServer_2.getSelectedItem().toString()
+																												.equals("Triangular")) {
+																											textFieldMaxTS_2.setVisible(true);
+																											textFieldMedTS_2.setVisible(true);
+																											lblValueTS_1_1.setVisible(false);
+																											lblValuesTS_1_1.setVisible(true);
+																						
+																										} else if (comboBoxTimeServer_2.getSelectedItem().toString()
+																												.equals("Uniforme")) {
+																											textFieldMaxTS_2.setVisible(false);
+																											textFieldMedTS_2.setVisible(true);
+																											lblValueTS_1_1.setVisible(false);
+																											lblValuesTS_1_1.setVisible(true);
+																						
+																										} else if (comboBoxTimeServer_2.getSelectedItem().toString()
+																												.equals("Exponencial")) {
+																											textFieldMaxTS_2.setVisible(false);
+																											textFieldMedTS_2.setVisible(false);
+																											lblValueTS_1_1.setVisible(true);
+																											lblValuesTS_1_1.setVisible(false);
+																										}
+																									}
+																								});
 
 		textFieldMinTS_1.setVisible(true);
 		lblValuesTS_1.setVisible(false);
@@ -528,346 +637,237 @@ public class MainView {
 	private void renderServer2Panel() {
 
 		panelServer_2 = new JPanel();
-		panelServer_2.setBounds(415, 22, 202, 110);
+		panelServer_2.setBounds(10, 219, 406, 110);
 		panelConfiguration.add(panelServer_2);
 		panelServer_2.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Servidor 2",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelServer_2.setLayout(null);
-
-		// Tempo de Serviço
-		panelTS_2 = new JPanel();
-		panelTS_2.setBorder(new TitledBorder(new EtchedBorder(
-				EtchedBorder.LOWERED, null, null), "Tempo de Serviço",
-				TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
-						Font.PLAIN, 11), null));
-		panelTS_2.setBounds(10, 22, 183, 73);
-		panelServer_2.add(panelTS_2);
-		panelTS_2.setLayout(null);
-
-		JLabel lblFuncTS_1 = new JLabel("Função");
-		lblFuncTS_1.setBounds(10, 22, 39, 14);
-		panelTS_2.add(lblFuncTS_1);
-		lblFuncTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFuncTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		comboBoxTimeServer_2 = new JComboBox();
-		comboBoxTimeServer_2.setBounds(56, 19, 117, 20);
-		panelTS_2.add(comboBoxTimeServer_2);
-		comboBoxTimeServer_2.setModel(new DefaultComboBoxModel(
-				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
-						"Exponencial" }));
-		comboBoxTimeServer_2.setSelectedItem("Exponencial");
-
-		final JLabel lblValueTS_1 = new JLabel("Valor:");
-		lblValueTS_1.setBounds(20, 47, 28, 14);
-		panelTS_2.add(lblValueTS_1);
-		lblValueTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValueTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		JLabel lblMinutesTS_1 = new JLabel("seg.");
-		lblMinutesTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMinutesTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTS_1.setBounds(147, 47, 28, 14);
-		panelTS_2.add(lblMinutesTS_1);
-
-		final JLabel lblValuesTS_1 = new JLabel("Valores:");
-		lblValuesTS_1.setBounds(10, 47, 39, 14);
-		panelTS_2.add(lblValuesTS_1);
-		lblValuesTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValuesTS_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		textFieldMaxTS_2 = new JTextField();
-		textFieldMaxTS_2.setText("7");
-		textFieldMaxTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMaxTS_2.setColumns(10);
-		textFieldMaxTS_2.setBounds(120, 44, 28, 20);
-		panelTS_2.add(textFieldMaxTS_2);
-
-		textFieldMedTS_2 = new JTextField();
-		textFieldMedTS_2.setText("5");
-		textFieldMedTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMedTS_2.setColumns(10);
-		textFieldMedTS_2.setBounds(88, 44, 28, 20);
-		panelTS_2.add(textFieldMedTS_2);
-		textFieldMedTS_2.setVisible(false);
-
-		textFieldMinTS_2 = new JTextField();
-		textFieldMinTS_2.setText("3");
-		textFieldMinTS_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMinTS_2.setColumns(10);
-		textFieldMinTS_2.setBounds(56, 44, 28, 20);
-		panelTS_2.add(textFieldMinTS_2);
-
-		textFieldMinTS_2.setVisible(true);
-		lblValuesTS_1.setVisible(false);
-		textFieldMaxTS_2.setVisible(false);
-		textFieldMedTS_2.setVisible(false);
-
-		comboBoxTimeServer_2.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (comboBoxTimeServer_2.getSelectedItem().toString()
-						.equals("Constante")) {
-					textFieldMaxTS_2.setVisible(false);
-					textFieldMedTS_2.setVisible(false);
-					lblValueTS_1.setVisible(true);
-					lblValuesTS_1.setVisible(false);
-
-				} else if (comboBoxTimeServer_2.getSelectedItem().toString()
-						.equals("Normal")) {
-					textFieldMaxTS_2.setVisible(false);
-					textFieldMedTS_2.setVisible(true);
-					lblValueTS_1.setVisible(false);
-					lblValuesTS_1.setVisible(true);
-
-				} else if (comboBoxTimeServer_2.getSelectedItem().toString()
-						.equals("Triangular")) {
-					textFieldMaxTS_2.setVisible(true);
-					textFieldMedTS_2.setVisible(true);
-					lblValueTS_1.setVisible(false);
-					lblValuesTS_1.setVisible(true);
-
-				} else if (comboBoxTimeServer_2.getSelectedItem().toString()
-						.equals("Uniforme")) {
-					textFieldMaxTS_2.setVisible(false);
-					textFieldMedTS_2.setVisible(true);
-					lblValueTS_1.setVisible(false);
-					lblValuesTS_1.setVisible(true);
-
-				} else if (comboBoxTimeServer_2.getSelectedItem().toString()
-						.equals("Exponencial")) {
-					textFieldMaxTS_2.setVisible(false);
-					textFieldMedTS_2.setVisible(false);
-					lblValueTS_1.setVisible(true);
-					lblValuesTS_1.setVisible(false);
-				}
-			}
-		});
+		
+				// Tempo entre falhas
+				panelTEF = new JPanel();
+				panelTEF.setBounds(10, 26, 183, 73);
+				panelServer_2.add(panelTEF);
+				panelTEF.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "Tempo Entre Falhas",
+						TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
+								Font.PLAIN, 11), null));
+				panelTEF.setLayout(null);
+				
+						JLabel lblFuncTEF_1 = new JLabel("Função");
+						lblFuncTEF_1.setBounds(10, 22, 39, 14);
+						panelTEF.add(lblFuncTEF_1);
+						lblFuncTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblFuncTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+						
+								comboBoxTEF = new JComboBox();
+								comboBoxTEF.setBounds(56, 19, 117, 20);
+								panelTEF.add(comboBoxTEF);
+								comboBoxTEF.setModel(new DefaultComboBoxModel(
+										new String[] { "Constante", "Normal", "Triangular", "Uniforme",
+												"Exponencial" }));
+								comboBoxTEF.setSelectedItem("Exponencial");
+								
+										final JLabel lblValueTEF_1 = new JLabel("Valor:");
+										lblValueTEF_1.setBounds(20, 47, 28, 14);
+										panelTEF.add(lblValueTEF_1);
+										lblValueTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+										lblValueTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+										
+												JLabel lblMinutesTEF_1 = new JLabel("min.");
+												lblMinutesTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+												lblMinutesTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+												lblMinutesTEF_1.setBounds(155, 47, 20, 14);
+												panelTEF.add(lblMinutesTEF_1);
+												
+														final JLabel lblValuesTEF_1 = new JLabel("Valores:");
+														lblValuesTEF_1.setBounds(10, 47, 39, 14);
+														panelTEF.add(lblValuesTEF_1);
+														lblValuesTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+														lblValuesTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+														
+																textFieldMaxTEF = new JTextField();
+																textFieldMaxTEF.setText("7");
+																textFieldMaxTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																textFieldMaxTEF.setColumns(10);
+																textFieldMaxTEF.setBounds(120, 44, 28, 20);
+																panelTEF.add(textFieldMaxTEF);
+																
+																		textFieldMedTEF = new JTextField();
+																		textFieldMedTEF.setText("5");
+																		textFieldMedTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																		textFieldMedTEF.setColumns(10);
+																		textFieldMedTEF.setBounds(88, 44, 28, 20);
+																		panelTEF.add(textFieldMedTEF);
+																		textFieldMedTEF.setVisible(false);
+																		
+																				textFieldMinTEF = new JTextField();
+																				textFieldMinTEF.setText("3");
+																				textFieldMinTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																				textFieldMinTEF.setColumns(10);
+																				textFieldMinTEF.setBounds(56, 44, 28, 20);
+																				panelTEF.add(textFieldMinTEF);
+																				// Tempo de falhas
+																				panelTF = new JPanel();
+																				panelTF.setBounds(213, 26, 183, 73);
+																				panelServer_2.add(panelTF);
+																				panelTF.setBorder(new TitledBorder(new EtchedBorder(
+																						EtchedBorder.LOWERED, null, null), "Tempo de Falha",
+																						TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
+																								Font.PLAIN, 11), null));
+																				panelTF.setLayout(null);
+																				
+																						JLabel lblFuncTEmF_1 = new JLabel("Função");
+																						lblFuncTEmF_1.setBounds(10, 22, 39, 14);
+																						panelTF.add(lblFuncTEmF_1);
+																						lblFuncTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+																						lblFuncTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																						
+																								comboBoxTF = new JComboBox();
+																								comboBoxTF.setBounds(56, 19, 117, 20);
+																								panelTF.add(comboBoxTF);
+																								comboBoxTF.setModel(new DefaultComboBoxModel(
+																										new String[] { "Constante", "Normal", "Triangular", "Uniforme",
+																												"Exponencial" }));
+																								comboBoxTF.setSelectedItem("Exponencial");
+																								
+																										final JLabel lblValueTEmF_1 = new JLabel("Valor:");
+																										lblValueTEmF_1.setBounds(20, 47, 28, 14);
+																										panelTF.add(lblValueTEmF_1);
+																										lblValueTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+																										lblValueTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																										
+																												JLabel lblMinutesTEmF_1 = new JLabel("min.");
+																												lblMinutesTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+																												lblMinutesTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																												lblMinutesTEmF_1.setBounds(155, 47, 20, 14);
+																												panelTF.add(lblMinutesTEmF_1);
+																												
+																														final JLabel lblValuesTEmF_1 = new JLabel("Valores:");
+																														lblValuesTEmF_1.setBounds(10, 47, 39, 14);
+																														panelTF.add(lblValuesTEmF_1);
+																														lblValuesTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
+																														lblValuesTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																														
+																																textFieldMaxTF = new JTextField();
+																																textFieldMaxTF.setText("7");
+																																textFieldMaxTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																																textFieldMaxTF.setColumns(10);
+																																textFieldMaxTF.setBounds(120, 44, 28, 20);
+																																panelTF.add(textFieldMaxTF);
+																																
+																																		textFieldMedTF = new JTextField();
+																																		textFieldMedTF.setText("5");
+																																		textFieldMedTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																																		textFieldMedTF.setColumns(10);
+																																		textFieldMedTF.setBounds(88, 44, 28, 20);
+																																		panelTF.add(textFieldMedTF);
+																																		textFieldMedTF.setVisible(false);
+																																		
+																																				textFieldMinTF = new JTextField();
+																																				textFieldMinTF.setText("3");
+																																				textFieldMinTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+																																				textFieldMinTF.setColumns(10);
+																																				textFieldMinTF.setBounds(56, 44, 28, 20);
+																																				panelTF.add(textFieldMinTF);
+																																				
+																																						lblValuesTEmF_1.setVisible(false);
+																																						textFieldMaxTF.setVisible(false);
+																																						textFieldMedTF.setVisible(false);
+																																						textFieldMinTF.setVisible(true);
+																																						
+																																								comboBoxTF.addItemListener(new ItemListener() {
+																																									public void itemStateChanged(ItemEvent arg0) {
+																																										if (comboBoxTF.getSelectedItem().toString().equals("Constante")) {
+																																											textFieldMaxTF.setVisible(false);
+																																											textFieldMedTF.setVisible(false);
+																																											lblValueTEmF_1.setVisible(true);
+																																											lblValuesTEmF_1.setVisible(false);
+																																						
+																																										} else if (comboBoxTF.getSelectedItem().toString()
+																																												.equals("Normal")) {
+																																											textFieldMaxTF.setVisible(false);
+																																											textFieldMedTF.setVisible(true);
+																																											lblValueTEmF_1.setVisible(false);
+																																											lblValuesTEmF_1.setVisible(true);
+																																						
+																																										} else if (comboBoxTF.getSelectedItem().toString()
+																																												.equals("Triangular")) {
+																																											textFieldMaxTF.setVisible(true);
+																																											textFieldMedTF.setVisible(true);
+																																											lblValueTEmF_1.setVisible(false);
+																																											lblValuesTEmF_1.setVisible(true);
+																																						
+																																										} else if (comboBoxTF.getSelectedItem().toString()
+																																												.equals("Uniforme")) {
+																																											textFieldMaxTF.setVisible(false);
+																																											textFieldMedTF.setVisible(true);
+																																											lblValueTEmF_1.setVisible(false);
+																																											lblValuesTEmF_1.setVisible(true);
+																																						
+																																										} else if (comboBoxTF.getSelectedItem().toString()
+																																												.equals("Exponencial")) {
+																																											textFieldMaxTF.setVisible(false);
+																																											textFieldMedTF.setVisible(false);
+																																											lblValueTEmF_1.setVisible(true);
+																																											lblValuesTEmF_1.setVisible(false);
+																																										}
+																																									}
+																																								});
+																				
+																						lblValuesTEF_1.setVisible(false);
+																						textFieldMaxTEF.setVisible(false);
+																						textFieldMedTEF.setVisible(false);
+																						textFieldMinTEF.setVisible(true);
+																						
+																								comboBoxTEF.addItemListener(new ItemListener() {
+																									public void itemStateChanged(ItemEvent arg0) {
+																										if (comboBoxTEF.getSelectedItem().toString()
+																												.equals("Constante")) {
+																											textFieldMaxTEF.setVisible(false);
+																											textFieldMedTEF.setVisible(false);
+																											lblValueTEF_1.setVisible(true);
+																											lblValuesTEF_1.setVisible(false);
+																						
+																										} else if (comboBoxTEF.getSelectedItem().toString()
+																												.equals("Normal")) {
+																											textFieldMaxTEF.setVisible(false);
+																											textFieldMedTEF.setVisible(true);
+																											lblValueTEF_1.setVisible(false);
+																											lblValuesTEF_1.setVisible(true);
+																						
+																										} else if (comboBoxTEF.getSelectedItem().toString()
+																												.equals("Triangular")) {
+																											textFieldMaxTEF.setVisible(true);
+																											textFieldMedTEF.setVisible(true);
+																											lblValueTEF_1.setVisible(false);
+																											lblValuesTEF_1.setVisible(true);
+																						
+																										} else if (comboBoxTEF.getSelectedItem().toString()
+																												.equals("Uniforme")) {
+																											textFieldMaxTEF.setVisible(false);
+																											textFieldMedTEF.setVisible(true);
+																											lblValueTEF_1.setVisible(false);
+																											lblValuesTEF_1.setVisible(true);
+																						
+																										} else if (comboBoxTEF.getSelectedItem().toString()
+																												.equals("Exponencial")) {
+																											textFieldMaxTEF.setVisible(false);
+																											textFieldMedTEF.setVisible(false);
+																											lblValueTEF_1.setVisible(true);
+																											lblValuesTEF_1.setVisible(false);
+																										}
+																									}
+																								});
 	}
 
 	private void renderTempoEntreFalhas() {
-		// Tempo de falhas
-		panelTF = new JPanel();
-		panelTF.setBounds(300, 140, 183, 73);
-		panelConfiguration.add(panelTF);
-		panelTF.setBorder(new TitledBorder(new EtchedBorder(
-				EtchedBorder.LOWERED, null, null), "Tempo de Falha",
-				TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
-						Font.PLAIN, 11), null));
-		panelTF.setLayout(null);
-
-		JLabel lblFuncTEmF_1 = new JLabel("Função");
-		lblFuncTEmF_1.setBounds(10, 22, 39, 14);
-		panelTF.add(lblFuncTEmF_1);
-		lblFuncTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFuncTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		comboBoxTF = new JComboBox();
-		comboBoxTF.setBounds(56, 19, 117, 20);
-		panelTF.add(comboBoxTF);
-		comboBoxTF.setModel(new DefaultComboBoxModel(
-				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
-						"Exponencial" }));
-		comboBoxTF.setSelectedItem("Exponencial");
-
-		final JLabel lblValueTEmF_1 = new JLabel("Valor:");
-		lblValueTEmF_1.setBounds(20, 47, 28, 14);
-		panelTF.add(lblValueTEmF_1);
-		lblValueTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValueTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		JLabel lblMinutesTEmF_1 = new JLabel("min.");
-		lblMinutesTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMinutesTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTEmF_1.setBounds(155, 47, 20, 14);
-		panelTF.add(lblMinutesTEmF_1);
-
-		final JLabel lblValuesTEmF_1 = new JLabel("Valores:");
-		lblValuesTEmF_1.setBounds(10, 47, 39, 14);
-		panelTF.add(lblValuesTEmF_1);
-		lblValuesTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValuesTEmF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		textFieldMaxTF = new JTextField();
-		textFieldMaxTF.setText("7");
-		textFieldMaxTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMaxTF.setColumns(10);
-		textFieldMaxTF.setBounds(120, 44, 28, 20);
-		panelTF.add(textFieldMaxTF);
-
-		textFieldMedTF = new JTextField();
-		textFieldMedTF.setText("5");
-		textFieldMedTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMedTF.setColumns(10);
-		textFieldMedTF.setBounds(88, 44, 28, 20);
-		panelTF.add(textFieldMedTF);
-		textFieldMedTF.setVisible(false);
-
-		textFieldMinTF = new JTextField();
-		textFieldMinTF.setText("3");
-		textFieldMinTF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMinTF.setColumns(10);
-		textFieldMinTF.setBounds(56, 44, 28, 20);
-		panelTF.add(textFieldMinTF);
-
-		// Tempo entre falhas
-		panelTEF = new JPanel();
-		panelTEF.setBounds(300, 220, 183, 73);
-		panelConfiguration.add(panelTEF);
-		panelTEF.setBorder(new TitledBorder(new EtchedBorder(
-				EtchedBorder.LOWERED, null, null), "Tempo Entre Falhas",
-				TitledBorder.LEADING, TitledBorder.TOP, new Font("Tahoma",
-						Font.PLAIN, 11), null));
-		panelTEF.setLayout(null);
-
-		JLabel lblFuncTEF_1 = new JLabel("Função");
-		lblFuncTEF_1.setBounds(10, 22, 39, 14);
-		panelTEF.add(lblFuncTEF_1);
-		lblFuncTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFuncTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		comboBoxTEF = new JComboBox();
-		comboBoxTEF.setBounds(56, 19, 117, 20);
-		panelTEF.add(comboBoxTEF);
-		comboBoxTEF.setModel(new DefaultComboBoxModel(
-				new String[] { "Constante", "Normal", "Triangular", "Uniforme",
-						"Exponencial" }));
-		comboBoxTEF.setSelectedItem("Exponencial");
-
-		final JLabel lblValueTEF_1 = new JLabel("Valor:");
-		lblValueTEF_1.setBounds(20, 47, 28, 14);
-		panelTEF.add(lblValueTEF_1);
-		lblValueTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValueTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		JLabel lblMinutesTEF_1 = new JLabel("min.");
-		lblMinutesTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMinutesTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMinutesTEF_1.setBounds(155, 47, 20, 14);
-		panelTEF.add(lblMinutesTEF_1);
-
-		final JLabel lblValuesTEF_1 = new JLabel("Valores:");
-		lblValuesTEF_1.setBounds(10, 47, 39, 14);
-		panelTEF.add(lblValuesTEF_1);
-		lblValuesTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblValuesTEF_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-
-		textFieldMaxTEF = new JTextField();
-		textFieldMaxTEF.setText("7");
-		textFieldMaxTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMaxTEF.setColumns(10);
-		textFieldMaxTEF.setBounds(120, 44, 28, 20);
-		panelTEF.add(textFieldMaxTEF);
-
-		textFieldMedTEF = new JTextField();
-		textFieldMedTEF.setText("5");
-		textFieldMedTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMedTEF.setColumns(10);
-		textFieldMedTEF.setBounds(88, 44, 28, 20);
-		panelTEF.add(textFieldMedTEF);
-		textFieldMedTEF.setVisible(false);
-
-		textFieldMinTEF = new JTextField();
-		textFieldMinTEF.setText("3");
-		textFieldMinTEF.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		textFieldMinTEF.setColumns(10);
-		textFieldMinTEF.setBounds(56, 44, 28, 20);
-		panelTEF.add(textFieldMinTEF);
-
-		lblValuesTEF_1.setVisible(false);
-		textFieldMaxTEF.setVisible(false);
-		textFieldMedTEF.setVisible(false);
-		textFieldMinTEF.setVisible(true);
-
-		comboBoxTEF.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (comboBoxTEF.getSelectedItem().toString()
-						.equals("Constante")) {
-					textFieldMaxTEF.setVisible(false);
-					textFieldMedTEF.setVisible(false);
-					lblValueTEF_1.setVisible(true);
-					lblValuesTEF_1.setVisible(false);
-
-				} else if (comboBoxTEF.getSelectedItem().toString()
-						.equals("Normal")) {
-					textFieldMaxTEF.setVisible(false);
-					textFieldMedTEF.setVisible(true);
-					lblValueTEF_1.setVisible(false);
-					lblValuesTEF_1.setVisible(true);
-
-				} else if (comboBoxTEF.getSelectedItem().toString()
-						.equals("Triangular")) {
-					textFieldMaxTEF.setVisible(true);
-					textFieldMedTEF.setVisible(true);
-					lblValueTEF_1.setVisible(false);
-					lblValuesTEF_1.setVisible(true);
-
-				} else if (comboBoxTEF.getSelectedItem().toString()
-						.equals("Uniforme")) {
-					textFieldMaxTEF.setVisible(false);
-					textFieldMedTEF.setVisible(true);
-					lblValueTEF_1.setVisible(false);
-					lblValuesTEF_1.setVisible(true);
-
-				} else if (comboBoxTEF.getSelectedItem().toString()
-						.equals("Exponencial")) {
-					textFieldMaxTEF.setVisible(false);
-					textFieldMedTEF.setVisible(false);
-					lblValueTEF_1.setVisible(true);
-					lblValuesTEF_1.setVisible(false);
-				}
-			}
-		});
-
-		lblValuesTEmF_1.setVisible(false);
-		textFieldMaxTF.setVisible(false);
-		textFieldMedTF.setVisible(false);
-		textFieldMinTF.setVisible(true);
-
-		comboBoxTF.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (comboBoxTF.getSelectedItem().toString().equals("Constante")) {
-					textFieldMaxTF.setVisible(false);
-					textFieldMedTF.setVisible(false);
-					lblValueTEmF_1.setVisible(true);
-					lblValuesTEmF_1.setVisible(false);
-
-				} else if (comboBoxTF.getSelectedItem().toString()
-						.equals("Normal")) {
-					textFieldMaxTF.setVisible(false);
-					textFieldMedTF.setVisible(true);
-					lblValueTEmF_1.setVisible(false);
-					lblValuesTEmF_1.setVisible(true);
-
-				} else if (comboBoxTF.getSelectedItem().toString()
-						.equals("Triangular")) {
-					textFieldMaxTF.setVisible(true);
-					textFieldMedTF.setVisible(true);
-					lblValueTEmF_1.setVisible(false);
-					lblValuesTEmF_1.setVisible(true);
-
-				} else if (comboBoxTF.getSelectedItem().toString()
-						.equals("Uniforme")) {
-					textFieldMaxTF.setVisible(false);
-					textFieldMedTF.setVisible(true);
-					lblValueTEmF_1.setVisible(false);
-					lblValuesTEmF_1.setVisible(true);
-
-				} else if (comboBoxTF.getSelectedItem().toString()
-						.equals("Exponencial")) {
-					textFieldMaxTF.setVisible(false);
-					textFieldMedTF.setVisible(false);
-					lblValueTEmF_1.setVisible(true);
-					lblValuesTEmF_1.setVisible(false);
-				}
-			}
-		});
 	}
 
 	private void renderEntityPanel() {
 
 		panelEntities = new JPanel();
-		panelEntities.setBounds(10, 82, 202, 167);
+		panelEntities.setBounds(10, 24, 202, 184);
 		panelConfiguration.add(panelEntities);
 		panelEntities.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "Entidades",
@@ -944,7 +944,7 @@ public class MainView {
 				TitledBorder.LEADING,
 
 				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 11), null));
-		panelProbabilityEntity.setBounds(10, 106, 183, 51);
+		panelProbabilityEntity.setBounds(10, 122, 183, 51);
 		panelEntities.add(panelProbabilityEntity);
 		panelProbabilityEntity.setLayout(null);
 
