@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import sun.misc.Queue;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
@@ -112,21 +113,22 @@ public class Simulator<V> implements Runnable {
 
 				// Statistics
 				int[] countIds = getNumIdsOnSyst();
-				l1.add(countIds[0]);
-				l2.add(countIds[1]);
 				simulation.getStats().addListNbOfEntities1(countIds[0]);
 				simulation.getStats().addListNbOfEntities2(countIds[1]);
 			}
 		}
 		MainView.getButtonIniciar().setEnabled(true);
 		MainView.getButtonPausar().setEnabled(false);
+		stats.setSimulationName(simulation.getName());
+		stats.setSimulationId(simulation.getId());
+		stats.setTimeOnFailureSvr1(servers.get(TipoServidor.TIPO_1).getTempoFalha());
+		stats.setTimeOnFailureSvr2(servers.get(TipoServidor.TIPO_2).getTempoFalha());
 		StatisticsCalculator.calculateStatistics(stats);
 		System.out.println(stats.toString());
 	}
 
-	private ArrayList<Integer> l1 = new ArrayList<Integer>();
-	private ArrayList<Integer> l2 = new ArrayList<Integer>();
 
+	
 	private int[] getNumIdsOnSyst() {
 		HashMap<TipoServidor, Set<Integer>> ids = new HashMap<TipoServidor, Set<Integer>>();
 		ids.put(TipoServidor.TIPO_1, new HashSet<Integer>());
@@ -136,15 +138,6 @@ public class Simulator<V> implements Runnable {
 			Integer id = e.getId();
 			ids.get(e.getType()).add(id);
 		}
-		// TODO: contar número de trocas
-		/*
-		 * else if (e instanceof EventChange) { if (((EventChange)
-		 * e).getEntidade().getType() == TipoServidor.TIPO_1) { Integer id =
-		 * ((EventChange) e).getEntidade().getId(); if (!ids1.contains(id))
-		 * ids1.add(id); } if (((EventChange) e).getEntidade().getType() ==
-		 * TipoServidor.TIPO_2) { Integer id = ((EventChange)
-		 * e).getEntidade().getId(); if (!ids2.contains(id)) ids2.add(id); } }
-		 */
 
 		int[] countIds = new int[2];
 		countIds[0] = ids.get(TipoServidor.TIPO_1).size();
@@ -160,10 +153,8 @@ public class Simulator<V> implements Runnable {
 
 	public static void createEventFailureStart() {
 		List<Event<Server>> newEvents = new ArrayList<Event<Server>>();
-		newEvents.add(EventFactory.newFailureStart(
-				servers.get(TipoServidor.TIPO_1), tNow));
-		newEvents.add(EventFactory.newFailureStart(
-				servers.get(TipoServidor.TIPO_2), tNow));
+		newEvents.add(EventFactory.newFailureStart(servers.get(TipoServidor.TIPO_1), tNow));
+		newEvents.add(EventFactory.newFailureStart(servers.get(TipoServidor.TIPO_2), tNow));
 		events.addAll(newEvents);
 		Collections.sort(events);
 	}

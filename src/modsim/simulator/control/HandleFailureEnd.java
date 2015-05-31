@@ -3,6 +3,7 @@ package modsim.simulator.control;
 import sun.misc.Queue;
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 
 public class HandleFailureEnd implements Handler<Server> {
@@ -18,6 +19,14 @@ public class HandleFailureEnd implements Handler<Server> {
 			Entity first = fila.dequeue();
 			server.ocuppyServer(first, time);
 		}
+		
+//		if (server.getType() == TipoServidor.TIPO_1) {
+//			Simulator.getStats().setTimeOnFailureSvr1(server.getTempoFalha());
+//		}
+//		if (server.getType() == TipoServidor.TIPO_2) {
+//			Simulator.getStats().setTimeOnFailureSvr2(server.getTempoFalha());
+//		}
+		
 		return EventFactory.newFailureStart(server, time);
 	}
 

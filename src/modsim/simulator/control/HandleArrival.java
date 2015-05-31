@@ -11,10 +11,10 @@ public class HandleArrival implements Handler<Entity> {
 	public Event<Entity> handleEvent(Event<Entity> event, int time) {
 		Simulator.createEventArrival();
 		if (event.getItem().getType() == TipoServidor.TIPO_1) {
-			Simulator.getStats().incrNbEntities1Completed();
+			Simulator.getStats().incrNbEntities1();
 		}
 		if (event.getItem().getType() == TipoServidor.TIPO_2) {
-			Simulator.getStats().incrNbEntities2Completed();
+			Simulator.getStats().incrNbEntities2();
 		}
 		return handleEvent(event, time, false);
 	}
@@ -25,6 +25,12 @@ public class HandleArrival implements Handler<Entity> {
 		Server server = Simulator.getServers().get(entidade.getType());
 		if (server.isBroken() && !firstIsBroken) {
 			entidade.setType(TipoServidor.getAnotherType(entidade.getType()));
+			if (event.getItem().getType() == TipoServidor.TIPO_1) {
+				Simulator.getStats().incrNbOfChanges1();
+			}
+			if (event.getItem().getType() == TipoServidor.TIPO_2) {
+				Simulator.getStats().incrNbOfChanges2();
+			}
 			return handleEvent(event, timeNow, true);
 		}
 		if (server.isFree()) {

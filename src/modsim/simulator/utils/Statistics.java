@@ -7,6 +7,9 @@ public class Statistics implements Serializable {
 
 	private static final long serialVersionUID = 5585029768484572952L;
 
+	private String simulationName;
+	private int simulationId;
+	
 	// Required
 	private double nbEntities1 = 0;
 	private double nbEntities1InLine = 0;
@@ -26,7 +29,8 @@ public class Statistics implements Serializable {
 	private double timeOnFailureSvr2 = 0;
 	private double percentageOnFailureSvr2 = 0;
 
-	private double averageTimeInLine = 0;
+	private double averageTimeInLineSrv1 = 0;
+	private double averageTimeInLineSrv2 = 0;
 	private double averageTimeOnSystem = 0;
 
 	private double nbOfChanges1 = 0;
@@ -63,21 +67,23 @@ public class Statistics implements Serializable {
 
 	@Override
 	public String toString() {
-		String stats = ">---------------- Estatísticas de Simulação ----------------<\n";
+		String stats = ">---------------------- Estatísticas de Simulação ----------------------<\n";
 
+		stats += "\n";
+		stats += " Simulação: "+simulationName+" \tID: "+simulationId+"\n";
 		stats += "\n";
 		stats += " Contagem de Entidades ao Fim da Simulação:\n";
 		stats += "    - Tipo 1:\n";
-		stats += "        Total:    " + nbEntities1 + " entidades\n";
-		stats += "        Em fila:    " + nbEntities1InLine + " entidades\n";
+		stats += "        Em fila:    " + (nbEntities1 - nbEntities1Completed)/*nbEntities1InLine*/ + " entidades\n";
 		stats += "        Finalizadas:    " + nbEntities1Completed	+ " entidades\n";
-		stats += "        No Sistema:    "	+ (nbEntities1 - nbEntities1Completed) + " entidades\n";
+		stats += "        Total:    " + nbEntities1 + " entidades\n";
+//		stats += "        No Sistema:    "	+ (nbEntities1 - nbEntities1Completed) + " entidades\n";
 		stats += "\n";
 		stats += "    - Tipo 2:\n";
-		stats += "        Total:    " + nbEntities2 + " entidades\n";
-		stats += "        Em fila:    " + nbEntities2InLine + " entidades\n";
+		stats += "        Em fila:    " + (nbEntities2 - nbEntities2Completed)/*nbEntities2InLine*/ + " entidades\n";
 		stats += "        Finalizadas:    " + nbEntities2Completed	+ " entidades\n";
-		stats += "        No Sistema:    "	+ (nbEntities2 - nbEntities2Completed) + " entidades\n";
+		stats += "        Total:    " + nbEntities2 + " entidades\n";
+//		stats += "        No Sistema:    "	+ (nbEntities2 - nbEntities2Completed) + " entidades\n";
 		stats += "\n";
 		stats += "    Total de Entidades:    " + (nbEntities1 + nbEntities2)	+ " entidades\n";
 		stats += "\n";
@@ -111,32 +117,44 @@ public class Statistics implements Serializable {
 		stats += "        Máximo:    " + timeServiceMax2 + " segundos = "+ (timeServiceMax2 / 60) + " minutos\n";
 		stats += "\n";
 
-		stats += " Tempo em Falhas:\n";
-		stats += "    Servidor 1:    " + timeOnFailureSvr1 + " segundos = "	+ (timeOnFailureSvr1 / 60) + " minutos\n";
-		stats += "    Servidor 2:    " + timeOnFailureSvr2 + " segundos = " + (timeOnFailureSvr2 / 60) + " minutos\n";
-		stats += "\n";
+//		stats += " Tempo em Falhas:\n";
+//		stats += "    Servidor 1:    " + timeOnFailureSvr1 + " segundos = "	+ (timeOnFailureSvr1 / 60) + " minutos\n";
+//		stats += "    Servidor 2:    " + timeOnFailureSvr2 + " segundos = " + (timeOnFailureSvr2 / 60) + " minutos\n";
+//		stats += "\n";
 
 		stats += " Número de Falhas:\n";
 		stats += "    Servidor 1:    " + nbOfFailuresSvr1 + " falhas\n";
 		stats += "    Servidor 2:    " + nbOfFailuresSvr2 + " falhas\n";
 		stats += "\n";
 
-		stats += " Taxa de Falhas:\n";
-		stats += "    Servidor 1:    " + (percentageOnFailureSvr1 / 100)+ " %\n";
-		stats += "    Servidor 2:    " + (percentageOnFailureSvr2 / 100)+ " %\n";
-		stats += "\n";
+//		stats += " Taxa de Falhas:\n";
+//		stats += "    Servidor 1:    " + (percentageOnFailureSvr1 / 100)+ " %\n";
+//		stats += "    Servidor 2:    " + (percentageOnFailureSvr2 / 100)+ " %\n";
+//		stats += "\n";
 
 		stats += " Número de Trocas Entre Servidores:\n";
 		stats += "    Entidade 1:    " + nbOfChanges1 + " trocas\n";
 		stats += "    Entidade 2:    " + nbOfChanges2 + " trocas\n";
 		stats += "\n";
 
-		stats += " Tempo Médio em Fila:    " + averageTimeInLine+ " segundos = " + (averageTimeInLine / 60) + " minutos\n";
+		stats += " Tempo Médio em Fila:\n";
+		stats += "    Servidor 1:    " + averageTimeInLineSrv1+ " segundos = " + (averageTimeInLineSrv1 / 60) + " minutos\n";
+		stats += "    Servidor 2:    " + averageTimeInLineSrv2+ " segundos = " + (averageTimeInLineSrv2 / 60) + " minutos\n";
+		stats += "    Total:         " + (averageTimeInLineSrv1+averageTimeInLineSrv2)+ " segundos = " + ((averageTimeInLineSrv1+averageTimeInLineSrv2) / 60) + " minutos\n";
+		stats += "\n";
 		stats += " Tempo Médio no Sistemas:    " + averageTimeOnSystem+ " segundos = " + (averageTimeOnSystem / 60) + " minutos\n";
 		stats += "\n";
-		stats += ">--------------------------------------------------------------------<\n";
+		stats += ">--------------------------------------------------------------------------------<\n";
 
 		return stats;
+	}
+
+	public void setSimulationName(String simulationName) {
+		this.simulationName = simulationName;
+	}
+
+	public void setSimulationId(int simulationId) {
+		this.simulationId = simulationId;
 	}
 
 	public double getNbEntities1() {
@@ -302,11 +320,15 @@ public class Statistics implements Serializable {
 	}
 
 	public double getAverageTimeInLine() {
-		return averageTimeInLine;
+		return averageTimeInLineSrv1;
 	}
 
-	public void setAverageTimeInLine(double averageTimeInLine) {
-		this.averageTimeInLine = averageTimeInLine;
+	public void setAverageTimeInLineSrv1(double averageTimeInLine) {
+		this.averageTimeInLineSrv1 = averageTimeInLine;
+	}
+	
+	public void setAverageTimeInLineSrv2(double averageTimeInLine) {
+		this.averageTimeInLineSrv2 = averageTimeInLine;
 	}
 
 	public double getAverageTimeOnSystem() {
@@ -484,4 +506,17 @@ public class Statistics implements Serializable {
 	public void addListService2Duration(Integer number) {
 		this.listService2Duration.add(number);
 	}
+
+	public ArrayList<Integer> getListTimeInLine1() {
+		return listTimeInLine1;
+	}
+
+	public ArrayList<Integer> getListTimeInLine2() {
+		return listTimeInLine2;
+	}
+
+	public ArrayList<Integer> getListTimeOnSystem() {
+		return listTimeOnSystem;
+	}
+	
 }

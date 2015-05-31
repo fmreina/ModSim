@@ -2,6 +2,7 @@ package modsim.simulator.control;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import sun.misc.Queue;
 
@@ -20,6 +21,15 @@ public class HandleExit implements Handler<Entity> {
 									// gerado um novo evento de saida
 				Entity first = fila.dequeue();
 				server.ocuppyServer(first, time); // tomada do servidor
+				
+				if (event.getItem().getType() == TipoServidor.TIPO_1) {
+					Simulator.getStats().incrNbEntities1Completed();
+					Simulator.getStats().getListTimeInLine1().add(first.getTempoFila());
+				}
+				if (event.getItem().getType() == TipoServidor.TIPO_2) {
+					Simulator.getStats().incrNbEntities2Completed();
+					Simulator.getStats().getListTimeInLine2().add(first.getTempoFila());
+				}
 				return EventFactory.newExit(first, time,
 						server.getServiceFunc()); // gera saida
 			}

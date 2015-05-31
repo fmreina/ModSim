@@ -77,5 +77,14 @@ public class StatisticsCalculator {
 
 		double averageOccupationSvr2 = calculateAverageOcupation(stats.getListServer2Ocupation());
 		stats.setOccupationServer2(averageOccupationSvr2);
+		
+		double averageTimeInLineSrv1 = calculateAverageOcupation(stats.getListTimeInLine1());
+		stats.setAverageTimeInLineSrv1(averageTimeInLineSrv1);	
+		
+		double averageTimeInLineSrv2 = calculateAverageOcupation(stats.getListTimeInLine2());
+		stats.setAverageTimeInLineSrv2(averageTimeInLineSrv2);	
+		
+		double averageTimeOnSystem = (averageTimeInLineSrv1+averageTimeInLineSrv1)+(timeService1[1]+timeService1[2]);
+		stats.setAverageTimeOnSystem(averageTimeOnSystem);
 	}
 }
