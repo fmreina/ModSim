@@ -16,9 +16,7 @@ public class HandleExit implements Handler<Entity> {
 		if (!server.isBroken()) {
 			server.releaseServer(time);
 			Queue<Entity> fila = server.getFila();
-			if (!fila.isEmpty()) { // se a fila não estiver vazia, 2é retirado o
-									// primeiro da fila para ocupar o server e
-									// gerado um novo evento de saida
+			if (!fila.isEmpty()) { // se a fila não estiver vazia, 2é retirado o primeiro da fila para ocupar o server e gerado um novo evento de saida
 				Entity first = fila.dequeue();
 				server.ocuppyServer(first, time); // tomada do servidor
 				

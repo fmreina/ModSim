@@ -40,8 +40,7 @@ public class HandleArrival implements Handler<Entity> {
 			} else {
 				server.ocuppyServer(entidade, timeNow); // tomada do servidor
 				return EventFactory.newExit(entidade, timeNow,
-						server.getServiceFunc()); // gera
-													// saida
+						server.getServiceFunc()); // gera saida
 			}
 		}
 		server.getFila().enqueue(entidade);
