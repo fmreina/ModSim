@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -127,14 +128,29 @@ public class MainView {
 		JMenuBar menuBar = new JMenuBar();
 		frmSimulador.setJMenuBar(menuBar);
 
-		JMenu File = new JMenu("File");
-		menuBar.add(File);
+//		JMenu File = new JMenu("File");
+//		menuBar.add(File);
 
-		JMenu mnNewMenu = new JMenu("About");
-		menuBar.add(mnNewMenu);
+		JMenu mnAbout = new JMenu("About");
+		menuBar.add(mnAbout);
+		
+		JMenuItem about = new JMenuItem("Créditos");
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String about = "Universidade Federal de Santa Catarina - UFSC\n"
+						+ "Simulador de propósito geral: Entidade/Servidor\n"
+						+ "Projeto desenvolvido para o curso INE5425 - Modelagem e Simulação\n"
+						+ "Professor Ministrante: Paulo Jose de Freitas Filho\n"
+						+ "Alunos Desenvolvedores: Alison Abreu Granemann e Fábio Miranda Reina\n";
+				JOptionPane.showMessageDialog(null, about, "Simulador", 1);
+			}
+		});
+		mnAbout.add(about);
+		
+		
 
-		JMenuBar menuBar_1 = new JMenuBar();
-		menuBar.add(menuBar_1);
+//		JMenuBar menuBar_1 = new JMenuBar();
+//		menuBar.add(menuBar_1);
 		frmSimulador.getContentPane().setLayout(null);
 	}
 

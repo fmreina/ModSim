@@ -119,20 +119,20 @@ public class Statistics implements Serializable {
 		stats += "        Máximo:    " + timeServiceMax2 + " segundos = "+ (timeServiceMax2 / 60) + " minutos\n";
 		stats += "\n";
 
-//		stats += " Tempo em Falhas:\n";
-//		stats += "    Servidor 1:    " + timeOnFailureSvr1 + " segundos = "	+ (timeOnFailureSvr1 / 60) + " minutos\n";
-//		stats += "    Servidor 2:    " + timeOnFailureSvr2 + " segundos = " + (timeOnFailureSvr2 / 60) + " minutos\n";
-//		stats += "\n";
+		stats += " Tempo em Falhas:\n";
+		stats += "    Servidor 1:    " + timeOnFailureSvr1 + " segundos = "	+ (timeOnFailureSvr1 / 60) + " minutos\n";
+		stats += "    Servidor 2:    " + timeOnFailureSvr2 + " segundos = " + (timeOnFailureSvr2 / 60) + " minutos\n";
+		stats += "\n";
 
 		stats += " Número de Falhas:\n";
 		stats += "    Servidor 1:    " + nbOfFailuresSvr1 + " falhas\n";
 		stats += "    Servidor 2:    " + nbOfFailuresSvr2 + " falhas\n";
 		stats += "\n";
 
-//		stats += " Taxa de Falhas:\n";
-//		stats += "    Servidor 1:    " + (percentageOnFailureSvr1 / 100)+ " %\n";
-//		stats += "    Servidor 2:    " + (percentageOnFailureSvr2 / 100)+ " %\n";
-//		stats += "\n";
+		stats += " Taxa de Falhas:\n";
+		stats += "    Servidor 1:    " + ((timeOnFailureSvr1/tempoSim) * 100)+ " %\n";
+		stats += "    Servidor 2:    " + ((timeOnFailureSvr2/tempoSim) * 100)+ " %\n";
+		stats += "\n";
 
 		stats += " Número de Trocas Entre Servidores:\n";
 		stats += "    Entidade 1:    " + nbOfChanges1 + " trocas\n";
@@ -274,7 +274,7 @@ public class Statistics implements Serializable {
 	}
 
 	public void setTimeOnFailureSvr1(double timeOnFailureSvr1) {
-		this.timeOnFailureSvr1 = timeOnFailureSvr1;
+		this.timeOnFailureSvr1 += timeOnFailureSvr1;
 	}
 
 	public double getPercentageOnFailureSvr1() {
@@ -310,7 +310,7 @@ public class Statistics implements Serializable {
 	}
 
 	public void setTimeOnFailureSvr2(double timeOnFailureSvr2) {
-		this.timeOnFailureSvr2 = timeOnFailureSvr2;
+		this.timeOnFailureSvr2 += timeOnFailureSvr2;
 	}
 
 	public double getPercentageOnFailureSvr2() {
@@ -520,5 +520,4 @@ public class Statistics implements Serializable {
 	public ArrayList<Integer> getListTimeOnSystem() {
 		return listTimeOnSystem;
 	}
-	
 }

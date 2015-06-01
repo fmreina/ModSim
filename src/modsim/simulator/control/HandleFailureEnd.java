@@ -4,6 +4,7 @@ import java.util.Queue;
 
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 
 public class HandleFailureEnd implements Handler<Server> {
