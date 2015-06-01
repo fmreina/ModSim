@@ -23,6 +23,7 @@ public class HandleArrival implements Handler<Entity> {
 			boolean firstIsBroken) {
 		Entity entidade = event.getItem();
 		Server server = Simulator.getServers().get(entidade.getType());
+		entidade.setTempoChegada(timeNow);
 		if (server.isBroken() && !firstIsBroken) {
 			entidade.setType(TipoServidor.getAnotherType(entidade.getType()));
 			if (event.getItem().getType() == TipoServidor.TIPO_1) {
@@ -38,11 +39,13 @@ public class HandleArrival implements Handler<Entity> {
 				server.getFila().enqueue(entidade);
 				return null;
 			} else {
+				Simulator.print("Entidade ID " + entidade.getId() + " ocupou o servidor.");
 				server.ocuppyServer(entidade, timeNow); // tomada do servidor
 				return EventFactory.newExit(entidade, timeNow,
 						server.getServiceFunc()); // gera saida
 			}
 		}
+		Simulator.print("Entidade ID " + entidade.getId() + " entrou na fila.");
 		server.getFila().enqueue(entidade);
 		return null;
 	}

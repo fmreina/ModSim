@@ -14,11 +14,11 @@ public class Simulation implements Serializable {
 	private ArrayList<String> log;
 	private Statistics stats;
 	
-	public Simulation(String name, int id){
+	public Simulation(String name, int id, int tempoSim){
 		this.id = id;
 		this.name = name;
 		this.log = new ArrayList<String>();
-		this.stats = new Statistics();
+		this.stats = new Statistics(tempoSim);
 	}
 
 	public int getId() {

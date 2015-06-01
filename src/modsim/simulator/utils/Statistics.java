@@ -9,7 +9,8 @@ public class Statistics implements Serializable {
 
 	private String simulationName;
 	private int simulationId;
-	
+	private int tempoSim;
+
 	// Required
 	private double nbEntities1 = 0;
 	private double nbEntities1InLine = 0;
@@ -62,7 +63,8 @@ public class Statistics implements Serializable {
 	private ArrayList<Integer> listService1Duration = new ArrayList<Integer>();
 	private ArrayList<Integer> listService2Duration = new ArrayList<Integer>();
 
-	public Statistics() {
+	public Statistics(int tempoSim) {
+		this.tempoSim = tempoSim;
 	}
 
 	@Override
@@ -101,8 +103,8 @@ public class Statistics implements Serializable {
 		stats += "\n";
 
 		stats += " Taxa de Ocupação:\n";
-		stats += "    Servidor 1:    " + (occupationServer1 / 100) + " %\n";
-		stats += "    Servidor 2:    " + (occupationServer2 / 100) + " %\n";
+		stats += "    Servidor 1:    " + (occupationServer1 / tempoSim * 100) + " %\n";
+		stats += "    Servidor 2:    " + (occupationServer2 / tempoSim * 100) + " %\n";
 		stats += "\n";
 
 		stats += " Tempo de Serviço:\n";

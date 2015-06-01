@@ -227,7 +227,8 @@ public class MainView {
 			public void actionPerformed(ActionEvent e) {
 
 				Simulation simulation = new Simulation(textSimName.getText(),
-						id++);
+						id++, Integer.parseInt(MainView.getTextFieldSimulationTime()
+								.getText()) * 60);
 				simulations.add(simulation);
 				listLastSim.updateUI();
 

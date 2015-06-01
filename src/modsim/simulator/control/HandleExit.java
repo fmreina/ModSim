@@ -18,7 +18,9 @@ public class HandleExit implements Handler<Entity> {
 			Queue<Entity> fila = server.getFila();
 			if (!fila.isEmpty()) { // se a fila não estiver vazia, 2é retirado o primeiro da fila para ocupar o server e gerado um novo evento de saida
 				Entity first = fila.dequeue();
+				Simulator.print("Entidade ID " + entidade.getId() + " saiu da fila e ocupou o servidor.");
 				server.ocuppyServer(first, time); // tomada do servidor
+				first.updateTempoEmFila();
 				
 				if (event.getItem().getType() == TipoServidor.TIPO_1) {
 					Simulator.getStats().incrNbEntities1Completed();

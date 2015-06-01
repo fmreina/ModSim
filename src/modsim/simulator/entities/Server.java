@@ -1,10 +1,7 @@
 package modsim.simulator.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import sun.misc.Queue;
 import modsim.simulator.utils.timefunction.TimeFunction;
+import sun.misc.Queue;
 
 public class Server {
 	

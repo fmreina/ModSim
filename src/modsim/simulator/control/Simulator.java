@@ -89,9 +89,7 @@ public class Simulator<V> implements Runnable {
 				ArrayList<Event> eventList = getEventOnTime(tNow);
 
 				for (Event event : eventList) {
-					System.out.println(event.toString());
-					MainView.print(event.toString());
-					simulation.getLog().add(event.toString());
+					print(event.toString());
 					Event newEvent = null;
 					try {
 						newEvent = event.getHandler().handleEvent(event, tNow);
@@ -125,6 +123,12 @@ public class Simulator<V> implements Runnable {
 		stats.setTimeOnFailureSvr2(servers.get(TipoServidor.TIPO_2).getTempoFalha());
 		StatisticsCalculator.calculateStatistics(stats);
 		System.out.println(stats.toString());
+	}
+
+	public static void print(String strmsging) {
+		System.out.println(strmsging);
+		MainView.print(strmsging);
+		simulation.getLog().add(strmsging);
 	}
 
 
