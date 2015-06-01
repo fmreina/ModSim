@@ -1,8 +1,9 @@
-package modsim.simulator.entities;
+package modsim.simulator.model.server;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
+import modsim.simulator.model.entity.Entity;
 import modsim.simulator.utils.timefunction.TimeFunction;
 
 public class Server {

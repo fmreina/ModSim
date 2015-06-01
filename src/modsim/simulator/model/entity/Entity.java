@@ -1,5 +1,6 @@
-package modsim.simulator.entities;
+package modsim.simulator.model.entity;
 
+import modsim.simulator.model.server.TipoServidor;
 import modsim.simulator.utils.SequenceGenerator;
 
 public class Entity {

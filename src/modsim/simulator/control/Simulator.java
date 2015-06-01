@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 import sun.misc.Queue;
-import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.Server;
-import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.Simulation;
+import modsim.simulator.model.entity.Entity;
+import modsim.simulator.model.server.Server;
+import modsim.simulator.model.server.TipoServidor;
 import modsim.simulator.utils.Statistics;
 import modsim.simulator.utils.StatisticsCalculator;
 import modsim.simulator.utils.timefunction.TimeFunc;

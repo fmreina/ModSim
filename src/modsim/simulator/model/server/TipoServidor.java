@@ -1,4 +1,4 @@
-package modsim.simulator.entities;
+package modsim.simulator.model.server;
 
 public enum TipoServidor {
 

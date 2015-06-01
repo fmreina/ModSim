@@ -2,14 +2,14 @@ package modsim.simulator.control;
 
 import java.util.ArrayList;
 
-import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.Server;
-import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
-import modsim.simulator.model.EventArrival;
-import modsim.simulator.model.EventExit;
-import modsim.simulator.model.EventFailureEnd;
-import modsim.simulator.model.EventFailureStart;
+import modsim.simulator.model.entity.Entity;
+import modsim.simulator.model.entity.EventArrival;
+import modsim.simulator.model.entity.EventExit;
+import modsim.simulator.model.server.EventFailureEnd;
+import modsim.simulator.model.server.EventFailureStart;
+import modsim.simulator.model.server.Server;
+import modsim.simulator.model.server.TipoServidor;
 import modsim.simulator.utils.timefunction.TimeFunc;
 import modsim.simulator.utils.timefunction.TimeFunction;
 import modsim.simulator.vision.MainView;

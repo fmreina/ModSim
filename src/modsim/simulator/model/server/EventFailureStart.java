@@ -1,13 +1,13 @@
-package modsim.simulator.model;
+package modsim.simulator.model.server;
 
 import modsim.simulator.control.HandleFailureStart;
 import modsim.simulator.control.Handler;
-import modsim.simulator.entities.Server;
-import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.model.Event;
+import modsim.simulator.model.IEvent;
 
-public class EventFailureEnd extends Event<Server> implements IEvent {
+public class EventFailureStart extends Event<Server> implements IEvent {
 
-	public EventFailureEnd(int tempoEvento, Server server) {
+	public EventFailureStart(int tempoEvento, Server server) {
 		super(tempoEvento);
 		this.item = server;
 	}
@@ -40,10 +40,9 @@ public class EventFailureEnd extends Event<Server> implements IEvent {
 	public TipoServidor getType() {
 		return item.getType();
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Servidor "+item.getType().getNome()+" se recuperou da falha no tempo  "+super.tempoEvento+ " segundos";
+		return "Servidor "+item.getType().getNome()+" falhou no tempo "+super.tempoEvento+" segundos";
 	}
-
 }

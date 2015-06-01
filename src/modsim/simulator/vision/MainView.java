@@ -954,7 +954,7 @@ public class MainView {
 						if (textFieldPercEntType_1.getText().equals("")) {
 							p = 100;
 						} else if (Integer.parseInt(textFieldPercEntType_1
-								.getText()) < 100) {
+								.getText()) <= 100) {
 							p = 100 - Integer.parseInt(textFieldPercEntType_1
 									.getText());
 							textFieldPercEntType_2.setText("" + p);
@@ -966,7 +966,7 @@ public class MainView {
 						if (textFieldPercEntType_1.getText().equals("")) {
 							p = 100;
 						} else if (Integer.parseInt(textFieldPercEntType_1
-								.getText()) < 100) {
+								.getText()) <= 100) {
 							p = 100 - Integer.parseInt(textFieldPercEntType_1
 									.getText());
 							textFieldPercEntType_2.setText("" + p);

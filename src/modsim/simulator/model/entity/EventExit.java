@@ -1,9 +1,9 @@
-package modsim.simulator.model;
+package modsim.simulator.model.entity;
 
 import modsim.simulator.control.HandleExit;
 import modsim.simulator.control.Handler;
-import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.model.Event;
+import modsim.simulator.model.server.TipoServidor;
 
 public class EventExit extends Event<Entity>{
 	

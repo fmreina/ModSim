@@ -1,9 +1,9 @@
 package modsim.simulator.control;
 
-import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.Server;
-import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
+import modsim.simulator.model.entity.Entity;
+import modsim.simulator.model.server.Server;
+import modsim.simulator.model.server.TipoServidor;
 
 public class HandleArrival implements Handler<Entity> {
 
@@ -24,27 +24,25 @@ public class HandleArrival implements Handler<Entity> {
 		Entity entidade = event.getItem();
 		Server server = Simulator.getServers().get(entidade.getType());
 		entidade.setTempoChegada(timeNow);
-		if (server.isBroken() && !firstIsBroken) {
-			entidade.setType(TipoServidor.getAnotherType(entidade.getType()));
+		if (server.isBroken() && !firstIsBroken) { // se o servidor está quebrado, e não é a primeira vez 
+													// que a entidade encontra um servidor quebrado
+			entidade.setType(TipoServidor.getAnotherType(entidade.getType())); //troca o tipo da entidade para outro tipo
 			if (event.getItem().getType() == TipoServidor.TIPO_1) {
 				Simulator.getStats().incrNbOfChanges1();
 			}
 			if (event.getItem().getType() == TipoServidor.TIPO_2) {
 				Simulator.getStats().incrNbOfChanges2();
 			}
-			return handleEvent(event, timeNow, true);
+			return handleEvent(event, timeNow, true); //gera um novo evento de entrada
 		}
 		if (server.isFree()) {
-			if (!server.getFila().isEmpty()) {
-				server.getFila().add(entidade);
-				return null;
-			} else {
-				Simulator.print("Entidade ID " + entidade.getId() + " ocupou o servidor.");
+			if (server.getFila().isEmpty()) { //se o servidor está livre, a entida ocupa-o e gera nova saída
+				Simulator.print("Entidade ID " + entidade.getId()	+ " ocupou o servidor.");
 				server.ocuppyServer(entidade, timeNow); // tomada do servidor
 				return EventFactory.newExit(entidade, timeNow,
 						server.getServiceFunc()); // gera saida
 			}
-		}
+		}//senão adiciona a entidade a fila
 		Simulator.print("Entidade ID " + entidade.getId() + " entrou na fila.");
 		server.getFila().add(entidade);
 		return null;

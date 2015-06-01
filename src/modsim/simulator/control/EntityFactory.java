@@ -2,8 +2,8 @@ package modsim.simulator.control;
 
 import java.util.Random;
 
-import modsim.simulator.entities.Entity;
-import modsim.simulator.entities.TipoServidor;
+import modsim.simulator.model.entity.Entity;
+import modsim.simulator.model.server.TipoServidor;
 
 public class EntityFactory {
 	
