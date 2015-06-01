@@ -36,7 +36,7 @@ public class HandleArrival implements Handler<Entity> {
 		}
 		if (server.isFree()) {
 			if (!server.getFila().isEmpty()) {
-				server.getFila().enqueue(entidade);
+				server.getFila().add(entidade);
 				return null;
 			} else {
 				Simulator.print("Entidade ID " + entidade.getId() + " ocupou o servidor.");
@@ -46,7 +46,7 @@ public class HandleArrival implements Handler<Entity> {
 			}
 		}
 		Simulator.print("Entidade ID " + entidade.getId() + " entrou na fila.");
-		server.getFila().enqueue(entidade);
+		server.getFila().add(entidade);
 		return null;
 	}
 }

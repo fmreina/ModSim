@@ -1,10 +1,11 @@
 package modsim.simulator.control;
 
+import java.util.Queue;
+
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
 import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
-import sun.misc.Queue;
 
 public class HandleExit implements Handler<Entity> {
 
@@ -16,8 +17,8 @@ public class HandleExit implements Handler<Entity> {
 		if (!server.isBroken()) {
 			server.releaseServer(time);
 			Queue<Entity> fila = server.getFila();
-			if (!fila.isEmpty()) { // se a fila não estiver vazia, 2é retirado o primeiro da fila para ocupar o server e gerado um novo evento de saida
-				Entity first = fila.dequeue();
+			if (!fila.isEmpty()) { // se a fila nï¿½o estiver vazia, 2ï¿½ retirado o primeiro da fila para ocupar o server e gerado um novo evento de saida
+				Entity first = fila.remove();
 				Simulator.print("Entidade ID " + entidade.getId() + " saiu da fila e ocupou o servidor.");
 				server.ocuppyServer(first, time); // tomada do servidor
 				first.updateTempoEmFila();

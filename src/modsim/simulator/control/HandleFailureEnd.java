@@ -1,9 +1,9 @@
 package modsim.simulator.control;
 
-import sun.misc.Queue;
+import java.util.Queue;
+
 import modsim.simulator.entities.Entity;
 import modsim.simulator.entities.Server;
-import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 
 public class HandleFailureEnd implements Handler<Server> {
@@ -16,7 +16,7 @@ public class HandleFailureEnd implements Handler<Server> {
 		server.updateTempoFalha(time);
 		Queue<Entity> fila = server.getFila();
 		if (!fila.isEmpty()) {
-			Entity first = fila.dequeue();
+			Entity first = fila.remove();
 			server.ocuppyServer(first, time);
 		}
 		

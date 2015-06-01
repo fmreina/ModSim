@@ -1,7 +1,9 @@
 package modsim.simulator.entities;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import modsim.simulator.utils.timefunction.TimeFunction;
-import sun.misc.Queue;
 
 public class Server {
 	
@@ -17,7 +19,7 @@ public class Server {
 	public Server(TipoServidor type, TimeFunction func){
 		this.type = type;
 		this.broken = false;
-		this.fila = new Queue<Entity>();
+		this.fila = new LinkedList<Entity>();
 		this.serviceFunc = func;
 	}
 	

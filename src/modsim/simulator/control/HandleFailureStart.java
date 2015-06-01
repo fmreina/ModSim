@@ -13,7 +13,7 @@ public class HandleFailureStart implements Handler<Server> {
 		Server server = event.getItem();
 		if(!server.isFree()){
 			Entity ocupante = server.getOcupante();
-			server.getFila().enqueue(ocupante);
+			server.getFila().add(ocupante);
 			server.releaseServer(time);
 		}
 		server.setInicioFalha(time);
