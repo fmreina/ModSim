@@ -141,7 +141,7 @@ public class MainView {
 						+ "Simulador de propósito geral: Entidade/Servidor\n"
 						+ "Projeto desenvolvido para o curso INE5425 - Modelagem e Simulação\n"
 						+ "Professor Ministrante: Paulo Jose de Freitas Filho\n"
-						+ "Alunos Desenvolvedores: Alison Abreu Granemann e Fábio Miranda Reina\n";
+						+ "Alunos Desenvolvedores: Alison Granemann Abreu e Fábio Miranda Reina\n";
 				JOptionPane.showMessageDialog(null, about, "Simulador", 1);
 			}
 		});
