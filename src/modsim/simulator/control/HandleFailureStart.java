@@ -18,10 +18,10 @@ public class HandleFailureStart implements Handler<Server> {
 		}
 		server.setInicioFalha(time);
 		server.setBroken(true);		
-		if (event.getItem().getType() == TipoServidor.TIPO_1) {
+		if (server.getType() == TipoServidor.TIPO_1) {
 			Simulator.getStats().incrNbOfFailuresSvr1();
 		}
-		if (event.getItem().getType() == TipoServidor.TIPO_2) {
+		if (server.getType() == TipoServidor.TIPO_2) {
 			Simulator.getStats().incrNbOfFailuresSvr2();
 		}
 		return EventFactory.newFailureEnd(server, time); //gera novo evento de término da falha

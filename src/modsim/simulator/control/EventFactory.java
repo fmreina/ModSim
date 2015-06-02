@@ -102,8 +102,15 @@ public class EventFactory {
 		setParamsToFailureEnd();
 		TimeFunction timeFunction = TimeFunc.getType(MainView.getComboBoxTF()
 				.getSelectedItem().toString());
-		int failureEnd = (getTime(timeFunction)*60) + timeNow;
+		int failureEnd = (getTime(timeFunction)/**60*/) + timeNow;
 
+		if (server.getType() == TipoServidor.TIPO_1) {
+			Simulator.getStats().setTimeOnFailureSvr1(failureEnd - timeNow);
+		}
+		if (server.getType() == TipoServidor.TIPO_2) {
+			Simulator.getStats().setTimeOnFailureSvr2(failureEnd - timeNow);
+		}
+		
 		return new EventFailureEnd(failureEnd, server);
 	}
 

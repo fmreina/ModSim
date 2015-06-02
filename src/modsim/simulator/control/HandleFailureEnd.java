@@ -2,6 +2,7 @@ package modsim.simulator.control;
 
 import java.util.Queue;
 
+import modsim.simulator.entities.TipoServidor;
 import modsim.simulator.model.Event;
 import modsim.simulator.model.entity.Entity;
 import modsim.simulator.model.server.Server;
@@ -19,13 +20,15 @@ public class HandleFailureEnd implements Handler<Server> {
 		if (!fila.isEmpty()) {
 			Entity first = fila.remove();
 			server.ocuppyServer(first, time);
-		}		
-		if (server.getType() == TipoServidor.TIPO_1) {
-			Simulator.getStats().setTimeOnFailureSvr1(server.getTempoFalha());
 		}
-		if (server.getType() == TipoServidor.TIPO_2) {
-			Simulator.getStats().setTimeOnFailureSvr2(server.getTempoFalha());
-		}		
+		
+//		if (server.getType() == TipoServidor.TIPO_1) {
+//			Simulator.getStats().setTimeOnFailureSvr1(server.getTempoFalha());
+//		}
+//		if (server.getType() == TipoServidor.TIPO_2) {
+//			Simulator.getStats().setTimeOnFailureSvr2(server.getTempoFalha());
+//		}
+		
 		return EventFactory.newFailureStart(server, time);
 	}
 

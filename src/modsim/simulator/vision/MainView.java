@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -127,14 +128,29 @@ public class MainView {
 		JMenuBar menuBar = new JMenuBar();
 		frmSimulador.setJMenuBar(menuBar);
 
-		JMenu File = new JMenu("File");
-		menuBar.add(File);
+//		JMenu File = new JMenu("File");
+//		menuBar.add(File);
 
-		JMenu mnNewMenu = new JMenu("About");
-		menuBar.add(mnNewMenu);
+		JMenu mnAbout = new JMenu("About");
+		menuBar.add(mnAbout);
+		
+		JMenuItem about = new JMenuItem("Cr√©ditos");
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String about = "Universidade Federal de Santa Catarina - UFSC\n"
+						+ "Simulador de prop√≥sito geral: Entidade/Servidor\n"
+						+ "Projeto desenvolvido para o curso INE5425 - Modelagem e Simula√ß√£o\n"
+						+ "Professor Ministrante: Paulo Jose de Freitas Filho\n"
+						+ "Alunos Desenvolvedores: Alisson Granemann Abreu e F√°bio Miranda Reina\n";
+				JOptionPane.showMessageDialog(null, about, "Simulador", 1);
+			}
+		});
+		mnAbout.add(about);
+		
+		
 
-		JMenuBar menuBar_1 = new JMenuBar();
-		menuBar.add(menuBar_1);
+//		JMenuBar menuBar_1 = new JMenuBar();
+//		menuBar.add(menuBar_1);
 		frmSimulador.getContentPane().setLayout(null);
 	}
 
@@ -149,7 +165,7 @@ public class MainView {
 
 		panelConfiguration = new JPanel();
 		panelConfiguration.setBorder(new TitledBorder(new EtchedBorder(
-				EtchedBorder.LOWERED, null, null), "ConfiguraÁıes",
+				EtchedBorder.LOWERED, null, null), "Configura√ß√µes",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelConfiguration.setBounds(10, 244, 427, 340);
 		panelSimulator.add(panelConfiguration);
@@ -198,7 +214,7 @@ public class MainView {
 		label_2.setBounds(380, 21, 37, 14);
 		panelNameTime.add(label_2);
 
-		JLabel label_3 = new JLabel("Velocidade de execuÁ„o por passo (ms):");
+		JLabel label_3 = new JLabel("Velocidade de execu√ß√£o por passo (ms):");
 		label_3.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label_3.setBounds(10, 52, 193, 14);
@@ -220,7 +236,7 @@ public class MainView {
 		checkboxFastFoward.setBounds(300, 44, 104, 22);
 		panelNameTime.add(checkboxFastFoward);
 
-		buttonIniciar = new JButton("Iniciar SimulaÁ„o");
+		buttonIniciar = new JButton("Iniciar Simula√ß√£o");
 		buttonIniciar.setBounds(31, 142, 121, 91);
 		panelSimulator.add(buttonIniciar);
 		buttonIniciar.addActionListener(new ActionListener() {
@@ -244,7 +260,7 @@ public class MainView {
 		buttonIniciar.setForeground(new Color(0, 100, 0));
 		buttonIniciar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		buttonPausar = new JButton("Pausar SimulaÁ„o");
+		buttonPausar = new JButton("Pausar Simula√ß√£o");
 		buttonPausar.setBounds(162, 142, 123, 91);
 		panelSimulator.add(buttonPausar);
 		buttonPausar.setForeground(Color.RED);
@@ -273,10 +289,10 @@ public class MainView {
 				int index = listLastSim.getSelectedIndex();
 				if (index == -1)
 					JOptionPane.showMessageDialog(null,
-							"Nenhuma SimulaÁ„o foi Selecionada!", "Erro!", 1);
+							"Nenhuma Simula√ß√£o foi Selecionada!", "Erro!", 1);
 				else {
 					int i = JOptionPane.showConfirmDialog(null,
-							"Excluir as simulaÁıes selecionadas?");
+							"Excluir as simula√ß√µes selecionadas?");
 					if (i == 0) {
 						List names = MainView.listLastSim
 								.getSelectedValuesList();
@@ -318,7 +334,7 @@ public class MainView {
 				int index = listLastSim.getSelectedIndex();
 				if (index == -1)
 					JOptionPane.showMessageDialog(null,
-							"Nenhuma SimulaÁ„o foi Selecionada!", "Erro!", 1);
+							"Nenhuma Simula√ß√£o foi Selecionada!", "Erro!", 1);
 				else {
 					Simulation simulation = (Simulation) simulations.get(index);
 
@@ -336,7 +352,7 @@ public class MainView {
 				if (Simulator.running && Simulator.paused) {
 					buttonPausar.setText("Continuar");
 				} else {
-					buttonPausar.setText("Pausar SimulaÁ„o");
+					buttonPausar.setText("Pausar Simula√ß√£o");
 				}
 			}
 		});
@@ -400,17 +416,17 @@ public class MainView {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelServer_1.setLayout(null);
 
-		// Tempo de ServiÁo
+		// Tempo de Servi√ßo
 		panelTS_1 = new JPanel();
 		panelTS_1.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null),
-				"Tempo de ServiÁo Servidor 1", TitledBorder.LEADING,
+				"Tempo de Servi√ßo Servidor 1", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 11), null));
 		panelTS_1.setBounds(10, 22, 183, 73);
 		panelServer_1.add(panelTS_1);
 		panelTS_1.setLayout(null);
 
-		JLabel lblFuncTS_1 = new JLabel("FunÁ„o");
+		JLabel lblFuncTS_1 = new JLabel("Fun√ß√£o");
 		lblFuncTS_1.setBounds(10, 22, 39, 14);
 		panelTS_1.add(lblFuncTS_1);
 		lblFuncTS_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -464,17 +480,17 @@ public class MainView {
 		textFieldMinTS_1.setBounds(56, 44, 28, 20);
 		panelTS_1.add(textFieldMinTS_1);
 
-		// Tempo de ServiÁo
+		// Tempo de Servi√ßo
 		panelTS_2 = new JPanel();
 		panelTS_2.setBounds(10, 102, 183, 73);
 		panelServer_1.add(panelTS_2);
 		panelTS_2.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null),
-				"Tempo de ServiÁo Servidor 2", TitledBorder.LEADING,
+				"Tempo de Servi√ßo Servidor 2", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 11), null));
 		panelTS_2.setLayout(null);
 
-		JLabel lblFuncTS_1_1 = new JLabel("FunÁ„o");
+		JLabel lblFuncTS_1_1 = new JLabel("Fun√ß√£o");
 		lblFuncTS_1_1.setBounds(10, 22, 39, 14);
 		panelTS_2.add(lblFuncTS_1_1);
 		lblFuncTS_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -640,7 +656,7 @@ public class MainView {
 						Font.PLAIN, 11), null));
 		panelTEF.setLayout(null);
 
-		JLabel lblFuncTEF_1 = new JLabel("FunÁ„o");
+		JLabel lblFuncTEF_1 = new JLabel("Fun√ß√£o");
 		lblFuncTEF_1.setBounds(10, 22, 39, 14);
 		panelTEF.add(lblFuncTEF_1);
 		lblFuncTEF_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -703,7 +719,7 @@ public class MainView {
 						Font.PLAIN, 11), null));
 		panelTF.setLayout(null);
 
-		JLabel lblFuncTEmF_1 = new JLabel("FunÁ„o");
+		JLabel lblFuncTEmF_1 = new JLabel("Fun√ß√£o");
 		lblFuncTEmF_1.setBounds(10, 22, 39, 14);
 		panelTF.add(lblFuncTEmF_1);
 		lblFuncTEmF_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -869,7 +885,7 @@ public class MainView {
 		panelEntities.add(panelTEC);
 		panelTEC.setLayout(null);
 
-		JLabel lblFuncTEC = new JLabel("FunÁ„o");
+		JLabel lblFuncTEC = new JLabel("Fun√ß√£o");
 		lblFuncTEC.setBounds(10, 22, 39, 14);
 		panelTEC.add(lblFuncTEC);
 		lblFuncTEC.setHorizontalAlignment(SwingConstants.RIGHT);

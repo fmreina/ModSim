@@ -81,8 +81,7 @@ public class Simulator<V> implements Runnable {
 				fastForward = MainView.getCheckboxFastFoward().getState();
 
 				MainView.print("Tempo de execução: " + tNow + " segundos");
-				System.out.println("Tempo de execução: " + this.tNow
-						+ " segundos");
+//				System.out.println("Tempo de execução: " + this.tNow+ " segundos");
 				this.simulation.getLog().add(
 						"Tempo de execução: " + this.tNow + " segundos");
 
@@ -104,7 +103,7 @@ public class Simulator<V> implements Runnable {
 
 				if (tNow > tempoSimulacao) {
 					running = false;
-					System.out.println(stats.toString());
+//					System.out.println(stats.toString());
 				}
 
 				tNow++;
@@ -119,14 +118,14 @@ public class Simulator<V> implements Runnable {
 		MainView.getButtonPausar().setEnabled(false);
 		stats.setSimulationName(simulation.getName());
 		stats.setSimulationId(simulation.getId());
-		stats.setTimeOnFailureSvr1(servers.get(TipoServidor.TIPO_1).getTempoFalha());
-		stats.setTimeOnFailureSvr2(servers.get(TipoServidor.TIPO_2).getTempoFalha());
+//		stats.setTimeOnFailureSvr1(servers.get(TipoServidor.TIPO_1).getTempoFalha());
+//		stats.setTimeOnFailureSvr2(servers.get(TipoServidor.TIPO_2).getTempoFalha());
 		StatisticsCalculator.calculateStatistics(stats);
-		System.out.println(stats.toString());
+//		System.out.println(stats.toString());
 	}
 
 	public static void print(String strmsging) {
-		System.out.println(strmsging);
+//		System.out.println(strmsging);
 		MainView.print(strmsging);
 		simulation.getLog().add(strmsging);
 	}
