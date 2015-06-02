@@ -61,6 +61,10 @@ public class Entity {
 		return tempoInicioAtendimento + tempoSaida;
 	}
 	
+	public int getTempoNoSistema(){
+		return tempoSaida - tempoChegada;
+	}
+	
 	public void updateTempoEmFila(){
 		this.tempoEmFila = tempoInicioAtendimento - tempoChegada; 
 	}

@@ -100,8 +100,7 @@ public class StatisticsCalculator {
 				.getListTimeInLine2());
 		stats.setAverageTimeInLineSrv2(averageTimeInLineSrv2);
 
-		double averageTimeOnSystem = (averageTimeInLineSrv1 + averageTimeInLineSrv1)
-				+ (timeService1[1] + timeService1[2]);
+		double averageTimeOnSystem = (calculateAverageOcupation(stats.getListTimeOnSystem()));
 		stats.setAverageTimeOnSystem(averageTimeOnSystem);
 	}
 }

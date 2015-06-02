@@ -2,6 +2,7 @@ package modsim.simulator.utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Statistics implements Serializable {
 
@@ -20,6 +21,8 @@ public class Statistics implements Serializable {
 	private double nbEntities2InLine = 0;
 	private double nbEntities2Completed = 0;
 	private double nbEntities2OnSystem = 0;
+	private HashMap<Integer, Integer> avgNbEntities1InLine = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> avgNbEntities2InLine = new HashMap<Integer, Integer>();
 
 	private double occupationServer1 = 0;
 	private double nbOfFailuresSvr1 = 0;
@@ -149,6 +152,38 @@ public class Statistics implements Serializable {
 		stats += ">--------------------------------------------------------------------------------<\n";
 
 		return stats;
+	}
+
+	public HashMap<Integer, Integer> getAvgNbEntities1InLine() {
+		return avgNbEntities1InLine;
+	}
+
+	public void updateAvgNbEntities1InLine(Integer nb, Integer time) {
+		if(avgNbEntities1InLine.containsKey(nb)){
+			Integer atual = avgNbEntities1InLine.get(nb);
+			atual = atual + time;
+			avgNbEntities1InLine.replace(nb, atual);
+			return;
+		}
+	}
+	
+	public void updateAvgNbEntities2InLine(Integer nb, Integer time) {
+		if(avgNbEntities2InLine.containsKey(nb)){
+			Integer atual = avgNbEntities2InLine.get(nb);
+			atual = atual + time;
+			avgNbEntities2InLine.replace(nb, atual);
+			return;
+		}
+		avgNbEntities1InLine.put(nb, time);
+	}
+
+	public HashMap<Integer, Integer> getAvgNbEntities2InLine() {
+		return avgNbEntities2InLine;
+	}
+
+	public void setAvgNbEntities2InLine(
+			HashMap<Integer, Integer> avgNbEntities2InLine) {
+		this.avgNbEntities2InLine = avgNbEntities2InLine;
 	}
 
 	public void setSimulationName(String simulationName) {
