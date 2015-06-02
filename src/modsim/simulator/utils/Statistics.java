@@ -154,8 +154,8 @@ public class Statistics implements Serializable {
 		stats += "    Total:         " + (averageTimeInLineSrv1+averageTimeInLineSrv2)+ " segundos = " + ((averageTimeInLineSrv1+averageTimeInLineSrv2) / 60) + " minutos\n";
 		stats += "\n";
 		stats += " Número Médio em Fila:\n";
-		stats += "    Servidor 1:    " + avgTimeInLine1+ " entidades = " + (avgTimeInLine1 / 60) + " minutos\n";
-		stats += "    Servidor 2:    " + avgTimeInLine2+ " entidades = " + (avgTimeInLine1 / 60) + " minutos\n";
+		stats += "    Servidor 1:    " + avgTimeInLine1+ " entidades = \n";
+		stats += "    Servidor 2:    " + avgTimeInLine2+ " entidades = ";
 		stats += "\n";
 		stats += " Tempo Médio no Sistema:    " + averageTimeOnSystem+ " segundos = " + (averageTimeOnSystem / 60) + " minutos\n";
 		stats += "\n";
