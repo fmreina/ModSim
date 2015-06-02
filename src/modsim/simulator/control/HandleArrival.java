@@ -4,6 +4,7 @@ import modsim.simulator.model.Event;
 import modsim.simulator.model.entity.Entity;
 import modsim.simulator.model.server.Server;
 import modsim.simulator.model.server.TipoServidor;
+import modsim.simulator.utils.Statistics;
 
 public class HandleArrival implements Handler<Entity> {
 
@@ -44,6 +45,12 @@ public class HandleArrival implements Handler<Entity> {
 			}
 		}//senão adiciona a entidade a fila
 		Simulator.print("Entidade ID " + entidade.getId() + " entrou na fila.");
+		if (event.getItem().getType() == TipoServidor.TIPO_1) {
+			Simulator.getStats().updateAvgNbEntities1InLine(server.getFila().size(), timeNow);
+		}
+		if (event.getItem().getType() == TipoServidor.TIPO_2) {
+			Simulator.getStats().updateAvgNbEntities2InLine(server.getFila().size(), timeNow);
+		}
 		server.getFila().add(entidade);
 		return null;
 	}

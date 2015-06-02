@@ -19,6 +19,13 @@ public class HandleExit implements Handler<Entity> {
 			Simulator.getStats().getListTimeOnSystem().add(entidade.getTempoNoSistema());
 			Queue<Entity> fila = server.getFila();
 			if (!fila.isEmpty()) { // se a fila n�o estiver vazia, 2� retirado o primeiro da fila para ocupar o server e gerado um novo evento de saida
+				Simulator.print("Entidade ID " + entidade.getId() + " entrou na fila.");
+				if (event.getItem().getType() == TipoServidor.TIPO_1) {
+					Simulator.getStats().updateAvgNbEntities1InLine(server.getFila().size(), time);
+				}
+				if (event.getItem().getType() == TipoServidor.TIPO_2) {
+					Simulator.getStats().updateAvgNbEntities2InLine(server.getFila().size(), time);
+				}
 				Entity first = fila.remove();
 				Simulator.print("Entidade ID " + entidade.getId() + " saiu da fila e ocupou o servidor.");
 				server.ocuppyServer(first, time); // tomada do servidor

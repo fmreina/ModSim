@@ -1,8 +1,26 @@
 package modsim.simulator.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class StatisticsCalculator {
+
+	public static double calculateWeightedAverage(
+			HashMap<Integer, Double> stats, Double weight) {
+		if (stats.size() == 0) {
+			return 0;
+		}
+
+		double sum = 0;
+
+		for (Entry<Integer, Double> entry : stats.entrySet()) {
+			sum += ((double) entry.getKey())
+					* (entry.getValue() / weight);
+		}
+		return sum / 100.0;
+
+	}
 
 	public static double calculateAverageOcupation(ArrayList<Integer> stats) {
 		if (stats.size() == 0) {
@@ -100,7 +118,16 @@ public class StatisticsCalculator {
 				.getListTimeInLine2());
 		stats.setAverageTimeInLineSrv2(averageTimeInLineSrv2);
 
-		double averageTimeOnSystem = (calculateAverageOcupation(stats.getListTimeOnSystem()));
+		double averageTimeOnSystem = (calculateAverageOcupation(stats
+				.getListTimeOnSystem()));
 		stats.setAverageTimeOnSystem(averageTimeOnSystem);
+
+		double avgTimeInLine1 = calculateWeightedAverage(
+				stats.getAvgNbEntities1InLine(), (double) stats.getTempoSim());
+		stats.setAvgTimeInLine1(avgTimeInLine1);
+
+		double avgTimeInLine2 = calculateWeightedAverage(
+				stats.getAvgNbEntities2InLine(), (double) stats.getTempoSim());
+		stats.setAvgTimeInLine2(avgTimeInLine2);
 	}
 }

@@ -21,8 +21,10 @@ public class Statistics implements Serializable {
 	private double nbEntities2InLine = 0;
 	private double nbEntities2Completed = 0;
 	private double nbEntities2OnSystem = 0;
-	private HashMap<Integer, Integer> avgNbEntities1InLine = new HashMap<Integer, Integer>();
-	private HashMap<Integer, Integer> avgNbEntities2InLine = new HashMap<Integer, Integer>();
+	private double lastTimeLineChanged = 0;
+
+	private HashMap<Integer, Double> mapAvgNbEntities1InLine = new HashMap<Integer, Double>();
+	private HashMap<Integer, Double> mapAvgNbEntities2InLine = new HashMap<Integer, Double>();
 
 	private double occupationServer1 = 0;
 	private double nbOfFailuresSvr1 = 0;
@@ -65,6 +67,10 @@ public class Statistics implements Serializable {
 	private ArrayList<Integer> listServer2Ocupation = new ArrayList<Integer>();
 	private ArrayList<Integer> listService1Duration = new ArrayList<Integer>();
 	private ArrayList<Integer> listService2Duration = new ArrayList<Integer>();
+
+	private double avgTimeInLine1;
+
+	private double avgTimeInLine2;
 
 	public Statistics(int tempoSim) {
 		this.tempoSim = tempoSim;
@@ -147,43 +153,43 @@ public class Statistics implements Serializable {
 		stats += "    Servidor 2:    " + averageTimeInLineSrv2+ " segundos = " + (averageTimeInLineSrv2 / 60) + " minutos\n";
 		stats += "    Total:         " + (averageTimeInLineSrv1+averageTimeInLineSrv2)+ " segundos = " + ((averageTimeInLineSrv1+averageTimeInLineSrv2) / 60) + " minutos\n";
 		stats += "\n";
-		stats += " Tempo Médio no Sistemas:    " + averageTimeOnSystem+ " segundos = " + (averageTimeOnSystem / 60) + " minutos\n";
+		stats += " Número Médio em Fila:\n";
+		stats += "    Servidor 1:    " + avgTimeInLine1+ " entidades = " + (avgTimeInLine1 / 60) + " minutos\n";
+		stats += "    Servidor 2:    " + avgTimeInLine2+ " entidades = " + (avgTimeInLine1 / 60) + " minutos\n";
+		stats += "\n";
+		stats += " Tempo Médio no Sistema:    " + averageTimeOnSystem+ " segundos = " + (averageTimeOnSystem / 60) + " minutos\n";
 		stats += "\n";
 		stats += ">--------------------------------------------------------------------------------<\n";
 
 		return stats;
 	}
 
-	public HashMap<Integer, Integer> getAvgNbEntities1InLine() {
-		return avgNbEntities1InLine;
+	public HashMap<Integer, Double> getAvgNbEntities1InLine() {
+		return mapAvgNbEntities1InLine;
 	}
 
 	public void updateAvgNbEntities1InLine(Integer nb, Integer time) {
-		if(avgNbEntities1InLine.containsKey(nb)){
-			Integer atual = avgNbEntities1InLine.get(nb);
-			atual = atual + time;
-			avgNbEntities1InLine.replace(nb, atual);
-			return;
-		}
+		updateAvgNbEntitiesInLine(nb, time, mapAvgNbEntities1InLine);
 	}
 	
 	public void updateAvgNbEntities2InLine(Integer nb, Integer time) {
-		if(avgNbEntities2InLine.containsKey(nb)){
-			Integer atual = avgNbEntities2InLine.get(nb);
-			atual = atual + time;
-			avgNbEntities2InLine.replace(nb, atual);
+		updateAvgNbEntitiesInLine(nb, time, mapAvgNbEntities2InLine);
+	}
+
+	private void updateAvgNbEntitiesInLine(Integer nb, Integer time, HashMap<Integer, Double> avgNbEntitiesInLine) {
+		Double timeFila = time - lastTimeLineChanged;
+		if(avgNbEntitiesInLine.containsKey(nb)){
+			Double atual = avgNbEntitiesInLine.get(nb);
+			atual = atual + timeFila;
+			avgNbEntitiesInLine.replace(nb, atual);
 			return;
 		}
-		avgNbEntities1InLine.put(nb, time);
+		avgNbEntitiesInLine.put(nb, timeFila);
+		lastTimeLineChanged = time;
 	}
 
-	public HashMap<Integer, Integer> getAvgNbEntities2InLine() {
-		return avgNbEntities2InLine;
-	}
-
-	public void setAvgNbEntities2InLine(
-			HashMap<Integer, Integer> avgNbEntities2InLine) {
-		this.avgNbEntities2InLine = avgNbEntities2InLine;
+	public HashMap<Integer, Double> getAvgNbEntities2InLine() {
+		return mapAvgNbEntities2InLine;
 	}
 
 	public void setSimulationName(String simulationName) {
@@ -554,5 +560,25 @@ public class Statistics implements Serializable {
 
 	public ArrayList<Integer> getListTimeOnSystem() {
 		return listTimeOnSystem;
+	}
+	
+	public Double getLastTimeLineChanged() {
+		return lastTimeLineChanged;
+	}
+
+	public void setLastTimeLineChanged(int lastTimeLineChanged) {
+		this.lastTimeLineChanged = lastTimeLineChanged;
+	}
+
+	public int getTempoSim() {
+		return tempoSim;
+	}
+
+	public void setAvgTimeInLine1(double avgTimeInLine1) {
+		this.avgTimeInLine1 = avgTimeInLine1;
+	}
+	
+	public void setAvgTimeInLine2(double avgTimeInLine2) {
+		this.avgTimeInLine2 = avgTimeInLine2;
 	}
 }
