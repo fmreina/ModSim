@@ -82,6 +82,7 @@ public class Statistics implements Serializable {
 
 		stats += "\n";
 		stats += " Simulação: "+simulationName+" \tID: "+simulationId+"\n";
+		stats += " Tempo Simulado: "+tempoSim+" segundos = "+ (tempoSim / 60) + " minutos\n";;
 		stats += "\n";
 		stats += " Contagem de Entidades ao Fim da Simulação:\n";
 		stats += "    - Tipo 1:\n";
@@ -111,9 +112,14 @@ public class Statistics implements Serializable {
 		stats += "        Máximo:    " + nbMaxEntities2OnSystem	+ " entidades\n";
 		stats += "\n";
 
+		stats += " Tempo Ocupado:\n";
+		stats += "    Servidor 1:    " + ((occupationServer1 )) + " segundos = "+ (occupationServer1 / 60) + " minutos\n";
+		stats += "    Servidor 2:    " + ((occupationServer2 )) + " segundos = "+ (occupationServer2 / 60) + " minutos\n";
+		stats += "\n";
+
 		stats += " Taxa de Ocupação:\n";
-		stats += "    Servidor 1:    " + (occupationServer1 / tempoSim * 100) + " %\n";
-		stats += "    Servidor 2:    " + (occupationServer2 / tempoSim * 100) + " %\n";
+		stats += "    Servidor 1:    " + ((occupationServer1 / tempoSim * 100)) + " %\n";
+		stats += "    Servidor 2:    " + ((occupationServer2 / tempoSim * 100)) + " %\n";
 		stats += "\n";
 
 		stats += " Tempo de Serviço:\n";

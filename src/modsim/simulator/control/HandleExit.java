@@ -34,10 +34,12 @@ public class HandleExit implements Handler<Entity> {
 				if (event.getItem().getType() == TipoServidor.TIPO_1) {
 					Simulator.getStats().incrNbEntities1Completed();
 					Simulator.getStats().getListTimeInLine1().add(first.getTempoFila());
+					Simulator.getStats().addListServer1Ocupation(event.getItem().getTempoSaida() -  event.getItem().getTempoInicioAtendimento());
 				}
 				if (event.getItem().getType() == TipoServidor.TIPO_2) {
 					Simulator.getStats().incrNbEntities2Completed();
 					Simulator.getStats().getListTimeInLine2().add(first.getTempoFila());
+					Simulator.getStats().addListServer2Ocupation(event.getItem().getTempoSaida() -  event.getItem().getTempoInicioAtendimento());
 				}
 				return EventFactory.newExit(first, time,
 						server.getServiceFunc()); // gera saida

@@ -77,12 +77,12 @@ public class EventFactory {
 
 		EventExit exit = new EventExit(exitTime, entity);
 
-		if (entity.getType() == TipoServidor.TIPO_1) {
-			Simulator.getStats().getListServer1Ocupation().add(exitTime);
-		}
-		if (entity.getType() == TipoServidor.TIPO_2) {
-			Simulator.getStats().getListServer2Ocupation().add(exitTime);
-		}
+//		if (entity.getType() == TipoServidor.TIPO_1) {
+//			Simulator.getStats().addListServer1Ocupation(exitTime - timeNow);
+//		}
+//		if (entity.getType() == TipoServidor.TIPO_2) {
+//			Simulator.getStats().addListServer2Ocupation(exitTime - timeNow);
+//		}
 
 		return exit;
 	}
