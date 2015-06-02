@@ -21,6 +21,20 @@ public class StatisticsCalculator {
 
 		return average;
 	}
+	
+	public static double calculateSum(ArrayList<Integer> stats) {
+		if (stats.size() == 0) {
+			return 0;
+		}
+
+		int sum = 0;
+
+		for (int value : stats) {
+			sum += value;
+		}
+
+		return sum;
+	}
 
 	private static double[] calculateMinAveMax(ArrayList<Integer> stats) {
 		if (stats.size() == 0) {
@@ -84,11 +98,11 @@ public class StatisticsCalculator {
 			stats.setTimeServiceMax2(timeService2[2]);
 		}
 
-		double averageOccupationSvr1 = calculateAverageOcupation(stats
+		double averageOccupationSvr1 = calculateSum(stats
 				.getListServer1Ocupation());
 		stats.setOccupationServer1(averageOccupationSvr1);
 
-		double averageOccupationSvr2 = calculateAverageOcupation(stats
+		double averageOccupationSvr2 = calculateSum(stats
 				.getListServer2Ocupation());
 		stats.setOccupationServer2(averageOccupationSvr2);
 
